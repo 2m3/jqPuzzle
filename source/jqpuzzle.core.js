@@ -1,35 +1,51 @@
 function SliderPuzzle(options) {
 	if (options) {
+		// handle rows and columns option
+		var dimensions = ['rows', 'columns'];
+		for (var i in dimensions) {
+			var dimension = dimensions[i];
+
+			// include any falsy value includung 0
+			if (options[dimension] !== undefined) {
+				options[dimension] = parseInt(options[dimension], 10);
+				if (isNaN(options[dimension]) || options[dimension] < 2) {
+					throw 'invalid ' + dimension + ' value';
+				}
+			}
+		}
+
 		// handle board option
 		if (options.board) {
-			// both rows and columns is set
-			if (options.rows && options.columns) {
-				if (options.rows * options.columns != options.board.length) {
-					throw this.EXCEPTIONS.BOARD_MISMATCH;
-				}
+			var INVALID_BOARD  = 'invalid board';
+			var BOARD_MISMATCH = 'board does not match rows or columns';
+			var length = options.board.length;
+
+			if (!$.isArray(options.board) || length === 0) {
+				throw INVALID_BOARD;
 			}
-			// only rows is set
-			else if (options.rows) {
-				options.columns = Math.floor(options.board.length / options.rows);
-				if (options.columns == 1 || options.columns * options.rows != options.board.length) {
-					throw this.EXCEPTIONS.BOARD_MISMATCH;
+
+			// either rows or columns or both are set
+			if (options.rows || options.columns) {
+				if (!options.rows) {
+					options.rows = Math.floor(length / options.columns);
 				}
-			}
-			// only columns is set
-			else if (options.columns) {
-				options.rows = Math.floor(options.board.length / options.columns);
-				if (options.rows == 1 || options.rows * options.columns != options.board.length) {
-					throw this.EXCEPTIONS.BOARD_MISMATCH;
+
+				if (!options.columns) {
+					options.columns = Math.floor(length / options.rows);
+				}
+
+				if (options.rows == 1 || options.columns == 1 || options.rows * options.columns != length) {
+					throw BOARD_MISMATCH;
 				}
 			}
 			// neither rows or columns are set
 			else {
 				// assume both rows and columns to have the same value
-				var root = Math.sqrt(options.board.length);
+				var root = Math.sqrt(length);
 
 				// root is not an integer
 				if (Math.floor(root) != root) {
-					throw this.EXCEPTIONS.BOARD_MISMATCH;
+					throw BOARD_MISMATCH;
 				}
 
 				options.rows = options.columns = root;
@@ -41,9 +57,9 @@ function SliderPuzzle(options) {
 			});
 
 			// validate board integrity
-			for (var i = 0; i < sortedBoard.length; i++) {
-				if (sortedBoard[i] != i) {
-					throw this.EXCEPTIONS.INVALID_BOARD;
+			for (i = 0; i < sortedBoard.length; i++) {
+				if (sortedBoard[i] !== i) {
+					throw INVALID_BOARD;
 				}
 			}
 		}
@@ -60,7 +76,7 @@ function SliderPuzzle(options) {
 	this.board = this.options.board && this.options.board.slice(0) || this.shuffle();
 
 	// default renderer (used by toString)
-	this.renderer = typeof AsciiRenderer == "undefined" ? { render: function() {} } : AsciiRenderer;
+	this.renderer = typeof AsciiRenderer == 'undefined' ? { render: function() {} } : AsciiRenderer;
 }
 
 SliderPuzzle.prototype = {
@@ -70,7 +86,7 @@ SliderPuzzle.prototype = {
 		// number of columns
 		columns: 4,
 		// position of the hole
-		holePosition: 15
+		hole: 15 // bottom right
 	},
 
 	DIRECTIONS: {
@@ -81,8 +97,7 @@ SliderPuzzle.prototype = {
 	},
 
 	EXCEPTIONS: {
-		BOARD_MISMATCH:	'board does not match rows or columns',
-		INVALID_BOARD:	'board does not contain required items'
+		INVALID_BOARD:	'board does not contain required pieces'
 	},
 
 	solved: false,
