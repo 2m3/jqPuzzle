@@ -5,7 +5,7 @@ function SliderPuzzle(options) {
 		for (var i in dimensions) {
 			var dimension = dimensions[i];
 
-			// include any falsy value includung 0
+			// include any falsy value including 0
 			if (options[dimension] !== undefined) {
 				options[dimension] = parseInt(options[dimension], 10);
 				if (isNaN(options[dimension]) || options[dimension] < 2) {
@@ -94,10 +94,6 @@ SliderPuzzle.prototype = {
 		DOWN: 'down',
 		LEFT: 'left',
 		RIGHT: 'right'
-	},
-
-	EXCEPTIONS: {
-		INVALID_BOARD:	'board does not contain required pieces'
 	},
 
 	solved: false,

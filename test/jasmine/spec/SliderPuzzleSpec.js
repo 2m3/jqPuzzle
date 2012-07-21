@@ -217,7 +217,7 @@ describe("Slider Puzzle:", function() {
 				expect(puzzle.columns).toEqual(4);
 			});
 
-			it("should throw an exception if neither rows nor columns are specified and the board is not squared", function() {
+			it("should throw an exception if neither rows nor columns are specified and the board is not square", function() {
 				expect(function() {
 					new SliderPuzzle({
 						board: board2x5
