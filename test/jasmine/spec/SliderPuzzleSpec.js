@@ -217,7 +217,7 @@ describe("Slider Puzzle:", function() {
 				expect(puzzle.columns).toEqual(4);
 			});
 
-			it("should throw an exception if neither rows nor columns are specified and they cannot have the same value", function() {
+			it("should throw an exception if neither rows nor columns are specified and the board is not squared", function() {
 				expect(function() {
 					new SliderPuzzle({
 						board: board2x5
@@ -328,6 +328,28 @@ describe("Slider Puzzle:", function() {
 						board: board4x4,
 						rows: 4,
 						columns: 5
+					});
+				}).toThrow(exceptionString);
+			});
+
+			it("should throw an exception if the board is invalid", function() {
+				var exceptionString = "invalid board";
+
+				expect(function() {
+					new SliderPuzzle({
+						board: [4, 3, 2, 1]
+					});
+				}).toThrow(exceptionString);
+
+				expect(function() {
+					new SliderPuzzle({
+						board: [2, 1, 0, -1]
+					});
+				}).toThrow(exceptionString);
+
+				expect(function() {
+					new SliderPuzzle({
+						board: [4, 3, 2, 0]
 					});
 				}).toThrow(exceptionString);
 			});
