@@ -457,8 +457,7 @@ describe("Slider Puzzle:", function() {
 
 			it("should render the board correctly", function() {
 				puzzle = new SliderPuzzle({
-					board: board2x2,
-					rows: 2
+					board: board2x2
 				});
 				expect(puzzle.toString()).toEqual("\n"
 					+ "+---+---+\n"
@@ -469,8 +468,7 @@ describe("Slider Puzzle:", function() {
 				);
 
 				puzzle = new SliderPuzzle({
-					board: board3x3,
-					rows: 3
+					board: board3x3
 				});
 				expect(puzzle.toString()).toEqual("\n"
 					+ "+---+---+---+\n"
