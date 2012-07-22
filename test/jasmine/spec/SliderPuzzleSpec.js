@@ -20,22 +20,22 @@ describe("Slider Puzzle:", function() {
 					rows: "5",
 					columns: "6"
 				});
-				expect(puzzle.rows).toEqual(5);
-				expect(puzzle.columns).toEqual(6);
+				expect(puzzle.options.rows).toEqual(5);
+				expect(puzzle.options.columns).toEqual(6);
 
 				puzzle = new SliderPuzzle({
 					rows: "5.1",
 					columns: "6.9"
 				});
-				expect(puzzle.rows).toEqual(5);
-				expect(puzzle.columns).toEqual(6);
+				expect(puzzle.options.rows).toEqual(5);
+				expect(puzzle.options.columns).toEqual(6);
 
 				puzzle = new SliderPuzzle({
 					rows: 5.2,
 					columns: 6.8
 				});
-				expect(puzzle.rows).toEqual(5);
-				expect(puzzle.columns).toEqual(6);
+				expect(puzzle.options.rows).toEqual(5);
+				expect(puzzle.options.columns).toEqual(6);
 			});
 
 			it("should throw an exception if rows is less than 2 or cannot be parsed as an integer", function() {
@@ -68,6 +68,12 @@ describe("Slider Puzzle:", function() {
 				expect(function() {
 					new SliderPuzzle({
 						rows: "test"
+					});
+				}).toThrow(exceptionString);
+
+				expect(function() {
+					new SliderPuzzle({
+						rows: null
 					});
 				}).toThrow(exceptionString);
 			});
@@ -104,6 +110,12 @@ describe("Slider Puzzle:", function() {
 						columns: "test"
 					});
 				}).toThrow(exceptionString);
+
+				expect(function() {
+					new SliderPuzzle({
+						columns: null
+					});
+				}).toThrow(exceptionString);
 			});
 		});
 
@@ -114,30 +126,34 @@ describe("Slider Puzzle:", function() {
 					rows: 3,
 					columns: 11
 				});
-				expect(puzzle.rows).toEqual(3);
-				expect(puzzle.columns).toEqual(11);
+				expect(puzzle.options.rows).toEqual(3);
+				expect(puzzle.options.columns).toEqual(11);
 			});
 
 			it("should have 4 rows, if not specified", function() {
 				puzzle = new SliderPuzzle({
 					columns: 3
 				});
-				expect(puzzle.rows).toEqual(4);
-				expect(puzzle.columns).toEqual(3);
+				expect(puzzle.options.rows).toEqual(4);
+				expect(puzzle.options.columns).toEqual(3);
 			});
 
 			it("should have 4 columns, if not specified", function() {
 				puzzle = new SliderPuzzle({
 					rows: 5
 				});
-				expect(puzzle.rows).toEqual(5);
-				expect(puzzle.columns).toEqual(4);
+				expect(puzzle.options.rows).toEqual(5);
+				expect(puzzle.options.columns).toEqual(4);
 			});
 
 			it("should have 4 rows and 4 columns, if none is specified", function() {
 				puzzle = new SliderPuzzle();
-				expect(puzzle.rows).toEqual(4);
-				expect(puzzle.columns).toEqual(4);
+				expect(puzzle.options.rows).toEqual(4);
+				expect(puzzle.options.columns).toEqual(4);
+
+				puzzle = new SliderPuzzle({});
+				expect(puzzle.options.rows).toEqual(4);
+				expect(puzzle.options.columns).toEqual(4);
 			});
 		});
 
@@ -201,20 +217,20 @@ describe("Slider Puzzle:", function() {
 				puzzle = new SliderPuzzle({
 					board: board2x2
 				});
-				expect(puzzle.rows).toEqual(2);
-				expect(puzzle.columns).toEqual(2);
+				expect(puzzle.options.rows).toEqual(2);
+				expect(puzzle.options.columns).toEqual(2);
 
 				puzzle = new SliderPuzzle({
 					board: board3x3
 				});
-				expect(puzzle.rows).toEqual(3);
-				expect(puzzle.columns).toEqual(3);
+				expect(puzzle.options.rows).toEqual(3);
+				expect(puzzle.options.columns).toEqual(3);
 
 				puzzle = new SliderPuzzle({
 					board: board4x4
 				});
-				expect(puzzle.rows).toEqual(4);
-				expect(puzzle.columns).toEqual(4);
+				expect(puzzle.options.rows).toEqual(4);
+				expect(puzzle.options.columns).toEqual(4);
 			});
 
 			it("should throw an exception if neither rows nor columns are specified and the board is not square", function() {
@@ -230,29 +246,29 @@ describe("Slider Puzzle:", function() {
 					board: board3x3,
 					rows: 3
 				});
-				expect(puzzle.rows).toEqual(3);
-				expect(puzzle.columns).toEqual(3);
+				expect(puzzle.options.rows).toEqual(3);
+				expect(puzzle.options.columns).toEqual(3);
 
 				puzzle = new SliderPuzzle({
 					board: board3x3,
 					columns: 3
 				});
-				expect(puzzle.rows).toEqual(3);
-				expect(puzzle.columns).toEqual(3);
+				expect(puzzle.options.rows).toEqual(3);
+				expect(puzzle.options.columns).toEqual(3);
 
 				puzzle = new SliderPuzzle({
 					board: board2x5,
 					rows: 2
 				});
-				expect(puzzle.rows).toEqual(2);
-				expect(puzzle.columns).toEqual(5);
+				expect(puzzle.options.rows).toEqual(2);
+				expect(puzzle.options.columns).toEqual(5);
 
 				puzzle = new SliderPuzzle({
 					board: board2x5,
 					columns: 5
 				});
-				expect(puzzle.rows).toEqual(2);
-				expect(puzzle.columns).toEqual(5);
+				expect(puzzle.options.rows).toEqual(2);
+				expect(puzzle.options.columns).toEqual(5);
 			});
 
 			describe("should throw an exception if a missing rows or column option cannot be inferred", function() {
@@ -353,6 +369,120 @@ describe("Slider Puzzle:", function() {
 					});
 				}).toThrow(exceptionString);
 			});
+		});
+
+		it ("should parse a specified hole position into an integer", function() {
+			puzzle = new SliderPuzzle({
+				hole: "5"
+			});
+			expect(puzzle.options.hole).toEqual(5);
+
+			puzzle = new SliderPuzzle({
+				hole: "5.1"
+			});
+			expect(puzzle.options.hole).toEqual(5);
+
+			puzzle = new SliderPuzzle({
+				hole: 5.2
+			});
+			expect(puzzle.options.hole).toEqual(5);
+		});
+
+		it("should throw an exception if hole is less than 0 or cannot be parsed as an integer", function() {
+			var exceptionString = "invalid hole value";
+
+			expect(function() {
+				new SliderPuzzle({
+					hole: -1
+				});
+			}).toThrow(exceptionString);
+
+			expect(function() {
+				new SliderPuzzle({
+					hole: "-2"
+				});
+			}).toThrow(exceptionString);
+
+			expect(function() {
+				new SliderPuzzle({
+					hole: "test"
+				});
+			}).toThrow(exceptionString);
+
+			expect(function() {
+				new SliderPuzzle({
+					hole: null
+				});
+			}).toThrow(exceptionString);
+		});
+
+		it("should allow a hole position to be specified", function() {
+			for (var i = 0; i < 16; i++) {
+				puzzle = new SliderPuzzle({
+					hole: i
+				});
+				expect(puzzle.hole).toEqual(i);
+				expect(puzzle.board[i]).toEqual(0);
+			}
+
+			for (i = 0; i < 15; i++) {
+				puzzle = new SliderPuzzle({
+					rows: 3,
+					columns: 5,
+					hole: i
+				});
+				expect(puzzle.hole).toEqual(i);
+				expect(puzzle.board[i]).toEqual(0);
+			}
+
+		});
+
+		it("should ignore a specified hole position if a board is also specified", function() {
+			puzzle = new SliderPuzzle({
+				board: [0, 1, 2, 3],
+				hole: 2
+			});
+			expect(puzzle.hole).toEqual(0);
+			expect(puzzle.board[0]).toEqual(0);
+
+			puzzle = new SliderPuzzle({
+				board: [8, 7, 6, 5, 4, 3, 2, 1, 0],
+				hole: 0
+			});
+			expect(puzzle.hole).toEqual(8);
+			expect(puzzle.board[8]).toEqual(0);
+
+			puzzle = new SliderPuzzle({
+				board: [3, 2, 1, 0, 4, 5, 6, 7, 8, 9, 10, 11],
+				rows: 3,
+				hole: 1
+			});
+			expect(puzzle.hole).toEqual(3);
+			expect(puzzle.board[3]).toEqual(0);
+		});
+
+		it("should place the hole at the bottom right position, if not specified", function() {
+			puzzle = new SliderPuzzle();
+			expect(puzzle.hole).toEqual(15);
+			expect(puzzle.board[15]).toEqual(0);
+
+			puzzle = new SliderPuzzle({});
+			expect(puzzle.hole).toEqual(15);
+			expect(puzzle.board[15]).toEqual(0);
+
+			puzzle = new SliderPuzzle({
+				rows: 2,
+				columns: 2
+			});
+			expect(puzzle.hole).toEqual(3);
+			expect(puzzle.board[3]).toEqual(0);
+
+			puzzle = new SliderPuzzle({
+				rows: 3,
+				columns: 5
+			});
+			expect(puzzle.hole).toEqual(14);
+			expect(puzzle.board[14]).toEqual(0);
 		});
 	});
 
