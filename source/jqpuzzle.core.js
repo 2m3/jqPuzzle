@@ -1,4 +1,7 @@
 function SliderPuzzle(options) {
+	// make sure this.options is available
+	this.options = options || {};
+
 	if (options) {
 		// handle rows and columns option
 		var dimensions = ['rows', 'columns'];
@@ -52,49 +55,74 @@ function SliderPuzzle(options) {
 			}
 
 			// create sorted board
-			var sortedBoard = options.board.slice(0).sort(function (a, b) {
+			this.sortedBoard = options.board.slice(0).sort(function (a, b) {
 				return a - b;
 			});
 
 			// validate board integrity
-			for (i = 0; i < sortedBoard.length; i++) {
-				if (sortedBoard[i] !== i) {
+			for (i = 0; i < this.sortedBoard.length; i++) {
+				if (this.sortedBoard[i] !== i) {
 					throw INVALID_BOARD;
 				}
+			}
+
+			// set hole
+			this.board = options.board.slice(0);
+			options.hole = $.inArray(0, this.board);
+		} else {
+			// make sure rows and columns are defined at this point
+			options.rows = options.rows || this.defaults.rows;
+			options.columns = options.columns || this.defaults.columns;
+
+			// handle hole option (ignored when board is set)
+			if (options.hole !== undefined) {
+				// validate hole
+				options.hole = parseInt(options.hole, 10);
+				if (isNaN(options.hole) || options.hole < 0) {
+					throw 'invalid hole value';
+				}
+
+				// normalize
+				options.hole = this.to1dPosition(this.normalizePosition(options.hole));
+
+				// validate hole against board dimensions
+				if (options.hole < 0 || options.hole >= (options.rows * options.columns)) {
+					throw 'hole does not match rows and columns';
+				}
+			} else {
+				// default to bottom right
+				options.hole = options.rows * options.columns - 1;
 			}
 		}
 	}
 
-	// merge passed in options with global config (options wins)
-	this.options = $.extend({}, this.config, options);
+	// merge passed in options with defaults (options wins)
+	this.options = $.extend({}, this.defaults, options);
 
-	// shortcuts
-	this.rows = this.options.rows;
-	this.columns = this.options.columns;
+	// the current board (keep a copy of the intial board to be able to restart)
+	this.board = (this.options.board && this.options.board.slice(0)) || this.shuffle();
 
-	// the actual board (keep a copy of the intial board to be able to restart)
-	this.board = this.options.board && this.options.board.slice(0) || this.shuffle();
+	// the current hole position
+	this.hole = this.options.hole;
 
 	// default renderer (used by toString)
-	this.renderer = typeof AsciiRenderer == 'undefined' ? { render: function() {} } : AsciiRenderer;
+	this.renderer = typeof AsciiRenderer == 'undefined' ? { render: function() { return ''; } } : AsciiRenderer;
 }
 
 SliderPuzzle.prototype = {
-	config: {
+	defaults: {
 		// number of rows
 		rows: 4,
 		// number of columns
 		columns: 4,
-		// position of the hole
-		hole: 15 // bottom right
+		// hole position (bottom right)
+		hole: 15,
+		// allow the shuffle function to produce unsolvable boards
+		// (only every other board is solvable)
+		allowUnsolvableBoards: false
 	},
 
-	DIRECTIONS: {
-		UP: 'up',
-		DOWN: 'down',
-		LEFT: 'left',
-		RIGHT: 'right'
-	},
+	DIRECTIONS: ['up', 'down', 'left','right'],
 
 	solved: false,
 	solvable: true,
@@ -102,14 +130,14 @@ SliderPuzzle.prototype = {
 	// convert a two-dimensional row-column index into a one-dimensional index
 	to1dPosition : function(position2d) {
 		var normalizedPosition = this.normalizePosition(position2d);
-		return normalizedPosition.row * this.columns + normalizedPosition.column;
+		return normalizedPosition.row * this.options.columns + normalizedPosition.column;
 	},
 
 	// convert a one-dimensional index into a two-dimensional row-column index
 	to2dPosition: function(position1d) {
-		var column = position1d % this.columns;
+		var column = position1d % this.options.columns;
 		return {
-			row: Math.floor((position1d - column) / this.columns),
+			row: Math.floor((position1d - column) / this.options.columns),
 			column: column
 		};
 	},
@@ -136,9 +164,11 @@ SliderPuzzle.prototype = {
 
 	// TODO should not return -1 and null
 	getPosition: function(numberOrDirection) {
-		if ($.inArray(numberOrDirection) == -1) {
+		if ($.inArray(numberOrDirection, this.DIRECTIONS) == -1) {
+			// number
 			return $.inArray(numberOrDirection, this.board);
-		}	else {
+		} else {
+			// direction
 			return this.getPosition1dByDirection(numberOrDirection);
 		}
 	},
@@ -163,14 +193,67 @@ SliderPuzzle.prototype = {
 	},
 
 	shuffle: function() {
+		var sortedBoard, i;
+
+		// create a sorted board to pick items from
+		// might have been created by board validation logic already
+		if (!this.sortedBoard) {
+			this.sortedBoard = [];
+			for (i = 0; i < this.options.rows * this.options.columns; i++) {
+				this.sortedBoard.push(i);
+			}
+		}
+
+		// create shuffled board and repeat if we force a solvable board
+		// and the created board is not solvable
+		do {
+			// clone sorted board so that it can be reused by later shuffle calls
+			sortedBoard = this.sortedBoard.slice(0);
+
+			// remove the hole
+			sortedBoard.splice(0, 1);
+
+			// start with an empty board
+			this.board = [];
+
+			// randomly pick items from sorted board and re-index
+			while (sortedBoard.length) {
+				i = Math.floor(Math.random() * sortedBoard.length);
+				this.board.push(sortedBoard.splice(i, 1)[0]);
+			}
+
+			// add hole to board
+			this.board.splice(this.options.hole, 0, 0);
+
+			// update hole
+			this.hole = this.options.hole;
+
+		} while (!this.options.allowUnsolvableBoards && !this.isSolvable());
+
+		// also return the board
+		return this.board;
 	},
 
 	isSolvable: function() {
-		return this.solvable;
+		var i, j;
+		var product = 1;
+
+		for (i = 1; i <= (this.options.rows * this.options.columns - 1); i++) {
+			for (j = (i + 1); j <= (this.options.rows * this.options.columns); j++) {
+				product *= ((this.board[i - 1] - this.board[j - 1]) / (i - j));
+			}
+		}
+		return Math.round(product) == 1;
 	},
 
+	// TODO does not account for hole position
 	isSolved: function() {
-		return this.solved;
+		for (var i = 0; i < this.options.rows * this.options.columns; i++) {
+			if (this.board[i] != this.sortedBoard[i]) {
+				return false;
+			}
+		}
+		return true;
 	},
 
 	pause: function(pauseTimer) {
@@ -180,9 +263,12 @@ SliderPuzzle.prototype = {
 	},
 
 	restart: function() {
+		this.shuffle();
+		this.moves = [];
+		// reset timer
 	},
 
 	toString: function() {
-		return this.renderer.render(this.board, this.rows, this.columns);
+		return this.renderer.render(this.board, this.options.rows, this.options.columns);
 	}
 };
