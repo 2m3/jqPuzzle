@@ -75,6 +75,7 @@ function SliderPuzzle(options) {
 			options.columns = options.columns || this.defaults.columns;
 
 			// handle hole option (ignored when board is set)
+			// include any falsy value including 0
 			if (options.hole !== undefined) {
 				// validate hole
 				options.hole = parseInt(options.hole, 10);
@@ -117,9 +118,12 @@ SliderPuzzle.prototype = {
 		columns: 4,
 		// hole position (bottom right)
 		hole: 15,
-		// allow the shuffle function to produce unsolvable boards
-		// (only every other board is solvable)
-		allowUnsolvableBoards: false
+		// only every other randomly generated board is solvable
+		// if set to ...	shuffled boards will be ...
+		// true	(default)	solvable
+		// false			unsolvable
+		// undefined		either or
+		solvable: true
 	},
 
 	DIRECTIONS: ['up', 'down', 'left','right'],
@@ -204,7 +208,7 @@ SliderPuzzle.prototype = {
 			}
 		}
 
-		// create shuffled board and repeat if we force a solvable board
+		// create a shuffled board and repeat if we force a solvable board
 		// and the created board is not solvable
 		do {
 			// clone sorted board so that it can be reused by later shuffle calls
@@ -228,7 +232,16 @@ SliderPuzzle.prototype = {
 			// update hole
 			this.hole = this.options.hole;
 
-		} while (!this.options.allowUnsolvableBoards && !this.isSolvable());
+
+		// solvable	option		solvable board		action
+		// true					true				break
+		// true					false				continue
+		// false				true				continue
+		// false				false				break
+		// 'random'				true				break
+		// 'random'				false				break
+		} while ((this.options.solvable === true  && !this.isSolvable()) ||
+				 (this.options.solvable === false &&  this.isSolvable()));
 
 		// also return the board
 		return this.board;
@@ -246,10 +259,18 @@ SliderPuzzle.prototype = {
 		return Math.round(product) == 1;
 	},
 
-	// TODO does not account for hole position
 	isSolved: function() {
-		for (var i = 0; i < this.options.rows * this.options.columns; i++) {
-			if (this.board[i] != this.sortedBoard[i]) {
+		var solvedBoard;
+		var i;
+
+		// TODO is sortedBoard really defined at this point?
+		// get a clone of the sorted board and place hole at correct position
+		solvedBoard = this.sortedBoard.slice(0);
+		solvedBoard.splice(0, 1);
+		solvedBoard.splice(this.hole, 0, 0);
+
+		for (i = 0; i < this.options.rows * this.options.columns; i++) {
+			if (this.board[i] !== solvedBoard[i]) {
 				return false;
 			}
 		}
