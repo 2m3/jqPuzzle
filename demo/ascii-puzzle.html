@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>jqPuzzle ASCII Renderer Demo</title>
+	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
+	<script src="../source/jqpuzzle.core.js"></script>
+	<script src="../source/jqpuzzle.renderer.ascii.js"></script>
+	<style>
+		fieldset {
+			display: inline;
+		}
+
+		span:not(.radio) label {
+			margin-right: 20px;
+		}
+
+		input[type=number] {
+			width: 40px;
+		}
+	</style>
+</head>
+<body>
+	<form id="config">
+		<fieldset>
+			<label>
+				Rows:
+				<input type="number" name="rows" value="4">
+			</label>
+			<label>
+				Columns:
+				<input type="number" name="cols" value="4">
+			</label>
+			<label>
+				Hole position:
+				<input type="number" name="hole" value="15">
+			</label>
+			<span class="radio">
+				Solvable:
+				<label>
+					<input type="radio" name="solvable" value="random"> Random
+				</label>
+				<label>
+					<input type="radio" name="solvable" value="true" checked> Yep
+				</label>
+				<label>
+					<input type="radio" name="solvable" value="false"> Nope
+				</label>
+			</span>
+			<button>Create Puzzle</button>
+		</fieldset>
+	</form>
+	<pre id="board"></pre>
+	<script>
+		var puzzle;
+		var booleanMap = {
+			'true'	: true,
+			'false'	: false
+		};
+
+		$('#config').on('submit', function(e) {
+			// don't submit the form
+			e.preventDefault();
+
+			try {
+				// get and map solvable value
+				solvable = booleanMap[$('input[name=solvable]:checked').val()];
+				solvable = (solvable === undefined) ? 'random' : solvable;
+
+				// init puzzle
+				puzzle = new SliderPuzzle({
+					rows: $('input[name=rows]').val() || undefined,
+					columns: $('input[name=cols]').val() || undefined,
+					hole: $('input[name=hole]').val() || undefined,
+					solvable: solvable
+				});
+
+				// display board
+				$('#board').text(puzzle.toString());
+
+			} catch (e) {
+				alert(e);
+			}
+		});
+	</script>
+</body>
+</html>
