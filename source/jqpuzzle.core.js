@@ -119,10 +119,10 @@ SliderPuzzle.prototype = {
 		// hole position (bottom right)
 		hole: 15,
 		// only every other randomly generated board is solvable
-		// if set to ...	shuffled boards will be ...
-		// true	(default)	solvable
-		// false			unsolvable
-		// undefined		either or
+		// if set to ...    shuffled boards will be ...
+		// true	(default)   solvable
+		// false            unsolvable
+		// "random"         either or
 		solvable: true
 	},
 
@@ -233,15 +233,16 @@ SliderPuzzle.prototype = {
 			this.hole = this.options.hole;
 
 
-		// solvable	option		solvable board		action
-		// true					true				break
-		// true					false				continue
-		// false				true				continue
-		// false				false				break
-		// 'random'				true				break
-		// 'random'				false				break
-		} while ((this.options.solvable === true  && !this.isSolvable()) ||
-				 (this.options.solvable === false &&  this.isSolvable()));
+		// solvable	option      solvable board      action
+		// -------------------------------------------------
+		// true                 true                break
+		// true                 false               continue
+		// false                true                continue
+		// false                false               break
+		// 'random'             true                break
+		// 'random'             false               break
+		} while (	(this.options.solvable === true  && !this.isSolvable()) ||
+					(this.options.solvable === false &&  this.isSolvable()));
 
 		// also return the board
 		return this.board;
