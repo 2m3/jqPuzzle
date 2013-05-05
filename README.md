@@ -1,7 +1,7 @@
 jqPuzzle - Customizable Sliding Puzzles
 =======================================
 
-This repository contains what will eventually be the next version of [jqPuzzle](http://www.2meter3.de/jqPuzzle/), my sliding puzzle plugin based on jQuery.
+This repository contains what will eventually be the next version of [jqPuzzle](http://www.2meter3.de/jqPuzzle/), a sliding puzzle plugin based on jQuery.
 
 Don't expect it to be ready anytime soon.
 
