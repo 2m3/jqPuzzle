@@ -5,17 +5,34 @@ describe("Slider Puzzle:", function() {
 	var board2x5;
 
 	beforeEach(function() {
-		board2x2 = [3, 2, 1, 0];
-		board3x3 = [1, 2, 3, 4, 5, 6, 7, 8, 0];
-		board4x4 = [2, 4, 6, 8, 10, 12, 14, 0, 1, 3, 5, 7, 9, 11, 13, 15];
-		board2x5 = [0, 9, 8, 7, 6, 5, 4, 3, 2, 1];
+		// 0 replaced for 4, unsolvable
+		board2x2 = [3,	2,
+					1,	0];
+
+		// 0 replaced for 9, solved
+		board3x3 = [1,	2,	3,
+					4,	5,	6,
+					7,	8,	0];
+
+		// 0 replaced for 16, different initial and solved hole positions
+		board4x4 = [2,	4,	6,	8,
+					10,	12,	14,	0,
+					1,	3,	5,	7,
+					9,	11,	13,	15];
+
+		// 0 replaced for 10, different initial and solved hole positions
+		board2x5 = [0,	9,
+					8,	7,
+					6,	5,
+					4,	3,
+					2,	1];
 	});
 
 	describe("Initialization:", function() {
 
 		describe("When initialized, a slider puzzle", function() {
 
-			it ("should parse a specified rows or columns value into an integer", function() {
+			it("should parse a specified rows or columns value into an integer", function() {
 				puzzle = new SliderPuzzle({
 					rows: "5",
 					columns: "6"
@@ -371,7 +388,7 @@ describe("Slider Puzzle:", function() {
 			});
 		});
 
-		it ("should parse a specified hole position into an integer", function() {
+		it("should parse a specified hole position into an integer", function() {
 			puzzle = new SliderPuzzle({
 				hole: "5"
 			});
@@ -522,6 +539,106 @@ describe("Slider Puzzle:", function() {
 			});
 		});
 
+		describe("isSolvable", function() {
+			it("should identify a solvable board as solvable", function() {
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							0,	3]
+				});
+				expect(puzzle.isSolvable()).toBe(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							3,	0]
+				});
+				expect(puzzle.isSolvable()).toBe(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							0,	4]
+				});
+				expect(puzzle.isSolvable()).toBe(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							4,	0]
+				});
+				expect(puzzle.isSolvable()).toBe(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,	3,
+							4,	5,	0],
+					rows: 2
+				});
+				expect(puzzle.isSolvable()).toBe(true);
+			});
+
+			it("should not identify a non-solvable board as solvable", function() {
+				puzzle = new SliderPuzzle({
+					board: [2,	1,
+							3,	0]
+				});
+				expect(puzzle.isSolvable()).toBe(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	3,
+							2,	0]
+				});
+				expect(puzzle.isSolvable()).toBe(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,	3,
+							5,	4,	0],
+					rows: 2
+				});
+				expect(puzzle.isSolvable()).toBe(false);
+			});
+		});
+
+		describe("isSolved", function() {
+			it("should identify a solved board as solved", function() {
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							3,	0]
+				});
+				expect(puzzle.isSolved()).toBe(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							0,	4]
+				});
+				expect(puzzle.isSolved()).toBe(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,	3,
+							4,	5,	0],
+					rows: 2
+				});
+				expect(puzzle.isSolved()).toBe(true);
+			});
+
+			it("should not identify a unsolved board as solved", function() {
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							0,	3]
+				});
+				expect(puzzle.isSolved()).toBe(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							4,	0]
+				});
+				expect(puzzle.isSolved()).toBe(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,	3,
+							4,	0,	5],
+					rows: 2
+				});
+				expect(puzzle.isSolved()).toBe(false);
+			});
+		});
+
 		describe("normalizePosition()", function() {
 
 			it("should handle row and column passed in as seperate arguments", function() {
@@ -579,6 +696,152 @@ describe("Slider Puzzle:", function() {
 			});
 		});
 
+		describe("canMoveByPosition()", function() {
+			it("should only allow down and right moves if the hole is bottom right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				});
+
+				expect(puzzle.canMoveByPosition(0, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 2)).toBe(true);
+				expect(puzzle.canMoveByPosition(2, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 1)).toBe(true);
+				expect(puzzle.canMoveByPosition(2, 2)).toBe(false);
+			});
+
+			it("should only allow down, left and right moves if the hole is bottom middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				});
+
+				expect(puzzle.canMoveByPosition(0, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 1)).toBe(true);
+				expect(puzzle.canMoveByPosition(1, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 0)).toBe(true);
+				expect(puzzle.canMoveByPosition(2, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 2)).toBe(true);
+			});
+
+			it("should only allow down and left moves if the hole is bottom left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 0, 7, 8]
+				});
+
+				expect(puzzle.canMoveByPosition(0, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 0)).toBe(true);
+				expect(puzzle.canMoveByPosition(1, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 1)).toBe(true);
+				expect(puzzle.canMoveByPosition(2, 2)).toBe(false);
+			});
+
+			it("should only allow up, down and right moves if the hole is middle right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 0, 6, 7, 8]
+				});
+
+				expect(puzzle.canMoveByPosition(0, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 2)).toBe(true);
+				expect(puzzle.canMoveByPosition(1, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 1)).toBe(true);
+				expect(puzzle.canMoveByPosition(1, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 2)).toBe(true);
+			});
+
+			it("should allow up, down, left and right moves if the hole is middle middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 0, 5, 6, 7, 8]
+				});
+
+				expect(puzzle.canMoveByPosition(0, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 1)).toBe(true);
+				expect(puzzle.canMoveByPosition(0, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 0)).toBe(true);
+				expect(puzzle.canMoveByPosition(1, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 2)).toBe(true);
+				expect(puzzle.canMoveByPosition(2, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 1)).toBe(true);
+				expect(puzzle.canMoveByPosition(2, 2)).toBe(false);
+			});
+
+			it("should only allow top, down and left moves if the hole is middle left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle.canMoveByPosition(0, 0)).toBe(true);
+				expect(puzzle.canMoveByPosition(0, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 1)).toBe(true);
+				expect(puzzle.canMoveByPosition(1, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 0)).toBe(true);
+				expect(puzzle.canMoveByPosition(2, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 2)).toBe(false);
+			});
+
+			it("should only allow down and right moves if the hole is top right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 0, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle.canMoveByPosition(0, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 1)).toBe(true);
+				expect(puzzle.canMoveByPosition(0, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 2)).toBe(true);
+				expect(puzzle.canMoveByPosition(2, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 2)).toBe(false);
+			});
+
+			it("should allow down, left and right moves if the hole is top middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle.canMoveByPosition(0, 0)).toBe(true);
+				expect(puzzle.canMoveByPosition(0, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 2)).toBe(true);
+				expect(puzzle.canMoveByPosition(1, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 1)).toBe(true);
+				expect(puzzle.canMoveByPosition(1, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 2)).toBe(false);
+			});
+
+			it("should only allow down and left moves if the hole is top left", function() {
+				puzzle = new SliderPuzzle({
+					board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle.canMoveByPosition(0, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(0, 1)).toBe(true);
+				expect(puzzle.canMoveByPosition(0, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 0)).toBe(true);
+				expect(puzzle.canMoveByPosition(1, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(1, 2)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 0)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 1)).toBe(false);
+				expect(puzzle.canMoveByPosition(2, 2)).toBe(false);
+			});
+		});
+
 	}); // helpers
 
 	describe("Renderer:", function() {
@@ -589,52 +852,52 @@ describe("Slider Puzzle:", function() {
 				puzzle = new SliderPuzzle({
 					board: board2x2
 				});
-				expect(puzzle.toString()).toEqual("\n"
-					+ "+---+---+\n"
-					+ "| 3 | 2 |\n"
-					+ "+---+---+\n"
-					+ "| 1 |   |\n"
-					+ "+---+---+\n"
+				expect(puzzle.toString()).toEqual("\n" +
+					"+---+---+\n" +
+					"| 3 | 2 |\n" +
+					"+---+---+\n" +
+					"| 1 |   |\n" +
+					"+---+---+\n"
 				);
 
 				puzzle = new SliderPuzzle({
 					board: board3x3
 				});
-				expect(puzzle.toString()).toEqual("\n"
-					+ "+---+---+---+\n"
-					+ "| 1 | 2 | 3 |\n"
-					+ "+---+---+---+\n"
-					+ "| 4 | 5 | 6 |\n"
-					+ "+---+---+---+\n"
-					+ "| 7 | 8 |   |\n"
-					+ "+---+---+---+\n"
+				expect(puzzle.toString()).toEqual("\n" +
+					"+---+---+---+\n" +
+					"| 1 | 2 | 3 |\n" +
+					"+---+---+---+\n" +
+					"| 4 | 5 | 6 |\n" +
+					"+---+---+---+\n" +
+					"| 7 | 8 |   |\n" +
+					"+---+---+---+\n"
 				);
 
 				puzzle = new SliderPuzzle({
 					board: [2, 4, 6, 8, 10, 12, 14, 0, 1, 3, 5, 7, 9, 11, 13, 15]
 				});
-				expect(puzzle.toString()).toEqual("\n"
-					+ "+----+----+----+----+\n"
-					+ "|  2 |  4 |  6 |  8 |\n"
-					+ "+----+----+----+----+\n"
-					+ "| 10 | 12 | 14 |    |\n"
-					+ "+----+----+----+----+\n"
-					+ "|  1 |  3 |  5 |  7 |\n"
-					+ "+----+----+----+----+\n"
-					+ "|  9 | 11 | 13 | 15 |\n"
-					+ "+----+----+----+----+\n"
+				expect(puzzle.toString()).toEqual("\n" +
+					"+----+----+----+----+\n" +
+					"|  2 |  4 |  6 |  8 |\n" +
+					"+----+----+----+----+\n" +
+					"| 10 | 12 | 14 |    |\n" +
+					"+----+----+----+----+\n" +
+					"|  1 |  3 |  5 |  7 |\n" +
+					"+----+----+----+----+\n" +
+					"|  9 | 11 | 13 | 15 |\n" +
+					"+----+----+----+----+\n"
 				);
 
 				puzzle = new SliderPuzzle({
 					board: board2x5,
 					rows: 2
 				});
-				expect(puzzle.toString()).toEqual("\n"
-					+ "+---+---+---+---+---+\n"
-					+ "|   | 9 | 8 | 7 | 6 |\n"
-					+ "+---+---+---+---+---+\n"
-					+ "| 5 | 4 | 3 | 2 | 1 |\n"
-					+ "+---+---+---+---+---+\n"
+				expect(puzzle.toString()).toEqual("\n" +
+					"+---+---+---+---+---+\n" +
+					"|   | 9 | 8 | 7 | 6 |\n" +
+					"+---+---+---+---+---+\n" +
+					"| 5 | 4 | 3 | 2 | 1 |\n" +
+					"+---+---+---+---+---+\n"
 				);
 			});
 		});
