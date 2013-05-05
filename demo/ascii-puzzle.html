@@ -6,6 +6,7 @@
 	<script src="http://code.jquery.com/jquery-1.7.2.min.js"></script>
 	<script src="../source/jqpuzzle.core.js"></script>
 	<script src="../source/jqpuzzle.renderer.ascii.js"></script>
+	<script src="../source/jqpuzzle.controller.keyboard.js"></script>
 	<style>
 		fieldset {
 			display: inline;
@@ -50,6 +51,12 @@
 			<button>Create Puzzle</button>
 		</fieldset>
 	</form>
+	<div id="controls">
+		<button name="up"   >UP</button>
+		<button name="down" >DOWN</button>
+		<button name="left" >LEFT</button>
+		<button name="right">RIGHT</button>
+	</div>
 	<pre id="board"></pre>
 	<script>
 		var puzzle;
@@ -78,8 +85,25 @@
 				// display board
 				$('#board').text(puzzle.toString());
 
+				// show controls
+				$('#controls').show();
+
 			} catch (e) {
 				alert(e);
+
+				// hide controls
+				$('#controls').hide();
+			}
+		});
+
+		$('#controls').on('click', 'button', function() {
+			if (puzzle) {
+				var newBoard = puzzle.move(this.name.toLowerCase());
+				console.log('move ' + this.name.toLowerCase(), newBoard);
+
+				if (newBoard) {
+					$('#board').text(puzzle.toString());
+				}
 			}
 		});
 	</script>
