@@ -1,9 +1,9 @@
 function SliderPuzzle(options) {
-	// make sure this.options is available
-	// TODO why?
-	this.options = options || {};
+	// define this.options as soon as possible so that helper methods
+	// called during initialization can rely on it
+	this.options = options;
 
-	if (options) {
+	if ($.isPlainObject(options)) {
 		// handle rows and cols option
 		var dimensions = ['rows', 'cols'];
 		for (var i in dimensions) {
