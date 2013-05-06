@@ -4,8 +4,8 @@ function SliderPuzzle(options) {
 	this.options = options || {};
 
 	if (options) {
-		// handle rows and columns option
-		var dimensions = ['rows', 'columns'];
+		// handle rows and cols option
+		var dimensions = ['rows', 'cols'];
 		for (var i in dimensions) {
 			var dimension = dimensions[i];
 
@@ -21,30 +21,30 @@ function SliderPuzzle(options) {
 		// handle board option
 		if (options.board) {
 			var INVALID_BOARD  = 'invalid board';
-			var BOARD_MISMATCH = 'board does not match rows or columns';
+			var BOARD_MISMATCH = 'board does not match rows or cols';
 			var length = options.board.length;
 
 			if (!$.isArray(options.board) || length === 0) {
 				throw INVALID_BOARD;
 			}
 
-			// either rows or columns or both are set
-			if (options.rows || options.columns) {
+			// either rows or cols or both are set
+			if (options.rows || options.cols) {
 				if (!options.rows) {
-					options.rows = Math.floor(length / options.columns);
+					options.rows = Math.floor(length / options.cols);
 				}
 
-				if (!options.columns) {
-					options.columns = Math.floor(length / options.rows);
+				if (!options.cols) {
+					options.cols = Math.floor(length / options.rows);
 				}
 
-				if (options.rows == 1 || options.columns == 1 || options.rows * options.columns != length) {
+				if (options.rows == 1 || options.cols == 1 || options.rows * options.cols != length) {
 					throw BOARD_MISMATCH;
 				}
 			}
-			// neither rows or columns are set
+			// neither rows or cols are set
 			else {
-				// assume both rows and columns to have the same value
+				// assume both rows and cols to have the same value
 				var root = Math.sqrt(length);
 
 				// root is not an integer
@@ -52,7 +52,7 @@ function SliderPuzzle(options) {
 					throw BOARD_MISMATCH;
 				}
 
-				options.rows = options.columns = root;
+				options.rows = options.cols = root;
 			}
 
 			// create sorted board
@@ -77,7 +77,7 @@ function SliderPuzzle(options) {
 
 			// handle default case (hole is bottom right)
 			if (this.solvedHole === undefined) {
-				this.solvedHole = options.rows*options.columns-1;
+				this.solvedHole = options.rows*options.cols-1;
 			}
 
 			// set hole
@@ -85,9 +85,9 @@ function SliderPuzzle(options) {
 			options.hole = $.inArray(0, this.board);
 
 		} else {
-			// make sure rows and columns are defined at this point
+			// make sure rows and cols are defined at this point
 			options.rows = options.rows || this.defaults.rows;
-			options.columns = options.columns || this.defaults.columns;
+			options.cols = options.cols || this.defaults.cols;
 
 			// handle hole option (ignored when board is set)
 			// include any falsy value including 0
@@ -102,12 +102,12 @@ function SliderPuzzle(options) {
 				options.hole = this.to1dPosition(this.normalizePosition(options.hole));
 
 				// validate hole against board dimensions
-				if (options.hole < 0 || options.hole >= (options.rows * options.columns)) {
-					throw 'hole does not match rows and columns';
+				if (options.hole < 0 || options.hole >= (options.rows * options.cols)) {
+					throw 'hole does not match rows and cols';
 				}
 			} else {
 				// default to bottom right
-				options.hole = options.rows * options.columns - 1;
+				options.hole = options.rows * options.cols - 1;
 			}
 		}
 	}
@@ -118,7 +118,7 @@ function SliderPuzzle(options) {
 	// handle default case (hole is bottom right)
 	// no board or no options
 	if (this.solvedHole === undefined) {
-		this.solvedHole = this.options.rows * this.options.columns - 1;
+		this.solvedHole = this.options.rows * this.options.cols - 1;
 	}
 
 	// the current hole position
@@ -135,8 +135,8 @@ SliderPuzzle.prototype = {
 	defaults: {
 		// number of rows
 		rows: 4,
-		// number of columns
-		columns: 4,
+		// number of cols
+		cols: 4,
 		// hole position (bottom right)
 		hole: 15,
 		// only every other randomly generated board is solvable
@@ -155,14 +155,14 @@ SliderPuzzle.prototype = {
 	// convert a two-dimensional row-column index into a one-dimensional index
 	to1dPosition : function(position2d) {
 		var normalizedPosition = this.normalizePosition(position2d);
-		return normalizedPosition.row * this.options.columns + normalizedPosition.column;
+		return normalizedPosition.row * this.options.cols + normalizedPosition.column;
 	},
 
 	// convert a one-dimensional index into a two-dimensional row-column index
 	to2dPosition: function(position1d) {
-		var column = position1d % this.options.columns;
+		var column = position1d % this.options.cols;
 		return {
-			row: Math.floor((position1d - column) / this.options.columns),
+			row: Math.floor((position1d - column) / this.options.cols),
 			column: column
 		};
 	},
@@ -204,8 +204,8 @@ SliderPuzzle.prototype = {
 		console.log('getPosition1dByDirection', direction);
 
 		var offsets = {
-			up: this.options.columns,
-			down: -this.options.columns,
+			up: this.options.cols,
+			down: -this.options.cols,
 			left: 1,
 			right: -1
 		};
@@ -260,7 +260,7 @@ SliderPuzzle.prototype = {
 		// might have been created by board validation logic already
 		if (!this.sortedBoard) {
 			this.sortedBoard = [];
-			for (i = 0; i < this.options.rows * this.options.columns; i++) {
+			for (i = 0; i < this.options.rows * this.options.cols; i++) {
 				this.sortedBoard.push(i);
 			}
 		}
@@ -320,8 +320,8 @@ SliderPuzzle.prototype = {
 		var product = 1;
 		var referenceValue = Math.abs(this.hole - this.solvedHole) % 2 ? -1 : 1;
 
-		for (i = 1; i <= (this.options.rows * this.options.columns - 1); i++) {
-			for (j = (i + 1); j <= (this.options.rows * this.options.columns); j++) {
+		for (i = 1; i <= (this.options.rows * this.options.cols - 1); i++) {
+			for (j = (i + 1); j <= (this.options.rows * this.options.cols); j++) {
 				product *= ((this.normalizedBoard[i - 1] - this.normalizedBoard[j - 1]) / (i - j));
 			}
 		}
@@ -339,7 +339,7 @@ SliderPuzzle.prototype = {
 		solvedBoard.splice(0, 1);
 		solvedBoard.splice(this.solvedHole, 0, 0);
 
-		for (i = 0; i < this.options.rows * this.options.columns; i++) {
+		for (i = 0; i < this.options.rows * this.options.cols; i++) {
 			if (this.board[i] !== solvedBoard[i]) {
 				return false;
 			}
@@ -361,6 +361,6 @@ SliderPuzzle.prototype = {
 	},
 
 	toString: function() {
-		return this.renderer.render(this.board, this.options.rows, this.options.columns);
+		return this.renderer.render(this.board, this.options.rows, this.options.cols);
 	}
 };
