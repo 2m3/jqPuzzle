@@ -3,13 +3,15 @@ function SliderPuzzle(options) {
 	// called during initialization can rely on it
 	this.options = options;
 
+	// handle specified options
 	if ($.isPlainObject(options)) {
+
 		// handle rows and cols option
 		var dimensions = ['rows', 'cols'];
 		for (var i in dimensions) {
 			var dimension = dimensions[i];
 
-			// include any falsy value including 0
+			// validate any defined value
 			if (options[dimension] !== undefined) {
 				options[dimension] = parseInt(options[dimension], 10);
 				if (isNaN(options[dimension]) || options[dimension] < 2) {

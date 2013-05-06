@@ -33,7 +33,7 @@ describe("Initialization:", function() {
 
 		it("should parse a specified rows or cols value into an integer", function() {
 			expect(5).toEqual(5);
-/*			puzzle = new SliderPuzzle({
+			puzzle = new SliderPuzzle({
 				rows: "5",
 				cols: "6"
 			});
@@ -52,7 +52,7 @@ describe("Initialization:", function() {
 				cols: 6.8
 			});
 			expect(puzzle.options.rows).toEqual(5);
-			expect(puzzle.options.cols).toEqual(6);*/
+			expect(puzzle.options.cols).toEqual(6);
 		});
 
 		it("should throw an exception if rows is less than 2 or cannot be parsed as an integer", function() {
@@ -87,6 +87,13 @@ describe("Initialization:", function() {
 					rows: "test"
 				});
 			}).toThrow(exceptionString);
+
+			expect(function() {
+				new SliderPuzzle({
+					rows: false
+				});
+			}).toThrow(exceptionString);
+
 
 			expect(function() {
 				new SliderPuzzle({
@@ -127,6 +134,13 @@ describe("Initialization:", function() {
 					cols: "test"
 				});
 			}).toThrow(exceptionString);
+
+			expect(function() {
+				new SliderPuzzle({
+					cols: false
+				});
+			}).toThrow(exceptionString);
+
 
 			expect(function() {
 				new SliderPuzzle({
