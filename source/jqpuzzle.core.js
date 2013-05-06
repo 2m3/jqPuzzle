@@ -67,10 +67,10 @@ function SliderPuzzle(options) {
 			// validate board integrity
 			// a valid board contains all numbers from 1 to (rows*cols) with any one number replaced with 0
 			// that is, a sorted board starts from 0 and contains all numbers up to (rows*cols) except one
-			this.solvedHole = undefined;
-			for (i = 0; i < this.sortedBoard.length; i++) {
+			for (i = 0; i < length; i++) {
 				if (this.sortedBoard[i] !== i) {
-					if (this.solvedHole === undefined && this.sortedBoard[i] == (i+1)) {
+					// single exception where one number is skipped
+					if (this.solvedHole === undefined && this.sortedBoard[i] == (i + 1)) {
 						this.solvedHole = i - 1;
 						continue;
 					}
@@ -81,7 +81,7 @@ function SliderPuzzle(options) {
 
 			// handle default case (hole is bottom right)
 			if (this.solvedHole === undefined) {
-				this.solvedHole = options.rows*options.cols-1;
+				this.solvedHole = options.rows * options.cols - 1;
 			}
 
 			// set hole
