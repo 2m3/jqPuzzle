@@ -21,40 +21,42 @@ function SliderPuzzle(options) {
 		}
 
 		// handle board option
-		if (options.board) {
-			var INVALID_BOARD  = 'invalid board';
+		if (options.board !== undefined) {
+			var BOARD_INVALID  = 'invalid board';
 			var BOARD_MISMATCH = 'board does not match rows or cols';
 			var length = options.board.length;
 
 			if (!$.isArray(options.board) || length === 0) {
-				throw INVALID_BOARD;
+				throw BOARD_INVALID;
 			}
 
-			// either rows or cols or both are set
+			// either rows or cols are set (or both)
 			if (options.rows || options.cols) {
+				// infer rows value if not defined
 				if (!options.rows) {
 					options.rows = Math.floor(length / options.cols);
 				}
 
+				// infer cols value if not defined
 				if (!options.cols) {
 					options.cols = Math.floor(length / options.rows);
 				}
 
-				if (options.rows == 1 || options.cols == 1 || options.rows * options.cols != length) {
+				if (options.rows == 1 || options.cols == 1 || options.rows * options.cols !== length) {
 					throw BOARD_MISMATCH;
 				}
 			}
+
 			// neither rows or cols are set
 			else {
-				// assume both rows and cols to have the same value
-				var root = Math.sqrt(length);
+				// assume both rows and cols have the same value
+				var sqrt = Math.sqrt(length);
 
-				// root is not an integer
-				if (Math.floor(root) != root) {
+				if (Math.floor(sqrt) != sqrt) {
 					throw BOARD_MISMATCH;
 				}
 
-				options.rows = options.cols = root;
+				options.rows = options.cols = sqrt;
 			}
 
 			// create sorted board
@@ -73,7 +75,7 @@ function SliderPuzzle(options) {
 						continue;
 					}
 
-					throw INVALID_BOARD;
+					throw BOARD_INVALID;
 				}
 			}
 

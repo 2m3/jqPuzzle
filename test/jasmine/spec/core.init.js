@@ -207,6 +207,12 @@ describe("Initialization:", function() {
 
 			expect(function() {
 				new SliderPuzzle({
+					board: false
+				});
+			}).toThrow(exceptionString);
+
+			expect(function() {
+				new SliderPuzzle({
 					board: {}
 				});
 			}).toThrow(exceptionString);
