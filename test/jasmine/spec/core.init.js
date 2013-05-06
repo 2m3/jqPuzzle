@@ -32,7 +32,6 @@ describe("Initialization:", function() {
 	describe("When initialized, a slider puzzle", function() {
 
 		it("should parse a specified rows or cols value into an integer", function() {
-			expect(5).toEqual(5);
 			puzzle = new SliderPuzzle({
 				rows: "5",
 				cols: "6"
