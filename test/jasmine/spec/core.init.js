@@ -288,7 +288,7 @@ describe("Initialization:", function() {
 			expect(puzzle.options.cols).toEqual(5);
 		});
 
-		describe("should throw an exception if a missing rows or column option cannot be inferred", function() {
+		describe("should throw an exception if a missing rows or col option cannot be inferred", function() {
 
 			it("because the specified rows or cols value is greater than board size", function() {
 				// (the calculated rows or cols value is less than 1)

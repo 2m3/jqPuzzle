@@ -31,11 +31,11 @@ describe("Helper: ", function() {
 
 	// some sample positions on a 3x3 puzzle
 	var positions = {
-		topLeft:		{ row: 0, column: 0 },
-		topRight:		{ row: 0, column: 2 },
-		bottomLeft:		{ row: 2, column: 0 },
-		bottomRight:	{ row: 2, column: 2 },
-		middle:			{ row: 1, column: 1 }
+		topLeft:		{ row: 0, col: 0 },
+		topRight:		{ row: 0, col: 2 },
+		bottomLeft:		{ row: 2, col: 0 },
+		bottomRight:	{ row: 2, col: 2 },
+		middle:			{ row: 1, col: 1 }
 	};
 
 	beforeEach(function() {
@@ -45,7 +45,7 @@ describe("Helper: ", function() {
 	});
 
 	describe("to1dPosition()", function() {
-		it("should convert a two-dimensional row-column index into a one-dimensional index", function() {
+		it("should convert a two-dimensional row-col index into a one-dimensional index", function() {
 			expect(puzzle.to1dPosition(positions.topLeft)    ).toEqual(0);
 			expect(puzzle.to1dPosition(positions.topRight)   ).toEqual(2);
 			expect(puzzle.to1dPosition(positions.bottomLeft) ).toEqual(6);
@@ -55,7 +55,7 @@ describe("Helper: ", function() {
 	});
 
 	describe("to2dPosition()", function() {
-		it("should convert a one-dimensional index into a two-dimensional row-column index", function() {
+		it("should convert a one-dimensional index into a two-dimensional row-col index", function() {
 			expect(puzzle.to2dPosition(0)).toEqual(positions.topLeft);
 			expect(puzzle.to2dPosition(2)).toEqual(positions.topRight);
 			expect(puzzle.to2dPosition(6)).toEqual(positions.bottomLeft);
@@ -166,7 +166,7 @@ describe("Helper: ", function() {
 
 	describe("normalizePosition()", function() {
 
-		it("should handle row and column passed in as seperate arguments", function() {
+		it("should handle row and col passed in as seperate arguments", function() {
 			expect(puzzle.normalizePosition(0, 0)).toEqual(positions.topLeft);
 			expect(puzzle.normalizePosition(0, 2)).toEqual(positions.topRight);
 			expect(puzzle.normalizePosition(2, 0)).toEqual(positions.bottomLeft);
@@ -174,7 +174,7 @@ describe("Helper: ", function() {
 			expect(puzzle.normalizePosition(1, 1)).toEqual(positions.middle);
 		});
 
-		it("should handle row and column passed in as an array", function() {
+		it("should handle row and col passed in as an array", function() {
 			expect(puzzle.normalizePosition([0, 0])).toEqual(positions.topLeft);
 			expect(puzzle.normalizePosition([0, 2])).toEqual(positions.topRight);
 			expect(puzzle.normalizePosition([2, 0])).toEqual(positions.bottomLeft);
@@ -182,12 +182,12 @@ describe("Helper: ", function() {
 			expect(puzzle.normalizePosition([1, 1])).toEqual(positions.middle);
 		});
 
-		it("should handle row and column passed in as an object", function() {
-			expect(puzzle.normalizePosition({ row: 0, column: 0 })).toEqual(positions.topLeft);
-			expect(puzzle.normalizePosition({ row: 0, column: 2 })).toEqual(positions.topRight);
-			expect(puzzle.normalizePosition({ row: 2, column: 0 })).toEqual(positions.bottomLeft);
-			expect(puzzle.normalizePosition({ row: 2, column: 2 })).toEqual(positions.bottomRight);
-			expect(puzzle.normalizePosition({ row: 1, column: 1 })).toEqual(positions.middle);
+		it("should handle row and col passed in as an object", function() {
+			expect(puzzle.normalizePosition({ row: 0, col: 0 })).toEqual(positions.topLeft);
+			expect(puzzle.normalizePosition({ row: 0, col: 2 })).toEqual(positions.topRight);
+			expect(puzzle.normalizePosition({ row: 2, col: 0 })).toEqual(positions.bottomLeft);
+			expect(puzzle.normalizePosition({ row: 2, col: 2 })).toEqual(positions.bottomRight);
+			expect(puzzle.normalizePosition({ row: 1, col: 1 })).toEqual(positions.middle);
 		});
 
 		it("should handle a single value as the index of the one-dimensional board array", function() {

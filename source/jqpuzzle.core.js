@@ -152,37 +152,37 @@ SliderPuzzle.prototype = {
 	solved: false,
 	solvable: true,
 
-	// convert a two-dimensional row-column index into a one-dimensional index
+	// convert a two-dimensional row-col index into a one-dimensional index
 	to1dPosition : function(position2d) {
 		var normalizedPosition = this.normalizePosition(position2d);
-		return normalizedPosition.row * this.options.cols + normalizedPosition.column;
+		return normalizedPosition.row * this.options.cols + normalizedPosition.col;
 	},
 
-	// convert a one-dimensional index into a two-dimensional row-column index
+	// convert a one-dimensional index into a two-dimensional row-col index
 	to2dPosition: function(position1d) {
-		var column = position1d % this.options.cols;
+		var col = position1d % this.options.cols;
 		return {
-			row: Math.floor((position1d - column) / this.options.cols),
-			column: column
+			row: Math.floor((position1d - col) / this.options.cols),
+			col: col
 		};
 	},
 
-	// handle row and column passed in as object, array, or seperate arguments,
+	// handle row and col passed in as object, array, or seperate arguments,
 	// or just a one-dimensional index
-	normalizePosition: function(row, column) {
+	normalizePosition: function(row, col) {
 		if ($.isPlainObject(row)) {
 			return row;
 		} else if ($.isArray(row)) {
 			return {
 				row: row[0],
-				column: row[1]
+				col: row[1]
 			};
-		} else if (column === undefined) {
+		} else if (col === undefined) {
 			return this.to2dPosition(row);
 		} else {
 			return {
 				row: row,
-				column: column
+				col: col
 			};
 		}
 	},
@@ -224,18 +224,18 @@ SliderPuzzle.prototype = {
 		return this.moveByPosition(this.getPosition(numberOrDirection));
 	},
 
-	canMoveByPosition: function(row, column) {
+	canMoveByPosition: function(row, col) {
 
-		var position = this.normalizePosition(row, column);
+		var position = this.normalizePosition(row, col);
 		var hole = this.normalizePosition(this.hole);
 
-		console.log('canMoveByPosition', row, column);
-		return (Math.abs(position.row - hole.row) + Math.abs(position.column - hole.column) === 1);
+		console.log('canMoveByPosition', row, col);
+		return (Math.abs(position.row - hole.row) + Math.abs(position.col - hole.col) === 1);
 	},
 
-	moveByPosition: function(row, column) {
-		console.log('moveByPosition', row, column);
-		var position = this.normalizePosition(row, column);
+	moveByPosition: function(row, col) {
+		console.log('moveByPosition', row, col);
+		var position = this.normalizePosition(row, col);
 		var position1d = this.to1dPosition(position);
 
 		if (this.canMoveByPosition(position)) {
