@@ -11,7 +11,6 @@ function SliderPuzzle(options) {
 		for (var i in dimensions) {
 			var dimension = dimensions[i];
 
-			// validate any defined value
 			if (options[dimension] !== undefined) {
 				options[dimension] = parseInt(options[dimension], 10);
 				if (isNaN(options[dimension]) || options[dimension] < 2) {
@@ -56,6 +55,7 @@ function SliderPuzzle(options) {
 					throw BOARD_MISMATCH;
 				}
 
+				// set rows and cols accordingly
 				options.rows = options.cols = sqrt;
 			}
 
@@ -71,6 +71,7 @@ function SliderPuzzle(options) {
 				if (this.sortedBoard[i] !== i) {
 					// single exception where one number is skipped
 					if (this.solvedHole === undefined && this.sortedBoard[i] == (i + 1)) {
+						// account for the shifted 0 in the sorted board
 						this.solvedHole = i - 1;
 						continue;
 					}
@@ -79,24 +80,18 @@ function SliderPuzzle(options) {
 				}
 			}
 
-			// handle default case (hole is bottom right)
-			if (this.solvedHole === undefined) {
-				this.solvedHole = options.rows * options.cols - 1;
-			}
-
 			// set hole
 			this.board = options.board.slice(0);
 			options.hole = $.inArray(0, this.board);
 
+		// board is not set
 		} else {
-			// make sure rows and cols are defined at this point
+			// make sure rows and cols are defined
 			options.rows = options.rows || this.defaults.rows;
 			options.cols = options.cols || this.defaults.cols;
 
-			// handle hole option (ignored when board is set)
-			// include any falsy value including 0
+			// handle hole option
 			if (options.hole !== undefined) {
-				// validate hole
 				options.hole = parseInt(options.hole, 10);
 				if (isNaN(options.hole) || options.hole < 0) {
 					throw 'invalid hole value';
@@ -105,8 +100,8 @@ function SliderPuzzle(options) {
 				// normalize
 				options.hole = this.to1dPosition(this.normalizePosition(options.hole));
 
-				// validate hole against board dimensions
-				if (options.hole < 0 || options.hole >= (options.rows * options.cols)) {
+				// validate against board dimensions
+				if (options.hole >= (options.rows * options.cols)) {
 					throw 'hole does not match rows and cols';
 				}
 			} else {
