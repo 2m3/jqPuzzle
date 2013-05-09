@@ -64,7 +64,7 @@ describe("Helper: ", function() {
 		});
 	});
 
-	describe("isSolvable", function() {
+	describe("isSolvable()", function() {
 		it("should identify a solvable board as solvable", function() {
 			puzzle = new SliderPuzzle({
 				board: [1,	2,
@@ -120,7 +120,7 @@ describe("Helper: ", function() {
 		});
 	});
 
-	describe("isSolved", function() {
+	describe("isSolved()", function() {
 		it("should identify a solved board as solved", function() {
 			puzzle = new SliderPuzzle({
 				board: [1,	2,

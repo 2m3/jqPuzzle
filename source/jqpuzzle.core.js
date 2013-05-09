@@ -64,15 +64,18 @@ function SliderPuzzle(options) {
 				return a - b;
 			});
 
+			// ignore a speficied hole option
+			options.hole = undefined;
+
 			// validate board integrity
 			// a valid board contains all numbers from 1 to (rows*cols) with any one number replaced with 0
 			// that is, a sorted board starts from 0 and contains all numbers up to (rows*cols) except one
 			for (i = 0; i < length; i++) {
 				if (this.sortedBoard[i] !== i) {
 					// single exception where one number is skipped
-					if (this.solvedHole === undefined && this.sortedBoard[i] == (i + 1)) {
-						// account for the shifted 0 in the sorted board
-						this.solvedHole = i - 1;
+					if (options.hole === undefined && this.sortedBoard[i] == (i + 1)) {
+						// infer hole value (1-based)
+						options.hole = i;
 						continue;
 					}
 
@@ -80,9 +83,13 @@ function SliderPuzzle(options) {
 				}
 			}
 
-			// set hole
-			this.board = options.board.slice(0);
-			options.hole = $.inArray(0, this.board);
+			// handle default case when board is set and hole is bottom right
+			if (options.hole === undefined) {
+				options.hole = this.options.rows * this.options.cols;
+			}
+
+			// set current hole and initial hole position (1-based)
+			this._hole = options.initialHolePosition = $.inArray(0, options.board) + 1;
 
 		// board is not set
 		} else {
@@ -93,7 +100,7 @@ function SliderPuzzle(options) {
 			// handle hole option
 			if (options.hole !== undefined) {
 				options.hole = parseInt(options.hole, 10);
-				if (isNaN(options.hole) || options.hole < 0) {
+				if (isNaN(options.hole) || options.hole < 1) {
 					throw 'invalid hole value';
 				}
 
@@ -101,27 +108,32 @@ function SliderPuzzle(options) {
 				options.hole = this.to1dPosition(this.normalizePosition(options.hole));
 
 				// validate against board dimensions
-				if (options.hole >= (options.rows * options.cols)) {
+				if (options.hole > (options.rows * options.cols)) {
 					throw 'hole does not match rows and cols';
 				}
 			} else {
 				// default to bottom right
-				options.hole = options.rows * options.cols - 1;
+				options.hole = options.rows * options.cols;
 			}
+
+			// set current hole and initial hole position
+			this._hole = options.initialHolePosition = options.hole;
 		}
 	}
 
 	// merge passed in options with defaults (options wins)
 	this.options = $.extend({}, this.defaults, options);
 
-	// handle default case (hole is bottom right)
-	// no board or no options
-	if (this.solvedHole === undefined) {
-		this.solvedHole = this.options.rows * this.options.cols - 1;
+	// handle default case when board is set and hole is bottom right or
+	// or a rows or cols value was inferred and the hole has to be recalculated
+	if (this.options.hole === undefined) {
+		this.options.hole = this.options.rows * this.options.cols;
 	}
 
 	// the current hole position
-	this.hole = this.options.hole;
+	if (this._hole === undefined) {
+		this._hole = this.options.initialHolePosition = this.options.hole;
+	}
 
 	// the current board (keep a copy of the intial board to be able to restart)
 	this.board = (this.options.board && this.options.board.slice(0)) || this.shuffle();
@@ -137,7 +149,7 @@ SliderPuzzle.prototype = {
 		// number of cols
 		cols: 4,
 		// hole position (bottom right)
-		hole: 15,
+		hole: 16,
 		// only every other randomly generated board is solvable
 		// if set to ...    shuffled boards will be ...
 		// true (default)   solvable
@@ -209,8 +221,8 @@ SliderPuzzle.prototype = {
 			right: -1
 		};
 
-		var index = this.hole + offsets[direction];
-		return (offsets[direction] && (index > 0 && index < this.board.length)) ? index : null;
+		var index = this._hole + offsets[direction];
+		return (offsets[direction] && (index > 0 && index <= this.board.length)) ? index : null;
 	},
 
 	canMove: function(numberOrDirection) {
@@ -226,9 +238,9 @@ SliderPuzzle.prototype = {
 	canMoveByPosition: function(row, col) {
 
 		var position = this.normalizePosition(row, col);
-		var hole = this.normalizePosition(this.hole);
+		var hole = this.normalizePosition(this._hole - 1);
 
-		console.log('canMoveByPosition', row, col);
+		console.log('canMoveByPosition', row, col, this._hole, hole);
 		return (Math.abs(position.row - hole.row) + Math.abs(position.col - hole.col) === 1);
 	},
 
@@ -239,11 +251,11 @@ SliderPuzzle.prototype = {
 
 		if (this.canMoveByPosition(position)) {
 			// swap pieces
-			this.board[this.hole] = this.board[position1d];
+			this.board[this._hole - 1] = this.board[position1d];
 			this.board[position1d] = 0;
 
 			// update hole
-			this.hole = position1d;
+			this._hole = position1d + 1;
 
 			// return current board
 			return this.board;
@@ -253,7 +265,8 @@ SliderPuzzle.prototype = {
 	},
 
 	shuffle: function() {
-		var sortedBoard, i;
+		var sortedBoard, i, item;
+		var dev = 0;
 
 		// create a sorted board to pick items from
 		// might have been created by board validation logic already
@@ -267,26 +280,41 @@ SliderPuzzle.prototype = {
 		// create a shuffled board and repeat if we force a solvable board
 		// and the created board is not solvable
 		do {
+			// TODO small dev helper
+			if (dev == 999) {
+				alert('looks like you broke the puzzle');
+				break;
+			}
+			dev++;
+
 			// clone sorted board so that it can be reused by later shuffle calls
 			sortedBoard = this.sortedBoard.slice(0);
 
-			// remove the hole
+			// remove hole
 			sortedBoard.splice(0, 1);
 
 			// start with an empty board
 			this.board = [];
 
-			// randomly pick items from sorted board and re-index
 			while (sortedBoard.length) {
+				// randomly pick items from sorted board and re-index
 				i = Math.floor(Math.random() * sortedBoard.length);
-				this.board.push(sortedBoard.splice(i, 1)[0]);
+				item = sortedBoard.splice(i, 1)[0];
+
+				// adjust any number after the hole by one
+				if (item >= this.options.hole) {
+					item++;
+				}
+
+				// add to board
+				this.board.push(item);
 			}
 
-			// add hole to board
-			this.board.splice(this.options.hole, 0, 0);
+			// add hole back
+			this.board.splice(this.options.initialHolePosition - 1, 0, 0);
 
 			// update hole
-			this.hole = this.options.hole;
+			this._hole = this.options.initialHolePosition;
 
 
 		// solvable	option      solvable board      action
@@ -309,15 +337,16 @@ SliderPuzzle.prototype = {
 	// TODO assume valid board, are hole and solvedHole defined at this point?
 	normalizeBoard: function() {
 			this.normalizedBoard = this.board.slice(0);
-			this.normalizedBoard[this.hole] = this.solvedHole + 1;
+			this.normalizedBoard[this.options.initialHolePosition - 1] = this.options.hole;
 	},
 
 	isSolvable: function() {
 		this.normalizeBoard();
+		//console.log(this.board, this.normalizedBoard, this._hole, this.options.hole, this.options.initialHolePosition);
 
 		var i, j;
 		var product = 1;
-		var referenceValue = Math.abs(this.hole - this.solvedHole) % 2 ? -1 : 1;
+		var referenceValue = Math.abs(this.options.hole - this.options.initialHolePosition) % 2 ? -1 : 1;
 
 		for (i = 1; i <= (this.options.rows * this.options.cols - 1); i++) {
 			for (j = (i + 1); j <= (this.options.rows * this.options.cols); j++) {
@@ -329,14 +358,17 @@ SliderPuzzle.prototype = {
 	},
 
 	isSolved: function() {
+		//console.log(this.board, this.sortedBoard, this._hole, this.options.hole, this.options.initialHolePosition);
 		var solvedBoard;
 		var i;
 
 		// TODO is sortedBoard really defined at this point?
+		// TODO cache solved board
 		// get a clone of the sorted board and place hole at correct position
 		solvedBoard = this.sortedBoard.slice(0);
 		solvedBoard.splice(0, 1);
-		solvedBoard.splice(this.solvedHole, 0, 0);
+		solvedBoard.splice(this.options.hole - 1, 0, 0);
+		console.log(solvedBoard);
 
 		for (i = 0; i < this.options.rows * this.options.cols; i++) {
 			if (this.board[i] !== solvedBoard[i]) {

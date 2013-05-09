@@ -455,9 +455,11 @@ describe("Initialization:", function() {
 	it("should allow a hole position to be specified", function() {
 		for (var i = 0; i < 16; i++) {
 			puzzle = new SliderPuzzle({
-				hole: i
+				hole: i + 1
 			});
-			expect(puzzle.hole).toEqual(i);
+			expect(puzzle.options.hole).toEqual(i + 1);
+			expect(puzzle.options.initialHolePosition).toEqual(i + 1);
+			expect(puzzle._hole).toEqual(i + 1);
 			expect(puzzle.board[i]).toEqual(0);
 		}
 
@@ -465,9 +467,11 @@ describe("Initialization:", function() {
 			puzzle = new SliderPuzzle({
 				rows: 3,
 				cols: 5,
-				hole: i
+				hole: i + 1
 			});
-			expect(puzzle.hole).toEqual(i);
+			expect(puzzle.options.hole).toEqual(i + 1);
+			expect(puzzle.options.initialHolePosition).toEqual(i + 1);
+			expect(puzzle._hole).toEqual(i + 1);
 			expect(puzzle.board[i]).toEqual(0);
 		}
 
@@ -478,14 +482,14 @@ describe("Initialization:", function() {
 			board: [0, 1, 2, 3],
 			hole: 2
 		});
-		expect(puzzle.hole).toEqual(0);
+		expect(puzzle._hole).toEqual(1);
 		expect(puzzle.board[0]).toEqual(0);
 
 		puzzle = new SliderPuzzle({
 			board: [8, 7, 6, 5, 4, 3, 2, 1, 0],
 			hole: 0
 		});
-		expect(puzzle.hole).toEqual(8);
+		expect(puzzle._hole).toEqual(9);
 		expect(puzzle.board[8]).toEqual(0);
 
 		puzzle = new SliderPuzzle({
@@ -493,31 +497,31 @@ describe("Initialization:", function() {
 			rows: 3,
 			hole: 1
 		});
-		expect(puzzle.hole).toEqual(3);
+		expect(puzzle._hole).toEqual(4);
 		expect(puzzle.board[3]).toEqual(0);
 	});
 
 	it("should place the hole at the bottom right position, if not specified", function() {
 		puzzle = new SliderPuzzle();
-		expect(puzzle.hole).toEqual(15);
+		expect(puzzle._hole).toEqual(16);
 		expect(puzzle.board[15]).toEqual(0);
 
 		puzzle = new SliderPuzzle({});
-		expect(puzzle.hole).toEqual(15);
+		expect(puzzle._hole).toEqual(16);
 		expect(puzzle.board[15]).toEqual(0);
 
 		puzzle = new SliderPuzzle({
 			rows: 2,
 			cols: 2
 		});
-		expect(puzzle.hole).toEqual(3);
+		expect(puzzle._hole).toEqual(4);
 		expect(puzzle.board[3]).toEqual(0);
 
 		puzzle = new SliderPuzzle({
 			rows: 3,
 			cols: 5
 		});
-		expect(puzzle.hole).toEqual(14);
+		expect(puzzle._hole).toEqual(15);
 		expect(puzzle.board[14]).toEqual(0);
 	});
 });
