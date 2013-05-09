@@ -148,8 +148,6 @@ SliderPuzzle.prototype = {
 		rows: 4,
 		// number of cols
 		cols: 4,
-		// hole position (bottom right)
-		hole: 16,
 		// only every other randomly generated board is solvable
 		// if set to ...    shuffled boards will be ...
 		// true (default)   solvable
@@ -382,7 +380,7 @@ SliderPuzzle.prototype = {
 	pause: function(pauseTimer) {
 	},
 
-	proceed: function() {
+	resume: function() {
 	},
 
 	restart: function() {
