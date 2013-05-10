@@ -88,8 +88,8 @@ function SliderPuzzle(options) {
 				options.hole = this.options.rows * this.options.cols;
 			}
 
-			// set current hole and initial hole position (1-based)
-			this._hole = options.initialHolePosition = $.inArray(0, options.board) + 1;
+			// set initial hole position (1-based)
+			options.initialHolePosition = $.inArray(0, options.board) + 1;
 
 		// board is not set
 		} else {
@@ -116,8 +116,8 @@ function SliderPuzzle(options) {
 				options.hole = options.rows * options.cols;
 			}
 
-			// set current hole and initial hole position
-			this._hole = options.initialHolePosition = options.hole;
+			// set initial hole position
+			options.initialHolePosition = options.hole;
 		}
 	}
 
@@ -130,13 +130,13 @@ function SliderPuzzle(options) {
 		this.options.hole = this.options.rows * this.options.cols;
 	}
 
-	// the current hole position
-	if (this._hole === undefined) {
-		this._hole = this.options.initialHolePosition = this.options.hole;
+	// set initial hole position
+	if (this.options.initialHolePosition === undefined) {
+		this.options.initialHolePosition = this.options.hole;
 	}
 
-	// the current board (keep a copy of the intial board to be able to restart)
-	this._board = (this.options.board && this.options.board.slice(0)) || this.shuffle();
+	// start the game
+	this.restart();
 
 	// default renderer (used by toString)
 	this.renderer = typeof AsciiRenderer === 'undefined' ? { render: function() { return ''; } } : AsciiRenderer;
@@ -312,7 +312,7 @@ SliderPuzzle.prototype = {
 			pickBoard.splice(0, 1);
 
 			// start with an empty board
-			this._board = [];
+			this._initialBoard = [];
 
 			// pick items until empty
 			while (pickBoard.length) {
@@ -326,11 +326,11 @@ SliderPuzzle.prototype = {
 				}
 
 				// add to board
-				this._board.push(item);
+				this._initialBoard.push(item);
 			}
 
 			// add hole back at initial hole position
-			this._board.splice(this.options.initialHolePosition - 1, 0, 0);
+			this._initialBoard.splice(this.options.initialHolePosition - 1, 0, 0);
 
 			// update hole
 			this._hole = this.options.initialHolePosition;
@@ -346,20 +346,18 @@ SliderPuzzle.prototype = {
 		// 'random'             false               break
 		} while (	(this.options.solvable === true  && !this.isSolvable()) ||
 					(this.options.solvable === false &&  this.isSolvable()));
-
-		// also return the board
-		return this._board;
 	},
 
 	// normalize a board to the form that isSolvable can work with
 	// - replace 0 with missing number so that board contains all numbers from 1 to (rows*cols)
 	// TODO assume valid board, are hole and solvedHole defined at this point?
 	normalizeBoard: function() {
-			this.normalizedBoard = this._board.slice(0);
+			this.normalizedBoard = this._initialBoard.slice(0);
 			this.normalizedBoard[this.options.initialHolePosition - 1] = this.options.hole;
 	},
 
 	isSolvable: function() {
+		// TODO cache result
 		this.normalizeBoard();
 		//console.log(this._board, this.normalizedBoard, this._hole, this.options.hole, this.options.initialHolePosition);
 
@@ -389,16 +387,34 @@ SliderPuzzle.prototype = {
 		return true;
 	},
 
+	// restarts the game with a new board
+	restart: function() {
+		// on first start, use specified board if set
+		if (!this._initialBoard && this.options.board) {
+			this._initialBoard = this.options.board.slice(0);
+
+		// or shuffle a new board
+		} else {
+			this.shuffle();
+		}
+
+		this.reset();
+	},
+
+	// resets the game to the previous board
+	reset: function() {
+		this._board = this._initialBoard.slice(0);
+		this._hole = this.options.initialHolePosition;
+		this._moves = [];
+
+		// TODO reset solved
+		// TODO reset timer
+	},
+
 	pause: function(pauseTimer) {
 	},
 
 	resume: function() {
-	},
-
-	restart: function() {
-		this.shuffle();
-		this.moves = [];
-		// reset timer
 	},
 
 	toString: function() {
