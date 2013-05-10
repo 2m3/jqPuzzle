@@ -348,30 +348,31 @@ SliderPuzzle.prototype = {
 					(this.options.solvable === false &&  this.isSolvable()));
 	},
 
-	// normalize a board to the form that isSolvable can work with
-	// - replace 0 with missing number so that board contains all numbers from 1 to (rows*cols)
-	// TODO assume valid board, are hole and solvedHole defined at this point?
-	normalizeBoard: function() {
-			this.normalizedBoard = this._initialBoard.slice(0);
-			this.normalizedBoard[this.options.initialHolePosition - 1] = this.options.hole;
-	},
-
 	isSolvable: function() {
-		// TODO cache result
-		this.normalizeBoard();
-		//console.log(this._board, this.normalizedBoard, this._hole, this.options.hole, this.options.initialHolePosition);
+		var signature = 1;
+		var baseSignature;
+		var board;
+		var i;
+		var j;
 
-		var i, j;
-		var product = 1;
-		var referenceValue = Math.abs(this.options.hole - this.options.initialHolePosition) % 2 ? -1 : 1;
+		// create a board in the form that the algorithm can work with by replacing 0 with
+		// the missing number so that the board contains all numbers from 1 to (rows*cols)
+		board = this._initialBoard.slice(0);
+		board[this.options.initialHolePosition - 1] = this.options.hole;
 
+		// calculate the signature of the permutation
 		for (i = 1; i <= (this.options.rows * this.options.cols - 1); i++) {
 			for (j = (i + 1); j <= (this.options.rows * this.options.cols); j++) {
-				product *= ((this.normalizedBoard[i - 1] - this.normalizedBoard[j - 1]) / (i - j));
+				signature *= ((board[i - 1] - board[j - 1]) / (i - j));
 			}
 		}
 
-		return Math.round(product) === referenceValue;
+		// compare to 1 (even permutation) if initial hole position and solved hole position equal
+		// or the distance between these positions is even
+		// compare to -1 (odd permutation) if the distance is odd
+		baseSignature = Math.abs(this.options.hole - this.options.initialHolePosition) % 2 ? -1 : 1;
+
+		return Math.round(signature) === baseSignature;
 	},
 
 	isSolved: function() {
