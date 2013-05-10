@@ -136,7 +136,7 @@ function SliderPuzzle(options) {
 	}
 
 	// the current board (keep a copy of the intial board to be able to restart)
-	this.board = (this.options.board && this.options.board.slice(0)) || this.shuffle();
+	this._board = (this.options.board && this.options.board.slice(0)) || this.shuffle();
 
 	// default renderer (used by toString)
 	this.renderer = typeof AsciiRenderer === 'undefined' ? { render: function() { return ''; } } : AsciiRenderer;
@@ -231,7 +231,7 @@ SliderPuzzle.prototype = {
 
 		if ($.inArray(numberOrDirection, this.DIRECTIONS) == -1) {
 			// number
-			return $.inArray(numberOrDirection, this.board);
+			return $.inArray(numberOrDirection, this._board);
 		} else {
 			// direction
 			return this.getPosition1dByDirection(numberOrDirection);
@@ -249,7 +249,7 @@ SliderPuzzle.prototype = {
 		};
 
 		var index = this._hole + offsets[direction];
-		return (offsets[direction] && (index > 0 && index <= this.board.length)) ? index : null;
+		return (offsets[direction] && (index > 0 && index <= this._board.length)) ? index : null;
 	},
 
 	canMove: function(numberOrDirection) {
@@ -278,14 +278,14 @@ SliderPuzzle.prototype = {
 
 		if (this.canMoveByPosition(position)) {
 			// swap pieces
-			this.board[this._hole - 1] = this.board[position1d];
-			this.board[position1d] = 0;
+			this._board[this._hole - 1] = this._board[position1d];
+			this._board[position1d] = 0;
 
 			// update hole
 			this._hole = position1d + 1;
 
 			// return current board
-			return this.board;
+			return this._board;
 		}
 
 		return false;
@@ -312,7 +312,7 @@ SliderPuzzle.prototype = {
 			pickBoard.splice(0, 1);
 
 			// start with an empty board
-			this.board = [];
+			this._board = [];
 
 			// pick items until empty
 			while (pickBoard.length) {
@@ -326,11 +326,11 @@ SliderPuzzle.prototype = {
 				}
 
 				// add to board
-				this.board.push(item);
+				this._board.push(item);
 			}
 
 			// add hole back at initial hole position
-			this.board.splice(this.options.initialHolePosition - 1, 0, 0);
+			this._board.splice(this.options.initialHolePosition - 1, 0, 0);
 
 			// update hole
 			this._hole = this.options.initialHolePosition;
@@ -348,20 +348,20 @@ SliderPuzzle.prototype = {
 					(this.options.solvable === false &&  this.isSolvable()));
 
 		// also return the board
-		return this.board;
+		return this._board;
 	},
 
 	// normalize a board to the form that isSolvable can work with
 	// - replace 0 with missing number so that board contains all numbers from 1 to (rows*cols)
 	// TODO assume valid board, are hole and solvedHole defined at this point?
 	normalizeBoard: function() {
-			this.normalizedBoard = this.board.slice(0);
+			this.normalizedBoard = this._board.slice(0);
 			this.normalizedBoard[this.options.initialHolePosition - 1] = this.options.hole;
 	},
 
 	isSolvable: function() {
 		this.normalizeBoard();
-		//console.log(this.board, this.normalizedBoard, this._hole, this.options.hole, this.options.initialHolePosition);
+		//console.log(this._board, this.normalizedBoard, this._hole, this.options.hole, this.options.initialHolePosition);
 
 		var i, j;
 		var product = 1;
@@ -381,7 +381,7 @@ SliderPuzzle.prototype = {
 		var i;
 
 		for (i = 0; i < this.options.rows * this.options.cols; i++) {
-			if (this.board[i] !== solvedBoard[i]) {
+			if (this._board[i] !== solvedBoard[i]) {
 				return false;
 			}
 		}
@@ -402,6 +402,6 @@ SliderPuzzle.prototype = {
 	},
 
 	toString: function() {
-		return this.renderer.render(this.board, this.options.rows, this.options.cols);
+		return this.renderer.render(this._board, this.options.rows, this.options.cols);
 	}
 };
