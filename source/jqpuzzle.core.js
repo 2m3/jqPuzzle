@@ -161,6 +161,14 @@ SliderPuzzle.prototype = {
 	solved: false,
 	solvable: true,
 
+	// create sorted board
+	sortBoard: function() {
+		this.sortedBoard = [];
+		for (i = 0; i < this.options.rows * this.options.cols; i++) {
+			this.sortedBoard.push(i);
+		}
+	},
+
 	// convert a two-dimensional row-col index into a one-dimensional index
 	to1dPosition : function(position2d) {
 		var normalizedPosition = this.normalizePosition(position2d);
@@ -268,32 +276,29 @@ SliderPuzzle.prototype = {
 		var item;
 		var breaker = 100;
 
-		// create a sorted board to pick items from
-		// might have been created by board validation logic already
+		// make sure to have a sorted board
 		if (!this.sortedBoard) {
-			this.sortedBoard = [];
-			for (i = 0; i < this.options.rows * this.options.cols; i++) {
-				this.sortedBoard.push(i);
-			}
+			this.sortBoard();
 		}
 
-		// create a shuffled board and repeat if we force a solvable board
-		// and the created board is not solvable
+		// create a shuffled board by picking items from the sorted board
+		// and repeat if the solvability of the board does not match the specified option
 		do {
 			// check - against all odds - for infinite loops
 			if (breaker-- === 0) {
 				throw('board could not be generated');
 			}
 
-			// clone sorted board so that it can be reused by later shuffle calls
+			// get a clone of the sorted board
 			sortedBoard = this.sortedBoard.slice(0);
 
-			// remove hole
+			// remove hole from begignning
 			sortedBoard.splice(0, 1);
 
 			// start with an empty board
 			this.board = [];
 
+			// pick items until empty
 			while (sortedBoard.length) {
 				// randomly pick items from sorted board and re-index
 				i = Math.floor(Math.random() * sortedBoard.length);
@@ -308,7 +313,7 @@ SliderPuzzle.prototype = {
 				this.board.push(item);
 			}
 
-			// add hole back
+			// add hole back at initial hole position
 			this.board.splice(this.options.initialHolePosition - 1, 0, 0);
 
 			// update hole
