@@ -263,8 +263,10 @@ SliderPuzzle.prototype = {
 	},
 
 	shuffle: function() {
-		var sortedBoard, i, item;
-		var dev = 0;
+		var sortedBoard;
+		var i;
+		var item;
+		var breaker = 100;
 
 		// create a sorted board to pick items from
 		// might have been created by board validation logic already
@@ -278,12 +280,10 @@ SliderPuzzle.prototype = {
 		// create a shuffled board and repeat if we force a solvable board
 		// and the created board is not solvable
 		do {
-			// TODO small dev helper
-			if (dev == 999) {
-				alert('looks like you broke the puzzle');
-				break;
+			// check - against all odds - for infinite loops
+			if (breaker-- === 0) {
+				throw('board could not be generated');
 			}
-			dev++;
 
 			// clone sorted board so that it can be reused by later shuffle calls
 			sortedBoard = this.sortedBoard.slice(0);
