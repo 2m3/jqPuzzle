@@ -231,7 +231,7 @@ SliderPuzzle.prototype = {
 			this._hole = this.options.initialHolePosition;
 
 
-		// solvable	option      solvable board      action
+		// solvable option      solvable board      action
 		// -------------------------------------------------
 		// true                 true                break
 		// true                 false               continue
