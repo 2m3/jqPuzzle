@@ -161,7 +161,131 @@ SliderPuzzle.prototype = {
 	solved: false,
 	solvable: true,
 
-	// returns sorted board
+	// restarts the game with a new board
+	restart: function() {
+		// on first start, use specified board if set
+		if (!this._initialBoard && this.options.board) {
+			this._initialBoard = this.options.board.slice(0);
+
+		// or shuffle a new board
+		} else {
+			this.shuffle();
+		}
+
+		this.reset();
+	},
+
+	// resets the game to the previous board
+	reset: function() {
+		this._board = this._initialBoard.slice(0);
+		this._hole = this.options.initialHolePosition;
+		this._moves = [];
+
+		// TODO reset solved
+		// TODO reset timer
+	},
+
+	// shuffles the board
+	shuffle: function() {
+		var pickBoard;
+		var i;
+		var item;
+		var breaker = 100;
+
+		// create a shuffled board by picking items from the sorted board
+		// and repeat if the solvability of the board does not match the specified option
+		do {
+			// check - against all odds - for infinite loops
+			if (breaker-- === 0) {
+				throw('board could not be generated');
+			}
+
+			// get a clone of the sorted board
+			pickBoard = this.getSortedBoard().slice(0);
+
+			// remove hole from beginning
+			pickBoard.splice(0, 1);
+
+			// start with an empty board
+			this._initialBoard = [];
+
+			// pick items until empty
+			while (pickBoard.length) {
+				// randomly pick items from sorted board and re-index
+				i = Math.floor(Math.random() * pickBoard.length);
+				item = pickBoard.splice(i, 1)[0];
+
+				// adjust any number after the hole by one
+				if (item >= this.options.hole) {
+					item++;
+				}
+
+				// add to board
+				this._initialBoard.push(item);
+			}
+
+			// add hole back at initial hole position
+			this._initialBoard.splice(this.options.initialHolePosition - 1, 0, 0);
+
+			// update hole
+			this._hole = this.options.initialHolePosition;
+
+
+		// solvable	option      solvable board      action
+		// -------------------------------------------------
+		// true                 true                break
+		// true                 false               continue
+		// false                true                continue
+		// false                false               break
+		// 'random'             true                break
+		// 'random'             false               break
+		} while (	(this.options.solvable === true  && !this.isSolvable()) ||
+					(this.options.solvable === false &&  this.isSolvable()));
+	},
+
+	// checks if the board is solvable
+	isSolvable: function() {
+		var signature = 1;
+		var baseSignature;
+		var board;
+		var i;
+		var j;
+
+		// create a board in the form that the algorithm can work with by replacing 0 with
+		// the missing number so that the board contains all numbers from 1 to (rows*cols)
+		board = this._initialBoard.slice(0);
+		board[this.options.initialHolePosition - 1] = this.options.hole;
+
+		// calculate the signature of the permutation
+		for (i = 1; i <= (this.options.rows * this.options.cols - 1); i++) {
+			for (j = (i + 1); j <= (this.options.rows * this.options.cols); j++) {
+				signature *= ((board[i - 1] - board[j - 1]) / (i - j));
+			}
+		}
+
+		// compare to 1 (even permutation) if initial hole position and solved hole position equal
+		// or the distance between these positions is even
+		// compare to -1 (odd permutation) if the distance is odd
+		baseSignature = Math.abs(this.options.hole - this.options.initialHolePosition) % 2 ? -1 : 1;
+
+		return Math.round(signature) === baseSignature;
+	},
+
+	// checks if the board is solved
+	isSolved: function() {
+		var solvedBoard = this.getSolvedBoard();
+		var i;
+
+		for (i = 0; i < this.options.rows * this.options.cols; i++) {
+			if (this._board[i] !== solvedBoard[i]) {
+				return false;
+			}
+		}
+
+		return true;
+	},
+
+	// returns the sorted board
 	getSortedBoard: function() {
 		if (!this._sortedBoard) {
 			this._sortedBoard = [];
@@ -174,7 +298,7 @@ SliderPuzzle.prototype = {
 		return this._sortedBoard;
 	},
 
-	// returns solved board
+	// returns the solved board
 	getSolvedBoard: function() {
 		if (!this._solvedBoard) {
 			// get a clone of the sorted board
@@ -289,127 +413,6 @@ SliderPuzzle.prototype = {
 		}
 
 		return false;
-	},
-
-	shuffle: function() {
-		var pickBoard;
-		var i;
-		var item;
-		var breaker = 100;
-
-		// create a shuffled board by picking items from the sorted board
-		// and repeat if the solvability of the board does not match the specified option
-		do {
-			// check - against all odds - for infinite loops
-			if (breaker-- === 0) {
-				throw('board could not be generated');
-			}
-
-			// get a clone of the sorted board
-			pickBoard = this.getSortedBoard().slice(0);
-
-			// remove hole from beginning
-			pickBoard.splice(0, 1);
-
-			// start with an empty board
-			this._initialBoard = [];
-
-			// pick items until empty
-			while (pickBoard.length) {
-				// randomly pick items from sorted board and re-index
-				i = Math.floor(Math.random() * pickBoard.length);
-				item = pickBoard.splice(i, 1)[0];
-
-				// adjust any number after the hole by one
-				if (item >= this.options.hole) {
-					item++;
-				}
-
-				// add to board
-				this._initialBoard.push(item);
-			}
-
-			// add hole back at initial hole position
-			this._initialBoard.splice(this.options.initialHolePosition - 1, 0, 0);
-
-			// update hole
-			this._hole = this.options.initialHolePosition;
-
-
-		// solvable	option      solvable board      action
-		// -------------------------------------------------
-		// true                 true                break
-		// true                 false               continue
-		// false                true                continue
-		// false                false               break
-		// 'random'             true                break
-		// 'random'             false               break
-		} while (	(this.options.solvable === true  && !this.isSolvable()) ||
-					(this.options.solvable === false &&  this.isSolvable()));
-	},
-
-	isSolvable: function() {
-		var signature = 1;
-		var baseSignature;
-		var board;
-		var i;
-		var j;
-
-		// create a board in the form that the algorithm can work with by replacing 0 with
-		// the missing number so that the board contains all numbers from 1 to (rows*cols)
-		board = this._initialBoard.slice(0);
-		board[this.options.initialHolePosition - 1] = this.options.hole;
-
-		// calculate the signature of the permutation
-		for (i = 1; i <= (this.options.rows * this.options.cols - 1); i++) {
-			for (j = (i + 1); j <= (this.options.rows * this.options.cols); j++) {
-				signature *= ((board[i - 1] - board[j - 1]) / (i - j));
-			}
-		}
-
-		// compare to 1 (even permutation) if initial hole position and solved hole position equal
-		// or the distance between these positions is even
-		// compare to -1 (odd permutation) if the distance is odd
-		baseSignature = Math.abs(this.options.hole - this.options.initialHolePosition) % 2 ? -1 : 1;
-
-		return Math.round(signature) === baseSignature;
-	},
-
-	isSolved: function() {
-		var solvedBoard = this.getSolvedBoard();
-		var i;
-
-		for (i = 0; i < this.options.rows * this.options.cols; i++) {
-			if (this._board[i] !== solvedBoard[i]) {
-				return false;
-			}
-		}
-
-		return true;
-	},
-
-	// restarts the game with a new board
-	restart: function() {
-		// on first start, use specified board if set
-		if (!this._initialBoard && this.options.board) {
-			this._initialBoard = this.options.board.slice(0);
-
-		// or shuffle a new board
-		} else {
-			this.shuffle();
-		}
-
-		this.reset();
-	},
-
-	// resets the game to the previous board
-	reset: function() {
-		this._board = this._initialBoard.slice(0);
-		this._hole = this.options.initialHolePosition;
-		this._moves = [];
-
-		// TODO reset solved
-		// TODO reset timer
 	},
 
 	pause: function(pauseTimer) {
