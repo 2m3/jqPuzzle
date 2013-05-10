@@ -60,7 +60,7 @@ function SliderPuzzle(options) {
 			}
 
 			// create sorted board
-			this.sortedBoard = options.board.slice(0).sort(function (a, b) {
+			this._sortedBoard = options.board.slice(0).sort(function (a, b) {
 				return a - b;
 			});
 
@@ -71,9 +71,9 @@ function SliderPuzzle(options) {
 			// a valid board contains all numbers from 1 to (rows*cols) with any one number replaced with 0
 			// that is, a sorted board starts from 0 and contains all numbers up to (rows*cols) except one
 			for (i = 0; i < length; i++) {
-				if (this.sortedBoard[i] !== i) {
+				if (this._sortedBoard[i] !== i) {
 					// single exception where one number is skipped
-					if (options.hole === undefined && this.sortedBoard[i] == (i + 1)) {
+					if (options.hole === undefined && this._sortedBoard[i] == (i + 1)) {
 						// infer hole value (1-based)
 						options.hole = i;
 						continue;
@@ -161,12 +161,33 @@ SliderPuzzle.prototype = {
 	solved: false,
 	solvable: true,
 
-	// create sorted board
-	sortBoard: function() {
-		this.sortedBoard = [];
-		for (i = 0; i < this.options.rows * this.options.cols; i++) {
-			this.sortedBoard.push(i);
+	// returns sorted board
+	getSortedBoard: function() {
+		if (!this._sortedBoard) {
+			this._sortedBoard = [];
+
+			for (var i = 0; i < this.options.rows * this.options.cols; i++) {
+				this._sortedBoard.push(i);
+			}
 		}
+
+		return this._sortedBoard;
+	},
+
+	// returns solved board
+	getSolvedBoard: function() {
+		if (!this._solvedBoard) {
+			// get a clone of the sorted board
+			this._solvedBoard = this.getSortedBoard().slice(0);
+
+			// remove hole from beginning
+			this._solvedBoard.splice(0, 1);
+
+			// add hole back at hole position
+			this._solvedBoard.splice(this.options.hole - 1, 0, 0);
+		}
+
+		return this._solvedBoard;
 	},
 
 	// convert a two-dimensional row-col index into a one-dimensional index
@@ -271,15 +292,10 @@ SliderPuzzle.prototype = {
 	},
 
 	shuffle: function() {
-		var sortedBoard;
+		var pickBoard;
 		var i;
 		var item;
 		var breaker = 100;
-
-		// make sure to have a sorted board
-		if (!this.sortedBoard) {
-			this.sortBoard();
-		}
 
 		// create a shuffled board by picking items from the sorted board
 		// and repeat if the solvability of the board does not match the specified option
@@ -290,19 +306,19 @@ SliderPuzzle.prototype = {
 			}
 
 			// get a clone of the sorted board
-			sortedBoard = this.sortedBoard.slice(0);
+			pickBoard = this.getSortedBoard().slice(0);
 
-			// remove hole from begignning
-			sortedBoard.splice(0, 1);
+			// remove hole from beginning
+			pickBoard.splice(0, 1);
 
 			// start with an empty board
 			this.board = [];
 
 			// pick items until empty
-			while (sortedBoard.length) {
+			while (pickBoard.length) {
 				// randomly pick items from sorted board and re-index
-				i = Math.floor(Math.random() * sortedBoard.length);
-				item = sortedBoard.splice(i, 1)[0];
+				i = Math.floor(Math.random() * pickBoard.length);
+				item = pickBoard.splice(i, 1)[0];
 
 				// adjust any number after the hole by one
 				if (item >= this.options.hole) {
@@ -361,17 +377,8 @@ SliderPuzzle.prototype = {
 	},
 
 	isSolved: function() {
-		//console.log(this.board, this.sortedBoard, this._hole, this.options.hole, this.options.initialHolePosition);
-		var solvedBoard;
+		var solvedBoard = this.getSolvedBoard();
 		var i;
-
-		// TODO is sortedBoard really defined at this point?
-		// TODO cache solved board
-		// get a clone of the sorted board and place hole at correct position
-		solvedBoard = this.sortedBoard.slice(0);
-		solvedBoard.splice(0, 1);
-		solvedBoard.splice(this.options.hole - 1, 0, 0);
-		console.log(solvedBoard);
 
 		for (i = 0; i < this.options.rows * this.options.cols; i++) {
 			if (this.board[i] !== solvedBoard[i]) {
