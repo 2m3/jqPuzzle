@@ -124,7 +124,7 @@ function SliderPuzzle(options) {
 	// merge passed in options with defaults (options wins)
 	this.options = $.extend({}, this.defaults, options);
 
-	// handle default case when board is set and hole is bottom right or
+	// handle default case when board is set and hole is bottom right
 	// or a rows or cols value was inferred and the hole has to be recalculated
 	if (this.options.hole === undefined) {
 		this.options.hole = this.options.rows * this.options.cols;
