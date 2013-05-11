@@ -31,26 +31,37 @@ describe("Initialization:", function() {
 
 	describe("When initialized, a slider puzzle", function() {
 
-		it("should parse a specified rows or cols value into an integer", function() {
+		it("should parse a specified rows value as an integer", function() {
 			puzzle = new SliderPuzzle({
-				rows: "5",
+				rows: "5"
+			});
+			expect(puzzle.options.rows).toEqual(5);
+
+			puzzle = new SliderPuzzle({
+				rows: "5.1"
+			});
+			expect(puzzle.options.rows).toEqual(5);
+
+			puzzle = new SliderPuzzle({
+				rows: 5.2
+			});
+			expect(puzzle.options.rows).toEqual(5);
+		});
+
+		it("should parse a specified cols value as an integer", function() {
+			puzzle = new SliderPuzzle({
 				cols: "6"
 			});
-			expect(puzzle.options.rows).toEqual(5);
 			expect(puzzle.options.cols).toEqual(6);
 
 			puzzle = new SliderPuzzle({
-				rows: "5.1",
 				cols: "6.9"
 			});
-			expect(puzzle.options.rows).toEqual(5);
 			expect(puzzle.options.cols).toEqual(6);
 
 			puzzle = new SliderPuzzle({
-				rows: 5.2,
 				cols: 6.8
 			});
-			expect(puzzle.options.rows).toEqual(5);
 			expect(puzzle.options.cols).toEqual(6);
 		});
 
@@ -160,7 +171,7 @@ describe("Initialization:", function() {
 			expect(puzzle.options.cols).toEqual(11);
 		});
 
-		it("should have 4 rows, if not specified", function() {
+		it("should have 4 rows, if only cols are specified", function() {
 			puzzle = new SliderPuzzle({
 				cols: 3
 			});
@@ -168,7 +179,7 @@ describe("Initialization:", function() {
 			expect(puzzle.options.cols).toEqual(3);
 		});
 
-		it("should have 4 cols, if not specified", function() {
+		it("should have 4 cols, if only rows are specified", function() {
 			puzzle = new SliderPuzzle({
 				rows: 5
 			});
@@ -219,26 +230,25 @@ describe("Initialization:", function() {
 		});
 
 		it("should throw an exception if an empty board is specified", function() {
-
 			expect(function() {
 				new SliderPuzzle({
 					board: []
 				});
-			}).toThrow();
+			}).toThrow(exceptionString);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: [],
 					rows: 3
 				});
-			}).toThrow();
+			}).toThrow(exceptionString);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: [],
 					cols: 4
 				});
-			}).toThrow();
+			}).toThrow(exceptionString);
 
 			expect(function() {
 				new SliderPuzzle({
@@ -246,7 +256,7 @@ describe("Initialization:", function() {
 					rows: 2,
 					cols: 5
 				});
-			}).toThrow();
+			}).toThrow(exceptionString);
 		});
 
 		it("should infer rows and cols by assuming both have the same value, if none is specified", function() {
@@ -273,6 +283,20 @@ describe("Initialization:", function() {
 			expect(function() {
 				new SliderPuzzle({
 					board: board2x5
+				});
+			}).toThrow(exceptionString);
+
+			expect(function() {
+				new SliderPuzzle({
+					board: [0, 1, 2]
+				});
+			}).toThrow(exceptionString);
+		});
+
+		it("should throw an exception if both rows and cols can be inferred but are less than 2", function() {
+			expect(function() {
+				new SliderPuzzle({
+					board: [1]
 				});
 			}).toThrow(exceptionString);
 		});
@@ -307,65 +331,73 @@ describe("Initialization:", function() {
 			expect(puzzle.options.cols).toEqual(5);
 		});
 
-		describe("should throw an exception if a missing rows or col option cannot be inferred", function() {
+		it("should throw an exception if a missing rows or col option cannot be inferred", function() {
+			// because the specified rows or cols value is greater than board size
+			expect(function() {
+				new SliderPuzzle({
+					board: board2x2,
+					rows: 5
+				});
+			}).toThrow(exceptionString);
 
-			it("because the specified rows or cols value is greater than board size", function() {
-				// (the calculated rows or cols value is less than 1)
+			expect(function() {
+				new SliderPuzzle({
+					board: board3x3,
+					cols: 13
+				});
+			}).toThrow(exceptionString);
 
-				expect(function() {
-					new SliderPuzzle({
-						board: board2x2,
-						rows: 5
-					});
-				}).toThrow(exceptionString);
+			// because the specified rows or cols value equals board size
+			expect(function() {
+				new SliderPuzzle({
+					board: board2x2,
+					rows: 4
+				});
+			}).toThrow(exceptionString);
 
-				expect(function() {
-					new SliderPuzzle({
-						board: board2x2,
-						cols: 5
-					});
-				}).toThrow(exceptionString);
+			expect(function() {
+				new SliderPuzzle({
+					board: board3x3,
+					cols: 9
+				});
+			}).toThrow(exceptionString);
+
+			// because the inferred rows and cols values do not match the board size
+			expect(function() {
+				new SliderPuzzle({
+					board: board3x3,
+					rows: 4
+				});
+			}).toThrow(exceptionString);
+
+			expect(function() {
+				new SliderPuzzle({
+					board: board4x4,
+					cols: 5
+				});
+			}).toThrow(exceptionString);
+		});
+
+		it("should allow rows and cols to also be specified", function() {
+			puzzle = new SliderPuzzle({
+				board: board4x4,
+				rows: 4,
+				cols: 4
 			});
+			expect(puzzle.options.rows).toEqual(4);
+			expect(puzzle.options.cols).toEqual(4);
 
-			it("because the specified rows or cols value equals board size", function() {
-				// (the calculated rows or cols value is 1)
-
-				expect(function() {
-					new SliderPuzzle({
-						board: board2x2,
-						rows: 4
-					});
-				}).toThrow(exceptionString);
-
-				expect(function() {
-					new SliderPuzzle({
-						board: board2x2,
-						cols: 4
-					});
-				}).toThrow(exceptionString);
+			puzzle = new SliderPuzzle({
+				board: board4x4,
+				rows: 8,
+				cols: 2
 			});
-
-			it("because the board size cannot be divided by the specified rows or cols value without a remainder", function() {
-				// the calculated rows or cols value is not an integer
-
-				expect(function() {
-					new SliderPuzzle({
-						board: board4x4,
-						rows: 3
-					});
-				}).toThrow(exceptionString);
-
-				expect(function() {
-					new SliderPuzzle({
-						board: board4x4,
-						cols: 5
-					});
-				}).toThrow(exceptionString);
-			});
+			expect(puzzle.options.rows).toEqual(8);
+			expect(puzzle.options.cols).toEqual(2);
 		});
 
 		it("should throw an exception if rows and cols are also specified and do not match", function() {
-			// rows * cols is less than board size
+			// (rows * cols) is less than board size
 			expect(function() {
 				new SliderPuzzle({
 					board: board4x4,
@@ -374,7 +406,7 @@ describe("Initialization:", function() {
 				});
 			}).toThrow(exceptionString);
 
-			// rows * cols is greater than board size
+			// (rows * cols) is greater than board size
 			expect(function() {
 				new SliderPuzzle({
 					board: board4x4,
@@ -407,7 +439,7 @@ describe("Initialization:", function() {
 		});
 	});
 
-	it("should parse a specified hole position into an integer", function() {
+	it("should parse a specified hole position as an integer", function() {
 		puzzle = new SliderPuzzle({
 			hole: "5"
 		});

@@ -11,6 +11,7 @@ function SliderPuzzle(options) {
 		for (var i in dimensions) {
 			var dimension = dimensions[i];
 
+			// expect integer greater than 1
 			if (options[dimension] !== undefined) {
 				options[dimension] = parseInt(options[dimension], 10);
 				if (isNaN(options[dimension]) || options[dimension] < 2) {
@@ -25,7 +26,8 @@ function SliderPuzzle(options) {
 			var BOARD_MISMATCH = 'board does not match rows or cols';
 			var length = options.board.length;
 
-			if (!$.isArray(options.board) || length === 0) {
+			// expect array
+			if (!$.isArray(options.board)) {
 				throw BOARD_INVALID;
 			}
 
@@ -40,23 +42,17 @@ function SliderPuzzle(options) {
 				if (!options.cols) {
 					options.cols = Math.floor(length / options.rows);
 				}
-
-				if (options.rows == 1 || options.cols == 1 || options.rows * options.cols !== length) {
-					throw BOARD_MISMATCH;
-				}
 			}
 
 			// neither rows or cols are set
 			else {
 				// assume both rows and cols have the same value
-				var sqrt = Math.sqrt(length);
+				options.rows = options.cols = Math.floor(Math.sqrt(length));
+			}
 
-				if (Math.floor(sqrt) != sqrt) {
-					throw BOARD_MISMATCH;
-				}
-
-				// set rows and cols accordingly
-				options.rows = options.cols = sqrt;
+			// expect rows and cols greater than 1 and match board
+			if (options.rows < 2 || options.cols < 2 || options.rows * options.cols !== length) {
+				throw BOARD_MISMATCH;
 			}
 
 			// create sorted board
