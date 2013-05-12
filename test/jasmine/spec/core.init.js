@@ -585,6 +585,33 @@ describe("Initialization:", function() {
 			expect(puzzle.options.initialHole).toEqual(4);
 		});
 
+		it("should ignore a specified initial hole value if a board is also specified", function() {
+			puzzle = new SliderPuzzle({
+				board: [0, 1, 2, 3],
+				initialHole: 2
+			});
+			expect(puzzle._board[0]).toEqual(0);
+			expect(puzzle.options.hole).toEqual(4);
+			expect(puzzle.options.initialHole).toEqual(1);
+
+			puzzle = new SliderPuzzle({
+				board: [8, 7, 6, 5, 4, 3, 2, 1, 0],
+				initialHole: 0
+			});
+			expect(puzzle._board[8]).toEqual(0);
+			expect(puzzle.options.hole).toEqual(9);
+			expect(puzzle.options.initialHole).toEqual(9);
+
+			puzzle = new SliderPuzzle({
+				board: [3, 2, 1, 0, 4, 5, 6, 7, 8, 9, 10, 11],
+				rows: 3,
+				initialHole: 1
+			});
+			expect(puzzle._board[3]).toEqual(0);
+			expect(puzzle.options.hole).toEqual(12);
+			expect(puzzle.options.initialHole).toEqual(4);
+		});
+
 		it("should place the hole at the bottom right position, if not specified", function() {
 			puzzle = new SliderPuzzle();
 			expect(puzzle._board[15]).toEqual(0);
