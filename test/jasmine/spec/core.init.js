@@ -419,32 +419,32 @@ describe("Initialization:", function() {
 						0,	3]
 			});
 			expect(puzzle._board).toEqual([1, 2, 0, 3]);
-			expect(puzzle.options.initialHolePosition).toBe(3);
-			expect(puzzle.options.hole).toBe(4);
+			expect(puzzle.options.initialHolePosition).toEqual(3);
+			expect(puzzle.options.hole).toEqual(4);
 
 			puzzle = new SliderPuzzle({
 				board: [1,	2,
 						3,	0]
 			});
 			expect(puzzle._board).toEqual([1, 2, 3, 0]);
-			expect(puzzle.options.initialHolePosition).toBe(4);
-			expect(puzzle.options.hole).toBe(4);
+			expect(puzzle.options.initialHolePosition).toEqual(4);
+			expect(puzzle.options.hole).toEqual(4);
 
 			puzzle = new SliderPuzzle({
 				board: [1,	2,
 						0,	4]
 			});
 			expect(puzzle._board).toEqual([1, 2, 0, 4]);
-			expect(puzzle.options.initialHolePosition).toBe(3);
-			expect(puzzle.options.hole).toBe(3);
+			expect(puzzle.options.initialHolePosition).toEqual(3);
+			expect(puzzle.options.hole).toEqual(3);
 
 			puzzle = new SliderPuzzle({
 				board: [1,	2,
 						4,	0]
 			});
 			expect(puzzle._board).toEqual([1, 2, 4, 0]);
-			expect(puzzle.options.initialHolePosition).toBe(4);
-			expect(puzzle.options.hole).toBe(3);
+			expect(puzzle.options.initialHolePosition).toEqual(4);
+			expect(puzzle.options.hole).toEqual(3);
 
 			puzzle = new SliderPuzzle({
 				board: [1,	2,	3,
@@ -452,8 +452,8 @@ describe("Initialization:", function() {
 				rows: 2
 			});
 			expect(puzzle._board).toEqual([1, 2, 3, 4, 5, 0]);
-			expect(puzzle.options.initialHolePosition).toBe(6);
-			expect(puzzle.options.hole).toBe(6);
+			expect(puzzle.options.initialHolePosition).toEqual(6);
+			expect(puzzle.options.hole).toEqual(6);
 		});
 
 		it("should throw an exception if the board is invalid", function() {
