@@ -23,34 +23,36 @@ function SliderPuzzle(options) {
 		// handle board option
 		if (options.board !== undefined) {
 			var BOARD_INVALID  = 'invalid board';
-			var length = options.board.length;
 
 			// expect array
 			if (!$.isArray(options.board)) {
 				throw BOARD_INVALID;
 			}
 
+			// set board size
+			this._boardSize = options.board.length;
+
 			// either rows or cols are set (or both)
 			if (options.rows || options.cols) {
 				// infer rows value if not defined
 				if (!options.rows) {
-					options.rows = Math.floor(length / options.cols);
+					options.rows = Math.floor(this._boardSize / options.cols);
 				}
 
 				// infer cols value if not defined
 				if (!options.cols) {
-					options.cols = Math.floor(length / options.rows);
+					options.cols = Math.floor(this._boardSize / options.rows);
 				}
 			}
 
 			// neither rows or cols are set
 			else {
 				// assume both rows and cols have the same value
-				options.rows = options.cols = Math.floor(Math.sqrt(length));
+				options.rows = options.cols = Math.floor(Math.sqrt(this._boardSize));
 			}
 
 			// expect rows and cols greater than 1 and match board
-			if (options.rows < 2 || options.cols < 2 || options.rows * options.cols !== length) {
+			if (options.rows < 2 || options.cols < 2 || options.rows * options.cols !== this._boardSize) {
 				throw 'board does not match rows and cols';
 			}
 
@@ -65,7 +67,7 @@ function SliderPuzzle(options) {
 			// validate board integrity
 			// a valid board contains all numbers from 1 to (rows*cols) with any one number replaced with 0
 			// that is, a sorted board starts from 0 and contains all numbers up to (rows*cols) except one
-			for (i = 0; i < length; i++) {
+			for (i = 0; i < this._boardSize; i++) {
 				if (this._sortedBoard[i] !== i) {
 					// single exception where one number is skipped
 					if (options.hole === undefined && this._sortedBoard[i] == (i + 1)) {
@@ -80,7 +82,7 @@ function SliderPuzzle(options) {
 
 			// handle default case when board is set and hole is bottom right
 			if (options.hole === undefined) {
-				options.hole = length;
+				options.hole = this._boardSize;
 			}
 
 			// set initial hole position (1-based)
@@ -91,6 +93,9 @@ function SliderPuzzle(options) {
 			// make sure rows and cols are defined
 			options.rows = options.rows || this.defaults.rows;
 			options.cols = options.cols || this.defaults.cols;
+
+			// set board size
+			this._boardSize = options.rows * options.cols;
 
 			// handle hole option
 			if (options.hole !== undefined) {
@@ -103,35 +108,39 @@ function SliderPuzzle(options) {
 				options.hole = this.to1dPosition(this.normalizePosition(options.hole));
 
 				// validate against board dimensions
-				if (options.hole > (options.rows * options.cols)) {
+				if (options.hole > this._boardSize) {
 					throw 'hole does not match rows and cols';
 				}
 			} else {
 				// default to bottom right
-				options.hole = options.rows * options.cols;
+				options.hole = this._boardSize;
 			}
 
 			// handle initialHolePosition option
 			if (options.initialHolePosition !== undefined) {
 				options.initialHolePosition = parseInt(options.initialHolePosition, 10);
-				if (isNaN(options.initialHolePosition) || options.initialHolePosition < 1 || options.initialHolePosition > options.rows * options.cols) {
+				if (isNaN(options.initialHolePosition) || options.initialHolePosition < 1 || options.initialHolePosition > this._boardSize) {
 					throw 'invalid initialHolePosition value';
 				}
 			} else {
 				// initial hole position equals solved hole position
 				options.initialHolePosition = options.hole;
 			}
-
 		}
 	}
 
 	// merge passed in options with defaults (options wins)
 	this.options = $.extend({}, this.defaults, options);
 
+	// set board size
+	if (!this._boardSize) {
+		this._boardSize = this.options.rows * this.options.cols;
+	}
+
 	// handle default case when board is set and hole is bottom right
 	// or a rows or cols value was inferred and the hole has to be recalculated
 	if (this.options.hole === undefined) {
-		this.options.hole = this.options.rows * this.options.cols;
+		this.options.hole = this._boardSize;
 	}
 
 	// set initial hole position
@@ -261,8 +270,8 @@ SliderPuzzle.prototype = {
 		board[this.options.initialHolePosition - 1] = this.options.hole;
 
 		// calculate the signature of the permutation
-		for (i = 1; i <= (this.options.rows * this.options.cols - 1); i++) {
-			for (j = (i + 1); j <= (this.options.rows * this.options.cols); j++) {
+		for (i = 1; i <= (this._boardSize - 1); i++) {
+			for (j = (i + 1); j <= this._boardSize; j++) {
 				signature *= ((board[i - 1] - board[j - 1]) / (i - j));
 			}
 		}
@@ -280,7 +289,7 @@ SliderPuzzle.prototype = {
 		var solvedBoard = this.getSolvedBoard();
 		var i;
 
-		for (i = 0; i < this.options.rows * this.options.cols; i++) {
+		for (i = 0; i < this._boardSize; i++) {
 			if (this._board[i] !== solvedBoard[i]) {
 				return false;
 			}
@@ -294,7 +303,7 @@ SliderPuzzle.prototype = {
 		if (!this._sortedBoard) {
 			this._sortedBoard = [];
 
-			for (var i = 0; i < this.options.rows * this.options.cols; i++) {
+			for (var i = 0; i < this._boardSize; i++) {
 				this._sortedBoard.push(i);
 			}
 		}
