@@ -23,7 +23,6 @@ function SliderPuzzle(options) {
 		// handle board option
 		if (options.board !== undefined) {
 			var BOARD_INVALID  = 'invalid board';
-			var BOARD_MISMATCH = 'board does not match rows or cols';
 			var length = options.board.length;
 
 			// expect array
@@ -52,7 +51,7 @@ function SliderPuzzle(options) {
 
 			// expect rows and cols greater than 1 and match board
 			if (options.rows < 2 || options.cols < 2 || options.rows * options.cols !== length) {
-				throw BOARD_MISMATCH;
+				throw 'board does not match rows and cols';
 			}
 
 			// create sorted board
