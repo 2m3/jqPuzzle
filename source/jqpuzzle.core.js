@@ -81,7 +81,7 @@ function SliderPuzzle(options) {
 
 			// handle default case when board is set and hole is bottom right
 			if (options.hole === undefined) {
-				options.hole = this.options.rows * this.options.cols;
+				options.hole = length;
 			}
 
 			// set initial hole position (1-based)
