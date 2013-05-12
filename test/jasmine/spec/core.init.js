@@ -619,5 +619,31 @@ describe("Initialization:", function() {
 			expect(puzzle.options.hole).toEqual(12);
 			expect(puzzle.options.initialHolePosition).toEqual(12);
 		});
+
+		it("should place the hole at the bottom right position, if only the initial hole position is specified", function() {
+			puzzle = new SliderPuzzle({
+				initialHolePosition: 1
+			});
+			expect(puzzle._board[0]).toEqual(0);
+			expect(puzzle.options.hole).toEqual(16);
+			expect(puzzle.options.initialHolePosition).toEqual(1);
+
+			puzzle = new SliderPuzzle({
+				rows: 3,
+				cols: 5,
+				initialHolePosition: 5
+			});
+			expect(puzzle._board[4]).toEqual(0);
+			expect(puzzle.options.hole).toEqual(15);
+			expect(puzzle.options.initialHolePosition).toEqual(5);
+
+			puzzle = new SliderPuzzle({
+				rows: 3,
+				initialHolePosition: 8
+			});
+			expect(puzzle._board[7]).toEqual(0);
+			expect(puzzle.options.hole).toEqual(12);
+			expect(puzzle.options.initialHolePosition).toEqual(8);
+		});
 	});
 });

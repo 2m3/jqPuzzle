@@ -111,8 +111,17 @@ function SliderPuzzle(options) {
 				options.hole = options.rows * options.cols;
 			}
 
-			// set initial hole position
-			options.initialHolePosition = options.hole;
+			// handle initialHolePosition option
+			if (options.initialHolePosition !== undefined) {
+				options.initialHolePosition = parseInt(options.initialHolePosition, 10);
+				if (isNaN(options.initialHolePosition) || options.initialHolePosition < 1 || options.initialHolePosition > options.rows * options.cols) {
+					throw 'invalid initialHolePosition value';
+				}
+			} else {
+				// initial hole position equals solved hole position
+				options.initialHolePosition = options.hole;
+			}
+
 		}
 	}
 
