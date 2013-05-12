@@ -11,8 +11,8 @@ function SliderPuzzle(options) {
 		for (var i in dimensions) {
 			var dimension = dimensions[i];
 
-			// expect integer greater than 1
 			if (options[dimension] !== undefined) {
+				// expect rows and cols to be greater than 1
 				options[dimension] = parseInt(options[dimension], 10);
 				if (isNaN(options[dimension]) || options[dimension] < 2) {
 					throw 'invalid ' + dimension + ' value';
@@ -51,7 +51,7 @@ function SliderPuzzle(options) {
 				options.rows = options.cols = Math.floor(Math.sqrt(this._boardSize));
 			}
 
-			// expect rows and cols greater than 1 and match board
+			// expect rows and cols to be greater than 1 and match board size
 			if (options.rows < 2 || options.cols < 2 || options.rows * options.cols !== this._boardSize) {
 				throw 'board does not match rows and cols';
 			}
@@ -85,7 +85,7 @@ function SliderPuzzle(options) {
 				options.hole = this._boardSize;
 			}
 
-			// set initial hole position (1-based)
+			// set initial hole position
 			options.initialHolePosition = $.inArray(0, options.board) + 1;
 
 		// board is not set
@@ -99,15 +99,13 @@ function SliderPuzzle(options) {
 
 			// handle hole option
 			if (options.hole !== undefined) {
+				// expect hole to be greater than 0
 				options.hole = parseInt(options.hole, 10);
 				if (isNaN(options.hole) || options.hole < 1) {
 					throw 'invalid hole value';
 				}
 
-				// normalize
-				options.hole = this.to1dPosition(this.normalizePosition(options.hole));
-
-				// validate against board dimensions
+				// expect hole to match board size
 				if (options.hole > this._boardSize) {
 					throw 'hole does not match rows and cols';
 				}
@@ -118,6 +116,7 @@ function SliderPuzzle(options) {
 
 			// handle initialHolePosition option
 			if (options.initialHolePosition !== undefined) {
+				// expect initial hole position to be greater than 0 and match board size
 				options.initialHolePosition = parseInt(options.initialHolePosition, 10);
 				if (isNaN(options.initialHolePosition) || options.initialHolePosition < 1 || options.initialHolePosition > this._boardSize) {
 					throw 'invalid initialHolePosition value';
@@ -342,7 +341,7 @@ SliderPuzzle.prototype = {
 		};
 	},
 
-	// handle row and col passed in as object, array, or seperate arguments,
+	// handle row and col passed in as object, array, or separate arguments,
 	// or just a one-dimensional index
 	normalizePosition: function(row, col) {
 		if ($.isPlainObject(row)) {
