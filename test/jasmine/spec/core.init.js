@@ -66,97 +66,97 @@ describe("Initialization:", function() {
 		});
 
 		it("should throw an exception if rows is less than 2 or cannot be parsed as an integer", function() {
-			var exceptionString = "invalid rows value";
+			var ROWS_INVALID = "invalid rows value";
 
 			expect(function() {
 				new SliderPuzzle({
 					rows: 1
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(ROWS_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					rows: 0
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(ROWS_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					rows: -1
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(ROWS_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					rows: "-2"
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(ROWS_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					rows: "test"
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(ROWS_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					rows: false
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(ROWS_INVALID);
 
 
 			expect(function() {
 				new SliderPuzzle({
 					rows: null
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(ROWS_INVALID);
 		});
 
 		it("should throw an exception if cols is less than 2 or cannot be parsed as an integer", function() {
-			var exceptionString = "invalid cols value";
+			var COLS_INVALID = "invalid cols value";
 
 			expect(function() {
 				new SliderPuzzle({
 					cols: 1
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(COLS_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					cols: 0
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(COLS_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					cols: -1
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(COLS_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					cols: "-2"
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(COLS_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					cols: "test"
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(COLS_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					cols: false
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(COLS_INVALID);
 
 
 			expect(function() {
 				new SliderPuzzle({
 					cols: null
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(COLS_INVALID);
 		});
 	});
 
@@ -199,34 +199,33 @@ describe("Initialization:", function() {
 	});
 
 	describe("When initialized WITH a board, a slider puzzle", function() {
-		var exceptionString = "board does not match rows or cols";
+		var BOARD_INVALID  = 'invalid board';
+		var BOARD_MISMATCH = 'board does not match rows and cols';
 
 		it("should throw an exception if board is not an array", function() {
-			var exceptionString = "invalid board";
-
 			expect(function() {
 				new SliderPuzzle({
 					board: 4
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: "test"
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: false
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: {}
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_INVALID);
 		});
 
 		it("should throw an exception if an empty board is specified", function() {
@@ -234,21 +233,21 @@ describe("Initialization:", function() {
 				new SliderPuzzle({
 					board: []
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: [],
 					rows: 3
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: [],
 					cols: 4
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 
 			expect(function() {
 				new SliderPuzzle({
@@ -256,7 +255,7 @@ describe("Initialization:", function() {
 					rows: 2,
 					cols: 5
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 		});
 
 		it("should infer rows and cols by assuming the board is square, if neither is specified", function() {
@@ -284,13 +283,13 @@ describe("Initialization:", function() {
 				new SliderPuzzle({
 					board: board2x5
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: [0, 1, 2]
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 		});
 
 		it("should throw an exception if both rows and cols can be inferred but are less than 2", function() {
@@ -298,7 +297,7 @@ describe("Initialization:", function() {
 				new SliderPuzzle({
 					board: [1]
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 		});
 
 		it("should infer a missing rows or cols value if only one is specified", function() {
@@ -338,14 +337,14 @@ describe("Initialization:", function() {
 					board: board2x2,
 					rows: 5
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: board3x3,
 					cols: 13
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 
 			// because the specified rows or cols value equals board size
 			expect(function() {
@@ -353,14 +352,14 @@ describe("Initialization:", function() {
 					board: board2x2,
 					rows: 4
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: board3x3,
 					cols: 9
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 
 			// because the inferred rows and cols values do not match the board size
 			expect(function() {
@@ -368,14 +367,14 @@ describe("Initialization:", function() {
 					board: board3x3,
 					rows: 4
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: board4x4,
 					cols: 5
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 		});
 
 		it("should allow rows and cols to also be specified", function() {
@@ -404,7 +403,7 @@ describe("Initialization:", function() {
 					rows: 2,
 					cols: 3
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 
 			// (rows * cols) is greater than board size
 			expect(function() {
@@ -413,88 +412,76 @@ describe("Initialization:", function() {
 					rows: 4,
 					cols: 5
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_MISMATCH);
 		});
 
 		it("should accept a valid board and infer the hole values", function() {
-			var exceptionString = "invalid board";
-
-			expect(function() {
-				puzzle = new SliderPuzzle({
-					board: [1,	2,
-							0,	3]
-				});
-			}).not.toThrow(exceptionString);
+			puzzle = new SliderPuzzle({
+				board: [1,	2,
+						0,	3]
+			});
 			expect(puzzle._board).toEqual([1, 2, 0, 3]);
 			expect(puzzle.options.initialHolePosition).toBe(3);
 			expect(puzzle.options.hole).toBe(4);
 
-			expect(function() {
-				puzzle = new SliderPuzzle({
-					board: [1,	2,
-							3,	0]
-				});
-			}).not.toThrow(exceptionString);
+			puzzle = new SliderPuzzle({
+				board: [1,	2,
+						3,	0]
+			});
 			expect(puzzle._board).toEqual([1, 2, 3, 0]);
 			expect(puzzle.options.initialHolePosition).toBe(4);
 			expect(puzzle.options.hole).toBe(4);
 
-			expect(function() {
-				puzzle = new SliderPuzzle({
-					board: [1,	2,
-							0,	4]
-				});
-			}).not.toThrow(exceptionString);
+			puzzle = new SliderPuzzle({
+				board: [1,	2,
+						0,	4]
+			});
 			expect(puzzle._board).toEqual([1, 2, 0, 4]);
 			expect(puzzle.options.initialHolePosition).toBe(3);
 			expect(puzzle.options.hole).toBe(3);
 
-			expect(function() {
-				puzzle = new SliderPuzzle({
-					board: [1,	2,
-							4,	0]
-				});
-			}).not.toThrow(exceptionString);
+			puzzle = new SliderPuzzle({
+				board: [1,	2,
+						4,	0]
+			});
 			expect(puzzle._board).toEqual([1, 2, 4, 0]);
 			expect(puzzle.options.initialHolePosition).toBe(4);
 			expect(puzzle.options.hole).toBe(3);
 
-			expect(function() {
-				puzzle = new SliderPuzzle({
-					board: [1,	2,	3,
-							4,	5,	0],
-					rows: 2
-				});
-			}).not.toThrow(exceptionString);
+			puzzle = new SliderPuzzle({
+				board: [1,	2,	3,
+						4,	5,	0],
+				rows: 2
+			});
 			expect(puzzle._board).toEqual([1, 2, 3, 4, 5, 0]);
 			expect(puzzle.options.initialHolePosition).toBe(6);
 			expect(puzzle.options.hole).toBe(6);
 		});
 
 		it("should throw an exception if the board is invalid", function() {
-			var exceptionString = "invalid board";
-
 			expect(function() {
 				new SliderPuzzle({
 					board: [4, 3, 2, 1]
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: [2, 1, 0, -1]
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					board: [4, 3, 2, 0]
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(BOARD_INVALID);
 		});
 	});
 
 	describe("When initialized WITH a hole, a slider puzzle", function() {
+		var HOLE_INVALID  = 'invalid hole value';
+		var HOLE_MISMATCH = 'hole does not match rows and cols';
 
 		it("should parse a specified hole position as an integer", function() {
 			puzzle = new SliderPuzzle({
@@ -514,31 +501,29 @@ describe("Initialization:", function() {
 		});
 
 		it("should throw an exception if hole is less than 0 or cannot be parsed as an integer", function() {
-			var exceptionString = "invalid hole value";
-
 			expect(function() {
 				new SliderPuzzle({
 					hole: -1
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(HOLE_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					hole: "-2"
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(HOLE_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					hole: "test"
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(HOLE_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
 					hole: null
 				});
-			}).toThrow(exceptionString);
+			}).toThrow(HOLE_INVALID);
 		});
 
 		it("should allow a hole position to be specified", function() {
