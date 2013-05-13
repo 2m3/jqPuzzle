@@ -33,8 +33,12 @@
 				<input type="number" name="cols" value="4">
 			</label>
 			<label>
-				Hole position:
-				<input type="number" name="hole" value="15">
+				Hole:
+				<input type="number" name="hole" value="16">
+			</label>
+			<label>
+				Initial Hole:
+				<input type="number" name="initialHole" value="">
 			</label>
 			<span class="radio">
 				Solvable:
@@ -79,6 +83,7 @@
 					rows: $('input[name=rows]').val() || undefined,
 					columns: $('input[name=cols]').val() || undefined,
 					hole: $('input[name=hole]').val() || undefined,
+					initialHole: $('input[name=initialHole]').val() || undefined,
 					solvable: solvable
 				});
 

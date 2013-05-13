@@ -86,7 +86,7 @@ function SliderPuzzle(options) {
 			}
 
 			// set initial hole position
-			options.initialHole = $.inArray(0, options.board) + 1;
+			this._initialHole = $.inArray(0, options.board) + 1;
 
 		// board is not set
 		} else {
@@ -121,9 +121,6 @@ function SliderPuzzle(options) {
 				if (isNaN(options.initialHole) || options.initialHole < 1 || options.initialHole > this._boardSize) {
 					throw 'invalid initial hole value';
 				}
-			} else {
-				// initial hole position equals solved hole position
-				options.initialHole = options.hole;
 			}
 		}
 	}
@@ -140,11 +137,6 @@ function SliderPuzzle(options) {
 	// or a rows or cols value was inferred and the hole has to be recalculated
 	if (this.options.hole === undefined) {
 		this.options.hole = this._boardSize;
-	}
-
-	// set initial hole position
-	if (this.options.initialHole === undefined) {
-		this.options.initialHole = this.options.hole;
 	}
 
 	// start the game
@@ -187,10 +179,10 @@ SliderPuzzle.prototype = {
 		this.reset();
 	},
 
-	// resets the game to the previous board
+	// resets all game variables to their default state
 	reset: function() {
 		this._board = this._initialBoard.slice(0);
-		this._hole = this.options.initialHole;
+		this._hole = this._initialHole;
 		this._moves = [];
 
 		// TODO reset solved
@@ -216,7 +208,9 @@ SliderPuzzle.prototype = {
 			pickBoard = this.getSortedBoard().slice(0);
 
 			// remove hole from beginning
-			pickBoard.splice(0, 1);
+			if (this.options.initialHole) {
+				pickBoard.splice(0, 1);
+			}
 
 			// start with an empty board
 			this._initialBoard = [];
@@ -237,11 +231,12 @@ SliderPuzzle.prototype = {
 			}
 
 			// add hole back at initial hole position
-			this._initialBoard.splice(this.options.initialHole - 1, 0, 0);
+			if (this.options.initialHole) {
+				this._initialBoard.splice(this.options.initialHole - 1, 0, 0);
+			}
 
-			// update hole
-			this._hole = this.options.initialHole;
-
+			// set specified or shuffled initial hole position
+			this._initialHole = this.options.initialHole || $.inArray(0, this._initialBoard) + 1;
 
 		// solvable option      solvable board      action
 		// -------------------------------------------------
@@ -266,7 +261,7 @@ SliderPuzzle.prototype = {
 		// create a board in the form that the algorithm can work with by replacing 0 with
 		// the missing number so that the board contains all numbers from 1 to (rows*cols)
 		board = this._initialBoard.slice(0);
-		board[this.options.initialHole - 1] = this.options.hole;
+		board[this._initialHole - 1] = this.options.hole;
 
 		// calculate the signature of the permutation
 		for (i = 1; i <= (this._boardSize - 1); i++) {
@@ -278,7 +273,7 @@ SliderPuzzle.prototype = {
 		// compare to 1 (even permutation) if initial hole position and solved hole position equal
 		// or the distance between these positions is even
 		// compare to -1 (odd permutation) if the distance is odd
-		baseSignature = Math.abs(this.options.hole - this.options.initialHole) % 2 ? -1 : 1;
+		baseSignature = Math.abs(this.options.hole - this._initialHole) % 2 ? -1 : 1;
 
 		return Math.round(signature) === baseSignature;
 	},

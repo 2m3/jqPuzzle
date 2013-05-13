@@ -419,7 +419,6 @@ describe("Initialization:", function() {
 						0,	3]
 			});
 			expect(puzzle._board).toEqual([1, 2, 0, 3]);
-			expect(puzzle.options.initialHole).toEqual(3);
 			expect(puzzle.options.hole).toEqual(4);
 
 			puzzle = new SliderPuzzle({
@@ -427,7 +426,6 @@ describe("Initialization:", function() {
 						3,	0]
 			});
 			expect(puzzle._board).toEqual([1, 2, 3, 0]);
-			expect(puzzle.options.initialHole).toEqual(4);
 			expect(puzzle.options.hole).toEqual(4);
 
 			puzzle = new SliderPuzzle({
@@ -435,7 +433,6 @@ describe("Initialization:", function() {
 						0,	4]
 			});
 			expect(puzzle._board).toEqual([1, 2, 0, 4]);
-			expect(puzzle.options.initialHole).toEqual(3);
 			expect(puzzle.options.hole).toEqual(3);
 
 			puzzle = new SliderPuzzle({
@@ -443,7 +440,6 @@ describe("Initialization:", function() {
 						4,	0]
 			});
 			expect(puzzle._board).toEqual([1, 2, 4, 0]);
-			expect(puzzle.options.initialHole).toEqual(4);
 			expect(puzzle.options.hole).toEqual(3);
 
 			puzzle = new SliderPuzzle({
@@ -452,7 +448,6 @@ describe("Initialization:", function() {
 				rows: 2
 			});
 			expect(puzzle._board).toEqual([1, 2, 3, 4, 5, 0]);
-			expect(puzzle.options.initialHole).toEqual(6);
 			expect(puzzle.options.hole).toEqual(6);
 		});
 
@@ -541,9 +536,8 @@ describe("Initialization:", function() {
 				puzzle = new SliderPuzzle({
 					hole: i + 1
 				});
-				expect(puzzle._board[i]).toEqual(0);
+				expect(puzzle.getSolvedBoard()[i]).toEqual(0);
 				expect(puzzle.options.hole).toEqual(i + 1);
-				expect(puzzle.options.initialHole).toEqual(i + 1);
 			}
 
 			for (i = 0; i < 15; i++) {
@@ -552,9 +546,8 @@ describe("Initialization:", function() {
 					cols: 5,
 					hole: i + 1
 				});
-				expect(puzzle._board[i]).toEqual(0);
+				expect(puzzle.getSolvedBoard()[i]).toEqual(0);
 				expect(puzzle.options.hole).toEqual(i + 1);
-				expect(puzzle.options.initialHole).toEqual(i + 1);
 			}
 		});
 
@@ -565,7 +558,6 @@ describe("Initialization:", function() {
 			});
 			expect(puzzle._board[0]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(4);
-			expect(puzzle.options.initialHole).toEqual(1);
 
 			puzzle = new SliderPuzzle({
 				board: [8, 7, 6, 5, 4, 3, 2, 1, 0],
@@ -573,7 +565,6 @@ describe("Initialization:", function() {
 			});
 			expect(puzzle._board[8]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(9);
-			expect(puzzle.options.initialHole).toEqual(9);
 
 			puzzle = new SliderPuzzle({
 				board: [3, 2, 1, 0, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -582,7 +573,6 @@ describe("Initialization:", function() {
 			});
 			expect(puzzle._board[3]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(12);
-			expect(puzzle.options.initialHole).toEqual(4);
 		});
 
 		it("should ignore a specified initial hole value if a board is also specified", function() {
@@ -592,7 +582,6 @@ describe("Initialization:", function() {
 			});
 			expect(puzzle._board[0]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(4);
-			expect(puzzle.options.initialHole).toEqual(1);
 
 			puzzle = new SliderPuzzle({
 				board: [8, 7, 6, 5, 4, 3, 2, 1, 0],
@@ -600,7 +589,6 @@ describe("Initialization:", function() {
 			});
 			expect(puzzle._board[8]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(9);
-			expect(puzzle.options.initialHole).toEqual(9);
 
 			puzzle = new SliderPuzzle({
 				board: [3, 2, 1, 0, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -609,42 +597,36 @@ describe("Initialization:", function() {
 			});
 			expect(puzzle._board[3]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(12);
-			expect(puzzle.options.initialHole).toEqual(4);
 		});
 
 		it("should place the hole at the bottom right position, if not specified", function() {
 			puzzle = new SliderPuzzle();
-			expect(puzzle._board[15]).toEqual(0);
+			expect(puzzle.getSolvedBoard()[15]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(16);
-			expect(puzzle.options.initialHole).toEqual(16);
 
 			puzzle = new SliderPuzzle({});
-			expect(puzzle._board[15]).toEqual(0);
+			expect(puzzle.getSolvedBoard()[15]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(16);
-			expect(puzzle.options.initialHole).toEqual(16);
 
 			puzzle = new SliderPuzzle({
 				rows: 2,
 				cols: 2
 			});
-			expect(puzzle._board[3]).toEqual(0);
+			expect(puzzle.getSolvedBoard()[3]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(4);
-			expect(puzzle.options.initialHole).toEqual(4);
 
 			puzzle = new SliderPuzzle({
 				rows: 3,
 				cols: 5
 			});
-			expect(puzzle._board[14]).toEqual(0);
+			expect(puzzle.getSolvedBoard()[14]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(15);
-			expect(puzzle.options.initialHole).toEqual(15);
 
 			puzzle = new SliderPuzzle({
 				rows: 3
 			});
-			expect(puzzle._board[11]).toEqual(0);
+			expect(puzzle.getSolvedBoard()[11]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(12);
-			expect(puzzle.options.initialHole).toEqual(12);
 		});
 
 		it("should place the hole at the bottom right position, if only the initial hole position is specified", function() {
