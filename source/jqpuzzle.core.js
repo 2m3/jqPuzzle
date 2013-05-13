@@ -61,8 +61,8 @@ function SliderPuzzle(options) {
 				return a - b;
 			});
 
-			// ignore a speficied hole option
-			options.hole = undefined;
+			// ignore specified hole and initial hole options
+			options.hole = options.initialHole = undefined;
 
 			// validate board integrity
 			// a valid board contains all numbers from 1 to (rows*cols) with any one number replaced with 0

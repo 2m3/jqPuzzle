@@ -531,7 +531,7 @@ describe("Initialization:", function() {
 			}).toThrow(HOLE_INVALID);
 		});
 
-		it("should accept a valid hole value and infer the initial hole position", function() {
+		it("should accept a valid hole value", function() {
 			for (var i = 0; i < 16; i++) {
 				puzzle = new SliderPuzzle({
 					hole: i + 1
@@ -581,14 +581,16 @@ describe("Initialization:", function() {
 				initialHole: 2
 			});
 			expect(puzzle._board[0]).toEqual(0);
-			expect(puzzle.options.hole).toEqual(4);
+			expect(puzzle._initialHole).toEqual(1);
+			expect(puzzle.options.initialHole).toBeUndefined();
 
 			puzzle = new SliderPuzzle({
 				board: [8, 7, 6, 5, 4, 3, 2, 1, 0],
 				initialHole: 0
 			});
 			expect(puzzle._board[8]).toEqual(0);
-			expect(puzzle.options.hole).toEqual(9);
+			expect(puzzle._initialHole).toEqual(9);
+			expect(puzzle.options.initialHole).toBeUndefined();
 
 			puzzle = new SliderPuzzle({
 				board: [3, 2, 1, 0, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -596,7 +598,8 @@ describe("Initialization:", function() {
 				initialHole: 1
 			});
 			expect(puzzle._board[3]).toEqual(0);
-			expect(puzzle.options.hole).toEqual(12);
+			expect(puzzle._initialHole).toEqual(4);
+			expect(puzzle.options.initialHole).toBeUndefined();
 		});
 
 		it("should place the hole at the bottom right position, if not specified", function() {
