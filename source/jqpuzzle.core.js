@@ -45,7 +45,7 @@ function SliderPuzzle(options) {
 				}
 			}
 
-			// neither rows or cols are set
+			// neither rows nor cols are set
 			else {
 				// assume both rows and cols have the same value
 				options.rows = options.cols = Math.floor(Math.sqrt(this._boardSize));
