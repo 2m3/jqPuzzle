@@ -6,7 +6,7 @@ function SliderPuzzle(options) {
 	// handle specified options
 	if ($.isPlainObject(options)) {
 
-		// handle rows and cols option
+		// handle rows and cols options
 		var dimensions = ['rows', 'cols'];
 		for (var i in dimensions) {
 			var dimension = dimensions[i];
