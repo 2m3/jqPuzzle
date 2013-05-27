@@ -116,10 +116,15 @@ function SliderPuzzle(options) {
 
 			// handle initialHole option
 			if (options.initialHole !== undefined) {
-				// expect initial hole position to be greater than 0 and match board size
+				// expect initial hole position to be greater than 0
 				options.initialHole = parseInt(options.initialHole, 10);
-				if (isNaN(options.initialHole) || options.initialHole < 1 || options.initialHole > this._boardSize) {
+				if (isNaN(options.initialHole) || options.initialHole < 1) {
 					throw 'invalid initial hole value';
+				}
+
+				// expect initial hole position to match board size
+				if (options.initialHole > this._boardSize) {
+					throw 'initial hole does not match rows and cols';
 				}
 			}
 		}

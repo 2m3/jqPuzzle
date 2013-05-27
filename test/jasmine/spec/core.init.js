@@ -557,6 +557,29 @@ describe("Initialization:", function() {
 			}).toThrow(HOLE_INVALID);
 		});
 
+		it("should throw an exception if a specified hole value does not match rows and cols", function() {
+			expect(function() {
+				new SliderPuzzle({
+					hole: 17
+				});
+			}).toThrow(HOLE_MISMATCH);
+
+			expect(function() {
+				new SliderPuzzle({
+					rows: 2,
+					cols: 2,
+					hole: 6
+				});
+			}).toThrow(HOLE_MISMATCH);
+
+			expect(function() {
+				new SliderPuzzle({
+					rows: 3,
+					hole: 13
+				});
+			}).toThrow(HOLE_MISMATCH);
+		});
+
 		it("should accept a valid hole value", function() {
 			for (var i = 0; i < 16; i++) {
 				puzzle = new SliderPuzzle({
@@ -682,6 +705,110 @@ describe("Initialization:", function() {
 			expect(puzzle._board[7]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(12);
 			expect(puzzle.options.initialHole).toEqual(8);
+		});
+
+	});
+
+	describe("When initialized WITH an initial hole, a slider puzzle", function() {
+		var INITIAL_HOLE_INVALID  = 'invalid initial hole value';
+		var INITIAL_HOLE_MISMATCH = 'initial hole does not match rows and cols';
+
+		it("should parse a specified initial hole value as an integer", function() {
+			puzzle = new SliderPuzzle({
+				initialHole: "5"
+			});
+			expect(puzzle._initialHole).toEqual(5);
+
+			puzzle = new SliderPuzzle({
+				initialHole: "5.1"
+			});
+			expect(puzzle._initialHole).toEqual(5);
+
+			puzzle = new SliderPuzzle({
+				initialHole: 5.2
+			});
+			expect(puzzle._initialHole).toEqual(5);
+		});
+
+		it("should throw an exception if initial hole is less than 1 or cannot be parsed as an integer", function() {
+			expect(function() {
+				new SliderPuzzle({
+					initialHole: 0
+				});
+			}).toThrow(INITIAL_HOLE_INVALID);
+
+			expect(function() {
+				new SliderPuzzle({
+					initialHole: -1
+				});
+			}).toThrow(INITIAL_HOLE_INVALID);
+
+			expect(function() {
+				new SliderPuzzle({
+					initialHole: "-2"
+				});
+			}).toThrow(INITIAL_HOLE_INVALID);
+
+			expect(function() {
+				new SliderPuzzle({
+					initialHole: "test"
+				});
+			}).toThrow(INITIAL_HOLE_INVALID);
+
+			expect(function() {
+				new SliderPuzzle({
+					initialHole: false
+				});
+			}).toThrow(INITIAL_HOLE_INVALID);
+
+			expect(function() {
+				new SliderPuzzle({
+					initialHole: null
+				});
+			}).toThrow(INITIAL_HOLE_INVALID);
+		});
+
+		it("should throw an exception if a specified initial hole value does not match rows and cols", function() {
+			expect(function() {
+				new SliderPuzzle({
+					initialHole: 17
+				});
+			}).toThrow(INITIAL_HOLE_MISMATCH);
+
+			expect(function() {
+				new SliderPuzzle({
+					rows: 2,
+					cols: 2,
+					initialHole: 6
+				});
+			}).toThrow(INITIAL_HOLE_MISMATCH);
+
+			expect(function() {
+				new SliderPuzzle({
+					rows: 3,
+					initialHole: 13
+				});
+			}).toThrow(INITIAL_HOLE_MISMATCH);
+		});
+
+		it("should accept a valid initial hole value", function() {
+			for (var i = 0; i < 16; i++) {
+				puzzle = new SliderPuzzle({
+					initialHole: i + 1
+				});
+				expect(puzzle._board[i]).toEqual(0);
+				expect(puzzle._initialHole).toEqual(i + 1);
+			}
+
+			for (i = 0; i < 15; i++) {
+				puzzle = new SliderPuzzle({
+					rows: 3,
+					cols: 5,
+					initialHole: i + 1
+				});
+				expect(puzzle._board[i]).toEqual(0);
+				expect(puzzle._initialHole).toEqual(i + 1);
+			}
 		});
 	});
 });
