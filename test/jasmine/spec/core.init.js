@@ -413,12 +413,13 @@ describe("Initialization:", function() {
 			}).toThrow(BOARD_MISMATCH);
 		});
 
-		it("should accept a valid board and infer the hole value", function() {
+		it("should accept a valid board and infer the hole values", function() {
 			puzzle = new SliderPuzzle({
 				board: [1,	2,
 						0,	3]
 			});
 			expect(puzzle._board).toEqual([1, 2, 0, 3]);
+			expect(puzzle._initialHole).toEqual(3);
 			expect(puzzle.options.hole).toEqual(4);
 
 			puzzle = new SliderPuzzle({
@@ -426,6 +427,7 @@ describe("Initialization:", function() {
 						3,	0]
 			});
 			expect(puzzle._board).toEqual([1, 2, 3, 0]);
+			expect(puzzle._initialHole).toEqual(4);
 			expect(puzzle.options.hole).toEqual(4);
 
 			puzzle = new SliderPuzzle({
@@ -433,6 +435,7 @@ describe("Initialization:", function() {
 						0,	4]
 			});
 			expect(puzzle._board).toEqual([1, 2, 0, 4]);
+			expect(puzzle._initialHole).toEqual(3);
 			expect(puzzle.options.hole).toEqual(3);
 
 			puzzle = new SliderPuzzle({
@@ -440,6 +443,7 @@ describe("Initialization:", function() {
 						4,	0]
 			});
 			expect(puzzle._board).toEqual([1, 2, 4, 0]);
+			expect(puzzle._initialHole).toEqual(4);
 			expect(puzzle.options.hole).toEqual(3);
 
 			puzzle = new SliderPuzzle({
@@ -448,6 +452,16 @@ describe("Initialization:", function() {
 				rows: 2
 			});
 			expect(puzzle._board).toEqual([1, 2, 3, 4, 5, 0]);
+			expect(puzzle._initialHole).toEqual(6);
+			expect(puzzle.options.hole).toEqual(6);
+
+			puzzle = new SliderPuzzle({
+				board: [0,	1,	2,
+						3,	4,	5],
+				rows: 2
+			});
+			expect(puzzle._board).toEqual([0, 1, 2, 3, 4, 5]);
+			expect(puzzle._initialHole).toEqual(1);
 			expect(puzzle.options.hole).toEqual(6);
 		});
 
