@@ -70,7 +70,7 @@ function SliderPuzzle(options) {
 			for (i = 0; i < this._boardSize; i++) {
 				if (this._sortedBoard[i] !== i) {
 					// single exception where one number is skipped
-					if (options.hole === undefined && this._sortedBoard[i] == (i + 1)) {
+					if (options.hole === undefined && this._sortedBoard[i] === (i + 1)) {
 						// infer hole value (1-based)
 						options.hole = i;
 						continue;
