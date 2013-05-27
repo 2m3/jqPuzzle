@@ -169,7 +169,7 @@ describe("Initialization:", function() {
 			expect(puzzle.options.cols).toEqual(11);
 		});
 
-		it("should have 4 rows, if only cols are specified", function() {
+		it("should have 4 rows if only cols are specified", function() {
 			puzzle = new SliderPuzzle({
 				cols: 3
 			});
@@ -177,7 +177,7 @@ describe("Initialization:", function() {
 			expect(puzzle.options.cols).toEqual(3);
 		});
 
-		it("should have 4 cols, if only rows are specified", function() {
+		it("should have 4 cols if only rows are specified", function() {
 			puzzle = new SliderPuzzle({
 				rows: 5
 			});
@@ -185,7 +185,7 @@ describe("Initialization:", function() {
 			expect(puzzle.options.cols).toEqual(4);
 		});
 
-		it("should have 4 rows and 4 cols, if neither is specified", function() {
+		it("should have 4 rows and 4 cols if neither is specified", function() {
 			puzzle = new SliderPuzzle();
 			expect(puzzle.options.rows).toEqual(4);
 			expect(puzzle.options.cols).toEqual(4);
@@ -276,7 +276,8 @@ describe("Initialization:", function() {
 			expect(puzzle.options.cols).toEqual(4);
 		});
 
-		it("should throw an exception if neither rows nor cols are specified and the board is not square", function() {
+		it("should throw an exception if rows and cols cannot be inferred, if neither is specified", function() {
+			// because the board is not square
 			expect(function() {
 				new SliderPuzzle({
 					board: board2x5
@@ -288,9 +289,8 @@ describe("Initialization:", function() {
 					board: [0, 1, 2]
 				});
 			}).toThrow(BOARD_MISMATCH);
-		});
 
-		it("should throw an exception if both rows and cols can be inferred but are less than 2", function() {
+			// because the inferred values are less than 2
 			expect(function() {
 				new SliderPuzzle({
 					board: [1]
@@ -375,7 +375,7 @@ describe("Initialization:", function() {
 			}).toThrow(BOARD_MISMATCH);
 		});
 
-		it("should allow rows and cols to also be specified", function() {
+		it("should allow both rows and cols to also be specified", function() {
 			puzzle = new SliderPuzzle({
 				board: board4x4,
 				rows: 4,
@@ -413,7 +413,7 @@ describe("Initialization:", function() {
 			}).toThrow(BOARD_MISMATCH);
 		});
 
-		it("should accept a valid board and infer the hole values", function() {
+		it("should accept a valid board and infer the hole value", function() {
 			puzzle = new SliderPuzzle({
 				board: [1,	2,
 						0,	3]
@@ -467,6 +467,18 @@ describe("Initialization:", function() {
 			expect(function() {
 				new SliderPuzzle({
 					board: [4, 3, 2, 0]
+				});
+			}).toThrow(BOARD_INVALID);
+
+			expect(function() {
+				new SliderPuzzle({
+					board: [1, 1, 2, 0]
+				});
+			}).toThrow(BOARD_INVALID);
+
+			expect(function() {
+				new SliderPuzzle({
+					board: [1, 0, 2, 0]
 				});
 			}).toThrow(BOARD_INVALID);
 		});
@@ -602,7 +614,7 @@ describe("Initialization:", function() {
 			expect(puzzle.options.initialHole).toBeUndefined();
 		});
 
-		it("should place the hole at the bottom right position, if not specified", function() {
+		it("should place the hole at the bottom right position if not specified", function() {
 			puzzle = new SliderPuzzle();
 			expect(puzzle.getSolvedBoard()[15]).toEqual(0);
 			expect(puzzle.options.hole).toEqual(16);
@@ -632,7 +644,7 @@ describe("Initialization:", function() {
 			expect(puzzle.options.hole).toEqual(12);
 		});
 
-		it("should place the hole at the bottom right position, if only the initial hole position is specified", function() {
+		it("should place the hole at the bottom right position if only the initial hole position is specified", function() {
 			puzzle = new SliderPuzzle({
 				initialHole: 1
 			});
