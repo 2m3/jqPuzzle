@@ -50,7 +50,6 @@ function SliderPuzzle(options) {
 					options.cols = Math.floor(this._boardSize / options.rows);
 				}
 			}
-
 			// neither rows nor cols are set
 			else {
 				// assume both rows and cols have the same value
@@ -93,9 +92,9 @@ function SliderPuzzle(options) {
 
 			// set initial hole position
 			this._initialHole = $.inArray(0, options.board) + 1;
-
+		}
 		// board is not set
-		} else {
+		else {
 			// make sure rows and cols are defined
 			options.rows = options.rows || this.defaults.rows;
 			options.cols = options.cols || this.defaults.cols;
@@ -175,9 +174,9 @@ SliderPuzzle.prototype = {
 		// on first start, use specified board if set
 		if (!this._initialBoard && this.options.board) {
 			this._initialBoard = this.options.board.slice(0);
-
+		}
 		// or shuffle a new board
-		} else {
+		else {
 			this.shuffle();
 		}
 
