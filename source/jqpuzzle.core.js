@@ -97,35 +97,28 @@ function SliderPuzzle(options) {
 			// set board size
 			this._boardSize = options.rows * options.cols;
 
-			// handle hole option
-			if (options.hole !== undefined) {
-				// expect hole to be greater than 0
-				options.hole = parseInt(options.hole, 10);
-				if (isNaN(options.hole) || options.hole < 1) {
-					throw 'invalid hole value';
-				}
+			// handle hole and initialHole options
+			var holeOptions = ['hole', 'initialHole'];
+			for (i in holeOptions) {
+				var holeOption = holeOptions[i];
 
-				// expect hole to match board size
-				if (options.hole > this._boardSize) {
-					throw 'hole does not match rows and cols';
+				if (options[holeOption] !== undefined) {
+					// expect hole and initialHole to be greater than 0
+					options[holeOption] = parseInt(options[holeOption], 10);
+					if (isNaN(options[holeOption]) || options[holeOption] < 1) {
+						throw 'invalid ' + holeOption + ' value';
+					}
+
+					// expect hole and initialHole to match board size
+					if (options[holeOption] > this._boardSize) {
+						throw holeOption + ' does not match rows and cols';
+					}
 				}
-			} else {
-				// default to bottom right
-				options.hole = this._boardSize;
 			}
 
-			// handle initialHole option
-			if (options.initialHole !== undefined) {
-				// expect initial hole position to be greater than 0
-				options.initialHole = parseInt(options.initialHole, 10);
-				if (isNaN(options.initialHole) || options.initialHole < 1) {
-					throw 'invalid initial hole value';
-				}
-
-				// expect initial hole position to match board size
-				if (options.initialHole > this._boardSize) {
-					throw 'initial hole does not match rows and cols';
-				}
+			// default to bottom right if hole is not set
+			if (options.hole === undefined) {
+				options.hole = this._boardSize;
 			}
 		}
 	}

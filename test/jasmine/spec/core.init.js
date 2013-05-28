@@ -710,8 +710,8 @@ describe("Initialization:", function() {
 	});
 
 	describe("When initialized WITH an initial hole, a slider puzzle", function() {
-		var INITIAL_HOLE_INVALID  = 'invalid initial hole value';
-		var INITIAL_HOLE_MISMATCH = 'initial hole does not match rows and cols';
+		var INITIAL_HOLE_INVALID  = 'invalid initialHole value';
+		var INITIAL_HOLE_MISMATCH = 'initialHole does not match rows and cols';
 
 		it("should parse a specified initial hole value as an integer", function() {
 			puzzle = new SliderPuzzle({
