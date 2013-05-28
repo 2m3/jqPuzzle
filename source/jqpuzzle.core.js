@@ -1,4 +1,9 @@
 function SliderPuzzle(options) {
+	// declare some variables that are re-used throughout initialization
+	var i;
+	var option;
+	var value;
+
 	// define this.options as soon as possible so that helper methods
 	// called during initialization can rely on it
 	this.options = options;
@@ -7,15 +12,16 @@ function SliderPuzzle(options) {
 	if ($.isPlainObject(options)) {
 
 		// handle rows and cols options
-		var dimensions = ['rows', 'cols'];
-		for (var i in dimensions) {
-			var dimension = dimensions[i];
+		var dimensionOptions = ['rows', 'cols'];
+		for (i in dimensionOptions) {
+			option = dimensionOptions[i];
+			value = options[option];
 
-			if (options[dimension] !== undefined) {
-				// expect rows and cols to be greater than 1
-				options[dimension] = parseInt(options[dimension], 10);
-				if (isNaN(options[dimension]) || options[dimension] < 2) {
-					throw 'invalid ' + dimension + ' value';
+			if (value !== undefined) {
+				// expect value to be greater than 1
+				value = options[option] = parseInt(value, 10);
+				if (isNaN(value) || value < 2) {
+					throw 'invalid ' + option + ' value';
 				}
 			}
 		}
@@ -100,18 +106,19 @@ function SliderPuzzle(options) {
 			// handle hole and initialHole options
 			var holeOptions = ['hole', 'initialHole'];
 			for (i in holeOptions) {
-				var holeOption = holeOptions[i];
+				option = holeOptions[i];
+				value = options[option];
 
-				if (options[holeOption] !== undefined) {
-					// expect hole and initialHole to be greater than 0
-					options[holeOption] = parseInt(options[holeOption], 10);
-					if (isNaN(options[holeOption]) || options[holeOption] < 1) {
-						throw 'invalid ' + holeOption + ' value';
+				if (value !== undefined) {
+					// expect value to be greater than 0
+					value = options[option] = parseInt(value, 10);
+					if (isNaN(value) || value < 1) {
+						throw 'invalid ' + option + ' value';
 					}
 
-					// expect hole and initialHole to match board size
-					if (options[holeOption] > this._boardSize) {
-						throw holeOption + ' does not match rows and cols';
+					// expect value to match board size
+					if (value > this._boardSize) {
+						throw option + ' does not match rows and cols';
 					}
 				}
 			}
