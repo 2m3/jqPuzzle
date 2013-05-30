@@ -8,7 +8,7 @@ function SliderPuzzle(options) {
 	// called during initialization can rely on it
 	this.options = options;
 
-	// handle specified options
+	// handle options
 	if ($.isPlainObject(options)) {
 
 		// handle rows and cols options
@@ -40,12 +40,12 @@ function SliderPuzzle(options) {
 
 			// either rows or cols are set (or both)
 			if (options.rows || options.cols) {
-				// infer rows value if not defined
+				// infer rows value if not set
 				if (!options.rows) {
 					options.rows = Math.floor(this._boardSize / options.cols);
 				}
 
-				// infer cols value if not defined
+				// infer cols value if not set
 				if (!options.cols) {
 					options.cols = Math.floor(this._boardSize / options.rows);
 				}
@@ -127,6 +127,13 @@ function SliderPuzzle(options) {
 				options.hole = this._boardSize;
 			}
 		}
+
+		// handle shuffle option
+		if (options.shuffle !== undefined) {
+			// expect value to be greater than or equal to 0 or make sure to have a boolean
+			value = parseInt(options.shuffle, 10);
+			options.shuffle = (isNaN(value) || value < 0) ? !!options.shuffle : value;
+		}
 	}
 
 	// merge passed in options with defaults (options wins)
@@ -144,7 +151,7 @@ function SliderPuzzle(options) {
 	}
 
 	// start the game
-	this.restart();
+	this.initGame();
 
 	// default renderer (used by toString)
 	this.renderer = typeof AsciiRenderer === 'undefined' ? { render: function() { return ''; } } : AsciiRenderer;
@@ -156,6 +163,8 @@ SliderPuzzle.prototype = {
 		rows: 4,
 		// number of cols
 		cols: 4,
+		// shuffle on init (ignored when board is set)
+		shuffle: true,
 		// only every other randomly generated board is solvable
 		// if set to ...    shuffled boards will be ...
 		// true (default)   solvable
@@ -169,36 +178,68 @@ SliderPuzzle.prototype = {
 	solved: false,
 	solvable: true,
 
-	// restarts the game with a new board
-	restart: function() {
-		// on first start, use specified board if set
-		if (!this._initialBoard && this.options.board) {
+	// handles the first start of the game
+	initGame: function() {
+		this._playing = false;
+
+		// start with a specified board
+		if (this.options.board) {
 			this._initialBoard = this.options.board.slice(0);
 		}
-		// or shuffle a new board
+		// or handle shuffle option
 		else {
-			this.shuffle();
+			// initialize with the solved board (requires a call to shuffle() to start the game)
+			if (this.options.shuffle === false) {
+				this._initialBoard = this._board = this.getSolvedBoard().slice(0);
+
+				// do not start game
+				return;
+			}
+			// or start with a shuffled board
+			else {
+				this.generateBoard();
+			}
 		}
 
-		this.reset();
+		// start game
+		this.restart();
+	},
+
+	// restarts the game with a new board
+	shuffle: function() {
+		// shuffle
+		this.generateBoard();
+
+		// restart game
+		this.restart();
 	},
 
 	// resets all game variables to their default state
-	reset: function() {
+	restart: function() {
 		this._board = this._initialBoard.slice(0);
 		this._hole = this._initialHole;
 		this._moves = [];
 
 		// TODO reset solved
 		// TODO reset timer
+
+		// TOOD check this._playing when moving
+		this._playing = true;
 	},
 
-	// shuffles the board
-	shuffle: function() {
+	// generates a shuffled board
+	generateBoard: function() {
 		var pickBoard;
 		var i;
 		var item;
 		var breaker = 100;
+
+		// for numeric values, generate a board with the specified number of moves away from the solved board
+		// explicitly call parseInt() again as isNaN(Boolean) === false
+		if (!isNaN(parseInt(this.options.shuffle, 10))) {
+			this.generateBoardByMovesAwayFromSolvedBoard(this.options.shuffle);
+			return;
+		}
 
 		// create a shuffled board by picking items from the sorted board
 		// and repeat if the solvability of the board does not match the specified option
@@ -252,6 +293,18 @@ SliderPuzzle.prototype = {
 		// 'random'             false               break
 		} while (	(this.options.solvable === true  && !this.isSolvable()) ||
 					(this.options.solvable === false &&  this.isSolvable()));
+	},
+
+	// generates a board with the specified number of moves away from the solved board
+	generateBoardByMovesAwayFromSolvedBoard: function(movesAway) {
+		// start with the solved board
+		this._initialBoard = this.getSolvedBoard().slice(0);
+
+		// TODO perform movesAway random moves and make sure we do not move back and forth
+		// these moves change this._initialBoard instead of this._board
+
+		// set initial hole position
+		this._initialHole = $.inArray(0, this._initialBoard) + 1;
 	},
 
 	// checks if the board is solvable
@@ -391,7 +444,7 @@ SliderPuzzle.prototype = {
 		return this.canMoveByPosition(this.getPosition(numberOrDirection));
 	},
 
-	// allow for a random move?
+	// allow for a random move
 	move: function(numberOrDirection) {
 		console.log('move', numberOrDirection);
 		return this.moveByPosition(this.getPosition(numberOrDirection));

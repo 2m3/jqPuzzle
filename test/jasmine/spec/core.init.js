@@ -811,4 +811,107 @@ describe("Initialization:", function() {
 			}
 		});
 	});
+
+	describe("When initialized with the shuffle option, a slider puzzle", function() {
+		it("should parse a specified shuffle value as an integer", function() {
+			puzzle = new SliderPuzzle({
+				shuffle: 0
+			});
+			expect(puzzle.options.shuffle).toEqual(0);
+
+			puzzle = new SliderPuzzle({
+				shuffle: 1
+			});
+			expect(puzzle.options.shuffle).toEqual(1);
+
+			puzzle = new SliderPuzzle({
+				shuffle: 3.5
+			});
+			expect(puzzle.options.shuffle).toEqual(3);
+		});
+
+		it("should handle a specified shuffle value as a boolean if it is less then 0 or cannot be parsed as an integer", function() {
+			puzzle = new SliderPuzzle({
+				shuffle: true
+			});
+			expect(puzzle.options.shuffle).toEqual(true);
+
+			puzzle = new SliderPuzzle({
+				shuffle: false
+			});
+			expect(puzzle.options.shuffle).toEqual(false);
+
+			puzzle = new SliderPuzzle({
+				shuffle: -1
+			});
+			expect(puzzle.options.shuffle).toEqual(true);
+
+			puzzle = new SliderPuzzle({
+				shuffle: "-2"
+			});
+			expect(puzzle.options.shuffle).toEqual(true);
+
+			puzzle = new SliderPuzzle({
+				shuffle: "test"
+			});
+			expect(puzzle.options.shuffle).toEqual(true);
+
+			puzzle = new SliderPuzzle({
+				shuffle: null
+			});
+			expect(puzzle.options.shuffle).toEqual(false);
+		});
+
+		it("should shuffle the board if the shuffle option is set to true or is not specified", function() {
+			puzzle = new SliderPuzzle({
+				shuffle: true
+			});
+			expect(puzzle.isSolved()).toEqual(false);
+			expect(puzzle._playing).toEqual(true);
+
+			puzzle = new SliderPuzzle();
+			expect(puzzle.isSolved()).toEqual(false);
+			expect(puzzle._playing).toEqual(true);
+
+			puzzle = new SliderPuzzle({});
+			expect(puzzle.isSolved()).toEqual(false);
+			expect(puzzle._playing).toEqual(true);
+		});
+
+		it("should initialize (but not start) with the solved board if the shuffle option is set to false", function() {
+			puzzle = new SliderPuzzle({
+				rows: 2,
+				cols: 2,
+				shuffle: false
+			});
+			expect(puzzle.isSolved()).toEqual(true);
+			expect(puzzle._board).toEqual(puzzle.getSolvedBoard());
+			expect(puzzle._board).toEqual([1,2,3,0]);
+			expect(puzzle._playing).toEqual(false);
+		});
+
+		it("should start with the solved board if the shuffle option is set to 0", function() {
+			puzzle = new SliderPuzzle({
+				rows: 2,
+				cols: 2,
+				shuffle: 0
+			});
+			expect(puzzle.isSolved()).toEqual(true);
+			expect(puzzle._board).toEqual(puzzle.getSolvedBoard());
+			expect(puzzle._board).toEqual([1,2,3,0]);
+			expect(puzzle._playing).toEqual(true);
+		});
+
+		// TODO
+		xit("should start with the board one move away from the solved board if the shuffle option is set to 1", function() {
+			puzzle = new SliderPuzzle({
+				rows: 2,
+				cols: 2,
+				shuffle: 1
+			});
+			expect(puzzle.isSolved()).toEqual(false);
+			expect(puzzle._board).toEqualAny([1,2,0,3], [1,0,3,2]);
+			expect(puzzle._playing).toEqual(true);
+		});
+	});
 });
