@@ -97,7 +97,7 @@ A board that is not yet solved (0 replaced for 3, numbers not in sequential orde
 `solvable`
 ----------
 
-Specifies whether a shuffled board must be solvable or not (as not any random order is solvalbe).
+Specifies whether a shuffled board must be solvable or not (as not any random order is solvable).
 
 Expects either `true` or `false`. Any other value is interpreted as 'random' meaning that a shuffled board might or might not be solvable.
 
@@ -139,9 +139,9 @@ Internal Properties
 These properties are pseudo-private and start with an underscore. They may change during the game and represent the current game state.
 
 * `this._boardSize`
-  Number of pieces of the board.
+	Number of pieces of the board.
 * `this._initialBoard`
-  Copy of a specified or shuffled board to be able to reset.
+	Copy of a specified or shuffled board to be able to reset.
 * `this._sortedBoard`
   A board that contains all numbers form `0` (hole) to `rows*cols-1` in sequential order.
 * `this._solvedBoard`
