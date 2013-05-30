@@ -138,17 +138,17 @@ Internal Properties
 
 These properties are pseudo-private and start with an underscore. They may change during the game and represent the current game state.
 
-* `this._boardSize`
-	Number of pieces of the board.
-* `this._initialBoard`
-	Copy of a specified or shuffled board to be able to reset.
-* `this._sortedBoard`
+* `this._boardSize`  
+Number of pieces of the board.
+* `this._initialBoard`  
+Copy of a specified or shuffled board to be able to reset.
+* `this._sortedBoard`  
   A board that contains all numbers form `0` (hole) to `rows*cols-1` in sequential order.
-* `this._solvedBoard`
+* `this._solvedBoard`  
   The board in its solved state.
-* `this._initialHole`
+* `this._initialHole`  
   The initial position of the hole in a shuffled board. Either taken from the options or set during shuffle.
-* `this._board`
+* `this._board`  
   The current board. Changes with each move.
-* `this._hole`
+* `this._hole`  
   The current hole position. Changes with each move.
