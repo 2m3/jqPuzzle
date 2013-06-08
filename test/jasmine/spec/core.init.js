@@ -490,13 +490,19 @@ describe("Initialization:", function() {
 
 			expect(function() {
 				new SliderPuzzle({
+					board: [-4, -3, -2, -1]
+				});
+			}).toThrow(BOARD_INVALID);
+
+			expect(function() {
+				new SliderPuzzle({
 					board: [2, 1, 0, -1]
 				});
 			}).toThrow(BOARD_INVALID);
 
 			expect(function() {
 				new SliderPuzzle({
-					board: [4, 3, 2, 0]
+					board: [5, 4, 3, 0]
 				});
 			}).toThrow(BOARD_INVALID);
 
