@@ -8,52 +8,101 @@
 	<script src="../source/jqpuzzle.renderer.ascii.js"></script>
 	<script src="../source/jqpuzzle.controller.keyboard.js"></script>
 	<style>
-		fieldset {
-			display: inline;
+		* {
+			box-sizing: border-box;
 		}
 
-		span:not(.radio) label {
-			margin-right: 20px;
+		html, body {
+			margin: 0;
+			height: 100%;
+		}
+
+		form {
+			float: left;
+			width: 250px;
+			height: 100%;
+			background: #eee;
+			padding: 8px;
+			margin-right: 30px;
+		}
+
+		fieldset {
+			margin-bottom: 10px;
+		}
+
+		label {
+			display: block;
+		}
+
+		label span {
+			display: inline-block;
+			width: 80px;
 		}
 
 		input[type=number] {
 			width: 40px;
+		}
+
+		#config button {
+			width: 100%;
+		}
+
+		#controls {
+			display: none;
+		}
+
+		pre {
+			margin: 0;
 		}
 	</style>
 </head>
 <body>
 	<form id="config">
 		<fieldset>
+			 <legend>Layout</legend>
 			<label>
-				Rows:
+				<span>Rows:</span>
 				<input type="number" name="rows" value="4">
 			</label>
 			<label>
-				Columns:
+				<span>Columns:</span>
 				<input type="number" name="cols" value="4">
 			</label>
 			<label>
-				Hole:
-				<input type="number" name="hole" value="16">
+				<span>Hole:</span>
+				<input type="number" name="hole" value="">
 			</label>
 			<label>
-				Initial Hole:
+				<span>Initial Hole:</span>
 				<input type="number" name="initialHole" value="">
 			</label>
-			<span class="radio">
-				Solvable:
-				<label>
-					<input type="radio" name="solvable" value="random"> Random
-				</label>
-				<label>
-					<input type="radio" name="solvable" value="true" checked> Yep
-				</label>
-				<label>
-					<input type="radio" name="solvable" value="false"> Nope
-				</label>
-			</span>
-			<button>Create Puzzle</button>
 		</fieldset>
+		<fieldset>
+			<legend>Solvable</legend>
+			<label>
+				<input type="radio" name="solvable" value="1" checked> Yep
+			</label>
+			<label>
+				<input type="radio" name="solvable" value="0"> Nope
+			</label>
+			<label>
+				<input type="radio" name="solvable" value="random"> Random
+			</label>
+		</fieldset>
+		<fieldset>
+			<legend>Shuffle</legend>
+			<label>
+				<input type="radio" name="shuffle" value="1" checked> Yep
+			</label>
+			<label>
+				<input type="radio" name="shuffle" value="0"> Nope
+			</label>
+			<label>
+				<input type="radio" name="shuffle" value="movesAway">
+				<input type="number" name="movesAway" value=""> moves away
+			</label>
+		</fieldset>
+		<button>Create Puzzle</button>
 	</form>
 	<div id="controls">
 		<button name="up"   >UP</button>
@@ -64,28 +113,36 @@
 	<pre id="board"></pre>
 	<script>
 		var puzzle;
-		var booleanMap = {
-			'true'	: true,
-			'false'	: false
-		};
+		var options;
 
 		$('#config').on('submit', function(e) {
+			var solvable;
+			var shuffle;
+
 			// don't submit the form
 			e.preventDefault();
 
 			try {
-				// get and map solvable value
-				solvable = booleanMap[$('input[name=solvable]:checked').val()];
-				solvable = (solvable === undefined) ? 'random' : solvable;
+				// get solvable value
+				solvable = $('input[name=solvable]:checked').val();
+				if (solvable != 'random') solvable = !!parseInt(solvable, 10);
 
-				// init puzzle
-				puzzle = new SliderPuzzle({
+				// get shuffle value
+				shuffle = $('input[name=shuffle]:checked').val();
+				shuffle = (shuffle == 'movesAway') ? $('input[name=movesAway]').val() : !!parseInt(shuffle, 10);
+
+				// create options hash
+				options = {
 					rows: $('input[name=rows]').val() || undefined,
 					cols: $('input[name=cols]').val() || undefined,
 					hole: $('input[name=hole]').val() || undefined,
 					initialHole: $('input[name=initialHole]').val() || undefined,
-					solvable: solvable
-				});
+					solvable: solvable,
+					shuffle: shuffle
+				};
+
+				// init puzzle
+				puzzle = new SliderPuzzle(options);
 
 				// display board
 				$('#board').text(puzzle.toString());
