@@ -176,11 +176,11 @@ Number of pieces of the board.
 * `this._initialBoard`  
 Copy of a specified or shuffled board to be able to reset.
 * `this._sortedBoard`  
-  A board that contains all numbers form `0` (hole) to `rows*cols-1` in sequential order.
+  The board that contains all numbers form `0` (hole) to `rows*cols` in sequential order with any one number missing (the one that is replaced by the hole).
 * `this._solvedBoard`  
-  The board in its solved state.
+  The board in its solved state. Contains all numbers form `1` to `rows*cols` in sequential order with any one number replaced with the special value `0` representing the hole.
 * `this._initialHole`  
-  The initial position of the hole in a shuffled board. Either taken from the options or set during shuffle.
+  The initial position of the hole in the shuffled board. Either taken from the options or set during shuffle.
 * `this._board`  
   The current board. Changes with each move.
 * `this._hole`  
