@@ -271,11 +271,6 @@ SliderPuzzle.prototype = {
 				i = Math.floor(Math.random() * pickBoard.length);
 				item = pickBoard.splice(i, 1)[0];
 
-				// adjust any number after the hole by one
-				if (item >= this.options.hole) {
-					item++;
-				}
-
 				// add to board
 				this._initialBoard.push(item);
 			}
@@ -359,8 +354,10 @@ SliderPuzzle.prototype = {
 		if (!this._sortedBoard) {
 			this._sortedBoard = [];
 
+			// add items to board
 			for (var i = 0; i < this._boardSize; i++) {
-				this._sortedBoard.push(i);
+				// adjust any number after the hole by one
+				this._sortedBoard.push((i < this.options.hole) ? i : i + 1);
 			}
 		}
 
