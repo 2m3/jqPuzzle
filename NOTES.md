@@ -81,7 +81,7 @@ That way, one can define both the `hole` and the `initialHole` position where
 * A 2x2 board that is not yet solved (0 replaced for 4, numbers not in sequential order):
 
 		board: [1,2,0,3]
-
+<!-- separate code blocks -->
 		+---+---+
 		| 1 | 2 |
 		+---+---+
@@ -91,7 +91,7 @@ That way, one can define both the `hole` and the `initialHole` position where
 * A 2x2 board that is already solved (0 replaced for 4, numbers in sequential order):
 
 		board: [1,2,3,0]
-
+<!-- separate code blocks -->
 		+---+---+
 		| 1 | 2 |
 		+---+---+
@@ -101,7 +101,7 @@ That way, one can define both the `hole` and the `initialHole` position where
 * A 2x2 board that is already solved (0 replaced for 3, numbers in sequential order):
 
 		board: [1,2,0,4]
-
+<!-- separate code blocks -->
 		+---+---+
 		| 1 | 2 |
 		+---+---+
@@ -111,7 +111,7 @@ That way, one can define both the `hole` and the `initialHole` position where
 * A 2x2 board that is not yet solved (0 replaced for 3, numbers not in sequential order):
 
 		board: [1,2,4,0]
-
+<!-- separate code blocks -->
 		+---+---+
 		| 1 | 2 |
 		+---+---+
