@@ -72,12 +72,17 @@ function SliderPuzzle(options) {
 			// validate board integrity
 			// a valid board contains all numbers from 1 to (rows*cols) with any one number replaced with 0
 			// that is, a sorted board starts from 0 and contains all numbers up to (rows*cols) except one
+			var offset = 0;
 			for (i = 0; i < this._boardSize; i++) {
-				if (this._sortedBoard[i] !== i) {
+				if (this._sortedBoard[i] !== i  + offset) {
 					// single exception where one number is skipped
-					if (options.hole === undefined && this._sortedBoard[i] === (i + 1)) {
+					if (i !== 0 && options.hole === undefined && this._sortedBoard[i] === (i + 1)) {
 						// infer hole value
 						options.hole = i;
+
+						// set offset
+						offset = 1;
+
 						continue;
 					}
 
