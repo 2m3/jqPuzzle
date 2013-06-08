@@ -8,7 +8,7 @@ Specifies the number of rows of the puzzle.
 
 Expects any integer value greater than or equal to 2.
 
-Defaults to `4`.
+Defaults to 4.
 
 
 `cols`
@@ -18,7 +18,7 @@ Specifies the number of columns of the puzzle.
 
 Expects any integer value greater than or equal to 2.
 
-Defaults to `4`.
+Defaults to 4.
 
 
 `hole`
@@ -26,9 +26,9 @@ Defaults to `4`.
 
 Specifies the number of the puzzle piece that is replaced with the hole.
 
-Expects any integer value between 1 and `rows*cols`.
+Expects any integer value between 1 (top left) and `rows*cols` (bottom right).
 
-Defaults to `rows*cols`, that is, the bottom right position.
+Defaults to `rows*cols`.
 
 The `hole` option is ignored when a `board` is specified.
 
@@ -38,7 +38,7 @@ The `hole` option is ignored when a `board` is specified.
 
 Specifies the initial position of the hole in a shuffled puzzle.
 
-Expects any integer value between 1 and `rows*cols`.
+Expects any integer value between 1 (top left) and `rows*cols` (bottom right).
 
 Defaults to a random position.
 
@@ -48,11 +48,13 @@ The `intiialHole` option is ignored when a `board` is specified.
 `board`
 -------
 
-Specifies the initial board layout. Implicitly defines the solved board and the hole positions also.
+Specifies the initial, shuffled board layout. Implicitly defines the `hole` and the `initialHole` position also.
 
 Expects an array of integers denoting each puzzle piece from top left to bottom right (see below).
 
 Defaults to a shuffled board.
+
+There's no need to specify `rows` or `cols` when the board is square.
 
 When `board` is specified, the following options are ignored:
 
@@ -63,41 +65,64 @@ When `board` is specified, the following options are ignored:
 
 ### Setup a board
 
-A solved board is a board where
+Board setup is best described based on the solved board. A solved board is a board where
 * all numbers from 1 to `rows*cols` are in sequential order and
 * any one number is replaced with the special value `0` representing the hole
 
-An initial board contains all the numbers of a solved board in random order. Keep in mind that not every random board is solvable!
+A shuffled board contains all the numbers of a solved board in random order. Keep in mind that only every other random board layout is solvable!
 
-That way, one can define both the initial and solved hole positions where
-- the solved hole position is (the position of) the number that is replaced with 0 and
-- the initial hole position is the position of the 0 in the initial board
+That way, one can define both the `hole` and the `initialHole` position where
 
-A board that is not yet solved (0 replaced for 4, numbers not in sequential order):
+* `hole` is the number that is replaced with `0`
+* `initialHole` is the position of that `0` on the shuffled board
 
-	1 2
-	0 3
+#### Examples
 
-A board that is already solved (0 replaced for 4, numbers in sequential order):
+* A 2x2 board that is not yet solved (0 replaced for 4, numbers not in sequential order):
 
-	1 2
-	3 0
+		board: [1,2,0,3]
 
-A board that is already solved (0 replaced for 3, numbers in sequential order):
+		+---+---+
+		| 1 | 2 |
+		+---+---+
+		|   | 3 |
+		+---+---+
 
-	1 2
-	0 4
+* A 2x2 board that is already solved (0 replaced for 4, numbers in sequential order):
 
-A board that is not yet solved (0 replaced for 3, numbers not in sequential order):
+		board: [1,2,3,0]
 
-	1 2
-	4 0
+		+---+---+
+		| 1 | 2 |
+		+---+---+
+		| 3 |   |
+		+---+---+
+
+* A 2x2 board that is already solved (0 replaced for 3, numbers in sequential order):
+
+		board: [1,2,0,4]
+
+		+---+---+
+		| 1 | 2 |
+		+---+---+
+		|   | 4 |
+		+---+---+
+
+* A 2x2 board that is not yet solved (0 replaced for 3, numbers not in sequential order):
+
+		board: [1,2,4,0]
+
+		+---+---+
+		| 1 | 2 |
+		+---+---+
+		| 4 |   |
+		+---+---+
 
 
 `solvable`
 ----------
 
-Specifies whether a shuffled board must be solvable or not (as not any random order is solvable).
+Specifies whether a shuffled board must be solvable or not (as only every other random board layout is solvable).
 
 Expects either `true` or `false`. Any other value is interpreted as 'random' meaning that a shuffled board might or might not be solvable.
 
@@ -109,9 +134,9 @@ The `solvable` option is ignored when a `board` is specified.
 `shuffle`
 ---------
 
-Specifies whether the board should be immediately shuffled during initialization. When an integer is provided, the initial board will be the specified number of moves away from the solved board (meaning that the puzzle can be solved within the specified number of moves max).
+Specifies whether the board is immediately shuffled or not. If set to `false`, the game must be explicitly started by calling `shuffle()`.
 
-Expects either `true` or `false`. Any integer value is interpreted as the a.
+Expects either `true` or `false`. Any integer value is interpreted as the number of random moves away from the solved board (meaning that the puzzle can be solved with at most the specified number of moves).
 
 Defaults to `true`.
 
@@ -132,6 +157,14 @@ The options hash contains properties that do not change once a game is initializ
 * `this.options.board`
 * `this.options.hole`
 * `this.options.initialHole`
+
+Methods
+-------
+
+* `shuffle()`
+* `restart()`
+* `isSolvable()`
+* `isSolved()`
 
 Internal Properties
 -------------------
