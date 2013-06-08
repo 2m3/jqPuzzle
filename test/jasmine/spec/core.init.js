@@ -447,6 +447,22 @@ describe("Initialization:", function() {
 			expect(puzzle.options.hole).toEqual(3);
 
 			puzzle = new SliderPuzzle({
+				board: [1,	0,
+						3,	4]
+			});
+			expect(puzzle._board).toEqual([1, 0, 3, 4]);
+			expect(puzzle._initialHole).toEqual(2);
+			expect(puzzle.options.hole).toEqual(2);
+
+			puzzle = new SliderPuzzle({
+				board: [0,	1,
+						3,	4]
+			});
+			expect(puzzle._board).toEqual([0, 1, 3, 4]);
+			expect(puzzle._initialHole).toEqual(1);
+			expect(puzzle.options.hole).toEqual(2);
+
+			puzzle = new SliderPuzzle({
 				board: [1,	2,	3,
 						4,	5,	0],
 				rows: 2
@@ -481,6 +497,12 @@ describe("Initialization:", function() {
 			expect(function() {
 				new SliderPuzzle({
 					board: [4, 3, 2, 0]
+				});
+			}).toThrow(BOARD_INVALID);
+
+			expect(function() {
+				new SliderPuzzle({
+					board: [0, 1, 4, 5]
 				});
 			}).toThrow(BOARD_INVALID);
 
@@ -598,6 +620,56 @@ describe("Initialization:", function() {
 				expect(puzzle.getSolvedBoard()[i]).toEqual(0);
 				expect(puzzle.options.hole).toEqual(i + 1);
 			}
+		});
+
+		it("should place all numbers from 1 to (rows*cols) on the board with the hole value replaced by 0", function() {
+			puzzle = new SliderPuzzle({
+				hole: 1
+			});
+			expect(puzzle.getSolvedBoard()[0]).toEqual(0);
+			for (var i = 1; i < 16; i++) {
+				expect(puzzle.getSolvedBoard()[i]).toEqual(i + 1);
+			}
+
+			puzzle = new SliderPuzzle({
+				rows: 2,
+				cols: 2,
+				hole: 1
+			});
+			expect(puzzle.getSolvedBoard()[0]).toEqual(0);
+			expect(puzzle.getSolvedBoard()[1]).toEqual(2);
+			expect(puzzle.getSolvedBoard()[2]).toEqual(3);
+			expect(puzzle.getSolvedBoard()[3]).toEqual(4);
+
+			puzzle = new SliderPuzzle({
+				rows: 2,
+				cols: 2,
+				hole: 2
+			});
+			expect(puzzle.getSolvedBoard()[0]).toEqual(1);
+			expect(puzzle.getSolvedBoard()[1]).toEqual(0);
+			expect(puzzle.getSolvedBoard()[2]).toEqual(3);
+			expect(puzzle.getSolvedBoard()[3]).toEqual(4);
+
+			puzzle = new SliderPuzzle({
+				rows: 2,
+				cols: 2,
+				hole: 3
+			});
+			expect(puzzle.getSolvedBoard()[0]).toEqual(1);
+			expect(puzzle.getSolvedBoard()[1]).toEqual(2);
+			expect(puzzle.getSolvedBoard()[2]).toEqual(0);
+			expect(puzzle.getSolvedBoard()[3]).toEqual(4);
+
+			puzzle = new SliderPuzzle({
+				rows: 2,
+				cols: 2,
+				hole: 1
+			});
+			expect(puzzle.getSolvedBoard()[0]).toEqual(1);
+			expect(puzzle.getSolvedBoard()[1]).toEqual(2);
+			expect(puzzle.getSolvedBoard()[2]).toEqual(3);
+			expect(puzzle.getSolvedBoard()[3]).toEqual(0);
 		});
 
 		it("should ignore a specified hole value if a board is also specified", function() {
