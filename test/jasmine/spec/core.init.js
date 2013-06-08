@@ -670,7 +670,7 @@ describe("Initialization:", function() {
 			puzzle = new SliderPuzzle({
 				rows: 2,
 				cols: 2,
-				hole: 1
+				hole: 4
 			});
 			expect(puzzle.getSolvedBoard()[0]).toEqual(1);
 			expect(puzzle.getSolvedBoard()[1]).toEqual(2);
