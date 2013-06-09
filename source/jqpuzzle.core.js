@@ -430,7 +430,7 @@ SliderPuzzle.prototype = {
 
 	// TODO should not return -1 and null
 	getPosition: function(numberOrDirection) {
-		console.log('getPosition', numberOrDirection);
+		//console.log('getPosition', numberOrDirection);
 
 		if ($.inArray(numberOrDirection, this.DIRECTIONS) == -1) {
 			// number
@@ -442,7 +442,7 @@ SliderPuzzle.prototype = {
 	},
 
 	getPosition1dByDirection: function(direction) {
-		console.log('getPosition1dByDirection', direction);
+		//console.log('getPosition1dByDirection', direction);
 
 		var offsets = {
 			up: this.options.cols,
@@ -461,21 +461,20 @@ SliderPuzzle.prototype = {
 
 	// allow for a random move
 	move: function(numberOrDirection) {
-		console.log('move', numberOrDirection);
+		//console.log('move', numberOrDirection);
 		return this.moveByPosition(this.getPosition(numberOrDirection));
 	},
 
 	canMoveByPosition: function(row, col) {
-
 		var position = this.normalizePosition(row, col);
 		var hole = this.normalizePosition(this._hole - 1);
 
-		console.log('canMoveByPosition', row, col, this._hole, hole);
+		//console.log('canMoveByPosition', row, col, this._hole, hole);
 		return (Math.abs(position.row - hole.row) + Math.abs(position.col - hole.col) === 1);
 	},
 
 	moveByPosition: function(row, col) {
-		console.log('moveByPosition', row, col);
+		//console.log('moveByPosition', row, col);
 		var position = this.normalizePosition(row, col);
 		var position1d = this.to1dPosition(position);
 
