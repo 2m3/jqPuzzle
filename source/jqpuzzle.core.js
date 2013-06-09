@@ -114,7 +114,7 @@ function SliderPuzzle(options) {
 				value = options[option];
 
 				if (value !== undefined) {
-					// expect value to be greater than 0
+					// expect value to be greater than or equal to 1
 					value = options[option] = parseInt(value, 10);
 					if (isNaN(value) || value < 1) {
 						throw 'invalid ' + option + ' value';
