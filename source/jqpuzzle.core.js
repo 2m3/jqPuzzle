@@ -221,7 +221,7 @@ SliderPuzzle.prototype = {
 
 	// resets all game variables to their default state
 	restart: function() {
-		this._board = this._initialBoard.slice(0);
+		this.resetBoard();
 		this._hole = this._initialHole;
 		this._moves = [];
 
@@ -280,9 +280,15 @@ SliderPuzzle.prototype = {
 				this._initialBoard.splice(this.options.initialHole - 1, 0, 0);
 			}
 
-			// set specified or shuffled initial hole position
+			// set specified or shuffled initial hole position (required by isSolvable())
 			this._initialHole = this.options.initialHole || $.inArray(0, this._initialBoard) + 1;
 
+			// reset board (required by isSolved())
+			this.resetBoard();
+
+		// shuffled board must not be solved already
+		// check if board is solvable and account for solvable option
+		//
 		// solvable option      solvable board      action
 		// -------------------------------------------------
 		// true                 true                break
@@ -291,8 +297,10 @@ SliderPuzzle.prototype = {
 		// false                false               break
 		// 'random'             true                break
 		// 'random'             false               break
-		} while (	(this.options.solvable === true  && !this.isSolvable()) ||
-					(this.options.solvable === false &&  this.isSolvable()));
+		} while (this.isSolved() ||
+			(this.options.solvable === true  && !this.isSolvable()) ||
+			(this.options.solvable === false &&  this.isSolvable())
+		);
 	},
 
 	// generates a board with the specified number of moves away from the solved board
@@ -315,8 +323,8 @@ SliderPuzzle.prototype = {
 		var i;
 		var j;
 
-		// create a board in the form that the algorithm can work with by replacing 0 with
-		// the missing number so that the board contains all numbers from 1 to (rows*cols)
+		// get a clone of the initial board and convert to form that the algorithm can work with
+		// by replacing 0 with the missing number so that the board contains all numbers from 1 to (rows*cols)
 		board = this._initialBoard.slice(0);
 		board[this._initialHole - 1] = this.options.hole;
 
@@ -378,6 +386,11 @@ SliderPuzzle.prototype = {
 		}
 
 		return this._solvedBoard;
+	},
+
+	// reset the board to the initial board layout
+	resetBoard: function() {
+		this._board = this._initialBoard.slice(0);
 	},
 
 	// convert a two-dimensional row-col index into a one-dimensional index

@@ -524,6 +524,18 @@ describe("Initialization:", function() {
 				});
 			}).toThrow(BOARD_INVALID);
 		});
+
+		// ATTENTION there's a chance that this test succeeds while the implementation is wrong
+		it("should never shuffle the solved board", function() {
+			for (var i = 0; i < 100; i++) {
+				puzzle = new SliderPuzzle({
+					rows: 2,
+					cols: 2
+				});
+				expect(puzzle.isSolved()).toEqual(false);
+				expect(puzzle._board).not.toEqual([1,2,3,0]);
+			}
+		});
 	});
 
 	describe("When initialized WITH a hole, a slider puzzle", function() {
