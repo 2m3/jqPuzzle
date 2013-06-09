@@ -94,9 +94,6 @@ function SliderPuzzle(options) {
 			if (options.hole === undefined) {
 				options.hole = this._boardSize;
 			}
-
-			// set initial hole position
-			this._initialHole = $.inArray(0, options.board) + 1;
 		}
 		// board is not set
 		else {
@@ -206,6 +203,9 @@ SliderPuzzle.prototype = {
 			}
 		}
 
+		// set initial hole position
+		this.setInitialHole();
+
 		// start game
 		this.restart();
 	},
@@ -280,8 +280,8 @@ SliderPuzzle.prototype = {
 				this._initialBoard.splice(this.options.initialHole - 1, 0, 0);
 			}
 
-			// set specified or shuffled initial hole position (required by isSolvable())
-			this._initialHole = this.options.initialHole || $.inArray(0, this._initialBoard) + 1;
+			// set initial hole position (required by isSolvable())
+			this.setInitialHole();
 
 			// reset board (required by isSolved())
 			this.resetBoard();
@@ -310,9 +310,6 @@ SliderPuzzle.prototype = {
 
 		// TODO perform movesAway random moves and make sure we do not move back and forth
 		// these moves change this._initialBoard instead of this._board
-
-		// set initial hole position
-		this._initialHole = $.inArray(0, this._initialBoard) + 1;
 	},
 
 	// checks if the board is solvable
@@ -391,6 +388,11 @@ SliderPuzzle.prototype = {
 	// reset the board to the initial board layout
 	resetBoard: function() {
 		this._board = this._initialBoard.slice(0);
+	},
+
+	// set the specified or shuffled initial hole position
+	setInitialHole: function() {
+		this._initialHole = this.options.initialHole || $.inArray(0, this._initialBoard) + 1;
 	},
 
 	// convert a two-dimensional row-col index into a one-dimensional index
