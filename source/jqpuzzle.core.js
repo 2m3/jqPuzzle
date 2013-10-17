@@ -331,13 +331,20 @@ SliderPuzzle.prototype = {
 				signature *= ((board[i - 1] - board[j - 1]) / (i - j));
 			}
 		}
+		signature = Math.round(signature);
+
+		// for big boards (approx. more than 86 pieces) the signature calculation
+		// yields 0 instead of 1 or -1 what might me due to a buffer overflow
+		if (Math.abs(signature) !==  1) {
+			throw 'board could not be generated';
+		}
 
 		// compare to 1 (even permutation) if initial hole position and solved hole position equal
 		// or the distance between these positions is even
 		// compare to -1 (odd permutation) if the distance is odd
 		baseSignature = Math.abs(this.options.hole - this._initialHole) % 2 ? -1 : 1;
 
-		return Math.round(signature) === baseSignature;
+		return signature === baseSignature;
 	},
 
 	// checks if the board is solved
