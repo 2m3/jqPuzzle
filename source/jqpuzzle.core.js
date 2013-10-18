@@ -175,8 +175,6 @@ SliderPuzzle.prototype = {
 		solvable: true
 	},
 
-	DIRECTIONS: ['up', 'down', 'left','right'],
-
 	solved: false,
 	solvable: true,
 
@@ -339,10 +337,17 @@ SliderPuzzle.prototype = {
 			throw 'board could not be generated';
 		}
 
+
+		// TODO incorrect implementation
 		// compare to 1 (even permutation) if initial hole position and solved hole position equal
 		// or the distance between these positions is even
 		// compare to -1 (odd permutation) if the distance is odd
 		baseSignature = Math.abs(this.options.hole - this._initialHole) % 2 ? -1 : 1;
+
+		// this works for 2x2 boards
+		//var distance = Math.abs(this.options.hole - this._initialHole);
+		//if (distance === 0 || distance == 3) baseSignature = 1;
+		//if (distance == 1 || distance == 2) baseSignature = -1;
 
 		return signature === baseSignature;
 	},
@@ -402,99 +407,23 @@ SliderPuzzle.prototype = {
 		this._initialHole = this.options.initialHole || $.inArray(0, this._initialBoard) + 1;
 	},
 
-	// convert a two-dimensional row-col index into a one-dimensional index
-	to1dPosition : function(position2d) {
-		var normalizedPosition = this.normalizePosition(position2d);
-		return normalizedPosition.row * this.options.cols + normalizedPosition.col;
-	},
+	// TODO allow for a random move
+	// move a piece based on its position
+	move: function(row, col) {
+		var fromPosition = this.canMove(row, col);
 
-	// convert a one-dimensional index into a two-dimensional row-col index
-	to2dPosition: function(position1d) {
-		var col = position1d % this.options.cols;
-		return {
-			row: Math.floor((position1d - col) / this.options.cols),
-			col: col
-		};
-	},
-
-	// handle row and col passed in as object, array, or separate arguments,
-	// or just a one-dimensional index
-	normalizePosition: function(row, col) {
-		if ($.isPlainObject(row)) {
-			return row;
-		} else if ($.isArray(row)) {
-			return {
-				row: row[0],
-				col: row[1]
-			};
-		} else if (col === undefined) {
-			return this.to2dPosition(row);
-		} else {
-			return {
-				row: row,
-				col: col
-			};
-		}
-	},
-
-	// TODO should not return -1 and null
-	getPosition: function(numberOrDirection) {
-		//console.log('getPosition', numberOrDirection);
-
-		if ($.inArray(numberOrDirection, this.DIRECTIONS) == -1) {
-			// number
-			return $.inArray(numberOrDirection, this._board);
-		} else {
-			// direction
-			return this.getPosition1dByDirection(numberOrDirection);
-		}
-	},
-
-	getPosition1dByDirection: function(direction) {
-		//console.log('getPosition1dByDirection', direction);
-
-		var offsets = {
-			up: this.options.cols,
-			down: -this.options.cols,
-			left: 1,
-			right: -1
-		};
-
-		var index = this._hole + offsets[direction];
-		return (offsets[direction] && (index > 0 && index <= this._board.length)) ? index : null;
-	},
-
-	canMove: function(numberOrDirection) {
-		return this.canMoveByPosition(this.getPosition(numberOrDirection));
-	},
-
-	// allow for a random move
-	move: function(numberOrDirection) {
-		//console.log('move', numberOrDirection);
-		return this.moveByPosition(this.getPosition(numberOrDirection));
-	},
-
-	canMoveByPosition: function(row, col) {
-		var position = this.normalizePosition(row, col);
-		var hole = this.normalizePosition(this._hole - 1);
-
-		//console.log('canMoveByPosition', row, col, this._hole, hole);
-		return (Math.abs(position.row - hole.row) + Math.abs(position.col - hole.col) === 1);
-	},
-
-	moveByPosition: function(row, col) {
-		//console.log('moveByPosition', row, col);
-		var position = this.normalizePosition(row, col);
-		var position1d = this.to1dPosition(position);
-
-		if (this.canMoveByPosition(position)) {
+		if (fromPosition) {
 			// swap pieces
-			this._board[this._hole - 1] = this._board[position1d];
-			this._board[position1d] = 0;
+			this._board[this._hole - 1] = this._board[fromPosition.index];
+			this._board[fromPosition.index] = 0;
 
 			// update hole
-			this._hole = position1d + 1;
+			this._hole = fromPosition.index + 1;
 
+			// TODO increase move and other counters
+			// TODO add move to stack
+
+			// TODO return move object instead
 			// return current board
 			return this._board;
 		}
@@ -502,10 +431,147 @@ SliderPuzzle.prototype = {
 		return false;
 	},
 
-	pause: function(pauseTimer) {
+	// check if a piece can be moved based on its position
+	// returns the position object of the piece that can be moved
+	// returns false if the specified piece cannot be moved
+	canMove: function(row, col) {
+		var position = this.normalizePosition(row, col);
+		var hole = this.normalizePosition(this._hole);
+
+		// a piece can be moved if it's neighboring the hole
+		// i.e. either the distance of the rows or the columns
+		// between the piece and the hole is exactly 1
+		return (Math.abs(position.row - hole.row) + Math.abs(position.col - hole.col) === 1) && position;
 	},
 
-	resume: function() {
+	// TODO number gets lost - return a move object instead?
+	// move a piece based on its number
+	moveNumber: function(number) {
+		return this.move(this.getPosition(number));
+	},
+
+	// TODO number gets lost - return a move object instead?
+	// check if a piece can be moved based on its number
+	canMoveNumber: function(number) {
+		return this.canMove(this.getPosition(number));
+	},
+
+	// TODO direction gets lost - return a move object instead?
+	// move a piece based on a direction
+	moveDirection: function(direction) {
+		var index = this.canMoveDirection(direction);
+
+		return index && this.move(index);
+	},
+
+	// TODO direction gets lost - return a move object instead?
+	// check if a piece can be moved based on a direction
+	// returns the index of the piece that can be moved in the specified direction
+	// returns false if no piece can be moved in the specified direction
+	canMoveDirection: function(direction) {
+		var OFFSETS = {
+			up: this.options.cols,
+			down: -this.options.cols,
+			left: 1,
+			right: -1
+		};
+
+		// verify direction
+		if (!OFFSETS[direction]) {
+			throw 'invalid direction';
+		}
+
+		// calculate index based on hole position
+		var index = this._hole + OFFSETS[direction];
+
+		// a piece can be moved by the specified direction
+		// if the calculated index is within the board's bounds
+		return (index < 1 || index > this._boardSize) && index;
+	},
+
+	// get the position of a piece from its number
+	getPosition: function(number) {
+		var index = $.inArray(number, this._board) + 1;
+
+		return this.getPositionFromIndex(index);
+	},
+
+	// get the number of a piece from its position
+	getNumber: function(position) {
+		// TODO
+	},
+
+	// get the direction of a move from the position of the piece to be moved
+	getDirection: function(fromPosition) {
+		// TODO
+	},
+
+	// normalize different position styles into position object
+	// (<index>) - one-based, one-dimensional
+	// (<row>, <col>) - one-based, two-dimensional
+	// ([<row>, <col>]) - one-based, two-dimensional, array notation
+	normalizePosition: function(row, col) {
+		var position;
+
+		// ({row: <row>, col: <col>}) - one-based, two-dimensional, object
+		if ($.isPlainObject(row)) {
+			position = row;
+
+			// fill index if not set
+			if (!position.index) {
+				position = this.getPositionFromRowCol(position.row, position.col);
+			}
+		}
+
+		// ([<row>, <col>]) - one-based, two-dimensional
+		else if ($.isArray(row)) {
+			position = this.getPositionFromRowCol(row[0], row[1]);
+		}
+
+		// (<index>) - one-based, one-dimensional
+		else if (col === undefined) {
+			position = this.getPositionFromIndex(row);
+		}
+
+		// (<row>, <col>) - one-based, two-dimensional
+		else {
+			position = this.getPositionFromRowCol(row, col);
+		}
+
+		return position;
+	},
+
+	// create a position object from row and column numbers
+	getPositionFromRowCol: function(row, col) {
+		// expect row and col to be between 1 and the corresponding board's dimension
+		if (row < 1 || row > this.options.rows) {
+			throw 'invalid row';
+		}
+		if (col < 1 || col > this.options.cols) {
+			throw 'invalid col';
+		}
+
+		return {
+			index: (row - 1) * this.options.cols + (col - 1) + 1,
+			row: row,
+			col: col
+		};
+	},
+
+	// create a position object from one-dimensional index
+	getPositionFromIndex: function(index) {
+		// expect index to be between 1 and board size
+		if (index < 1 || index > this._boardSize) {
+			throw 'invalid index';
+		}
+
+		var col = (index - 1) % this.options.cols;
+
+		return {
+			index: index,
+			row: Math.floor((index - 1 - col) / this.options.cols) + 1,
+			col: col + 1
+		};
 	},
 
 	toString: function() {

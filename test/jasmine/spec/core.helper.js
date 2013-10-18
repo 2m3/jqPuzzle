@@ -29,189 +29,246 @@ describe("Helper: ", function() {
 					2,	1];
 	});
 
-	// some sample positions on a 3x3 puzzle
-	var positions = {
-		topLeft:		{ row: 0, col: 0 },
-		topRight:		{ row: 0, col: 2 },
-		bottomLeft:		{ row: 2, col: 0 },
-		bottomRight:	{ row: 2, col: 2 },
-		middle:			{ row: 1, col: 1 }
-	};
+	describe("Solving", function() {
 
-	beforeEach(function() {
-		puzzle = new SliderPuzzle({
-			board: board3x3
+		describe("isSolvable()", function() {
+			it("should identify a solvable board as solvable", function() {
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							0,	3]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							3,	0]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							0,	4]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							4,	0]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,	3,
+							4,	5,	0],
+					rows: 2
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+			});
+
+			it("should not identify a non-solvable board as solvable", function() {
+				puzzle = new SliderPuzzle({
+					board: [2,	1,
+							3,	0]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	3,
+							2,	0]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,	3,
+							5,	4,	0],
+					rows: 2
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+			});
+		});
+
+		describe("isSolved()", function() {
+			it("should identify a solved board as solved", function() {
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							3,	0]
+				});
+				expect(puzzle.isSolved()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							0,	4]
+				});
+				expect(puzzle.isSolved()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,	3,
+							4,	5,	0],
+					rows: 2
+				});
+				expect(puzzle.isSolved()).toEqual(true);
+			});
+
+			it("should not identify a unsolved board as solved", function() {
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							0,	3]
+				});
+				expect(puzzle.isSolved()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							4,	0]
+				});
+				expect(puzzle.isSolved()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,	3,
+							4,	0,	5],
+					rows: 2
+				});
+				expect(puzzle.isSolved()).toEqual(false);
+			});
 		});
 	});
 
-	describe("to1dPosition()", function() {
-		it("should convert a two-dimensional row-col index into a one-dimensional index", function() {
-			expect(puzzle.to1dPosition(positions.topLeft)    ).toEqual(0);
-			expect(puzzle.to1dPosition(positions.topRight)   ).toEqual(2);
-			expect(puzzle.to1dPosition(positions.bottomLeft) ).toEqual(6);
-			expect(puzzle.to1dPosition(positions.bottomRight)).toEqual(8);
-			expect(puzzle.to1dPosition(positions.middle)     ).toEqual(4);
+	describe("Positions", function() {
+
+		// some sample positions on a 3x3 puzzle
+		var positions = {
+			topLeft:		{ index: 1, row: 1, col: 1 },
+			topRight:		{ index: 3, row: 1, col: 3 },
+			bottomLeft:		{ index: 7, row: 3, col: 1 },
+			bottomRight:	{ index: 9, row: 3, col: 3 },
+			middle:			{ index: 5, row: 2, col: 2 }
+		};
+
+		beforeEach(function() {
+			puzzle = new SliderPuzzle({
+				board: board3x3
+			});
+		});
+
+		describe("getPositionFromRowCol()", function() {
+			var ROW_INVALID  = 'invalid row';
+			var COL_INVALID  = 'invalid col';
+
+			it("should create a position object from given row and col numbers", function() {
+				expect(puzzle.getPositionFromRowCol(1, 1)).toEqual(positions.topLeft);
+				expect(puzzle.getPositionFromRowCol(1, 3)).toEqual(positions.topRight);
+				expect(puzzle.getPositionFromRowCol(3, 1)).toEqual(positions.bottomLeft);
+				expect(puzzle.getPositionFromRowCol(3, 3)).toEqual(positions.bottomRight);
+				expect(puzzle.getPositionFromRowCol(2, 2)).toEqual(positions.middle);
+			});
+
+			it("should throw an exception if the row or col value is out of bounds", function() {
+				expect(function() { puzzle.getPositionFromRowCol(-1, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPositionFromRowCol( 0, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPositionFromRowCol(10, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPositionFromRowCol(1, -1); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPositionFromRowCol(1,  0); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPositionFromRowCol(1, 10); }).toThrow(COL_INVALID);
+			});
+		});
+
+		describe("getPositionFromIndex()", function() {
+			var INDEX_INVALID  = 'invalid index';
+
+			it("should create a position object from a given one-dimensional index", function() {
+				expect(puzzle.getPositionFromIndex(1)).toEqual(positions.topLeft);
+				expect(puzzle.getPositionFromIndex(3)).toEqual(positions.topRight);
+				expect(puzzle.getPositionFromIndex(7)).toEqual(positions.bottomLeft);
+				expect(puzzle.getPositionFromIndex(9)).toEqual(positions.bottomRight);
+				expect(puzzle.getPositionFromIndex(5)).toEqual(positions.middle);
+			});
+
+			it("should throw an exception if the one-dimensional index is out of bounds", function() {
+				expect(function() { puzzle.getPositionFromIndex(-1); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.getPositionFromIndex( 0); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.getPositionFromIndex(10); }).toThrow(INDEX_INVALID);
+			});
+		});
+
+		describe("normalizePosition()", function() {
+
+			it("should handle row and col passed in as seperate arguments", function() {
+				expect(puzzle.normalizePosition(1, 1)).toEqual(positions.topLeft);
+				expect(puzzle.normalizePosition(1, 3)).toEqual(positions.topRight);
+				expect(puzzle.normalizePosition(3, 1)).toEqual(positions.bottomLeft);
+				expect(puzzle.normalizePosition(3, 3)).toEqual(positions.bottomRight);
+				expect(puzzle.normalizePosition(2, 2)).toEqual(positions.middle);
+			});
+
+			it("should handle row and col passed in as an array", function() {
+				expect(puzzle.normalizePosition([1, 1])).toEqual(positions.topLeft);
+				expect(puzzle.normalizePosition([1, 3])).toEqual(positions.topRight);
+				expect(puzzle.normalizePosition([3, 1])).toEqual(positions.bottomLeft);
+				expect(puzzle.normalizePosition([3, 3])).toEqual(positions.bottomRight);
+				expect(puzzle.normalizePosition([2, 2])).toEqual(positions.middle);
+			});
+
+			it("should handle row and col passed in as an object", function() {
+				expect(puzzle.normalizePosition({ row: 1, col: 1 })).toEqual(positions.topLeft);
+				expect(puzzle.normalizePosition({ row: 1, col: 3 })).toEqual(positions.topRight);
+				expect(puzzle.normalizePosition({ row: 3, col: 1 })).toEqual(positions.bottomLeft);
+				expect(puzzle.normalizePosition({ row: 3, col: 3 })).toEqual(positions.bottomRight);
+				expect(puzzle.normalizePosition({ row: 2, col: 2 })).toEqual(positions.middle);
+			});
+
+			it("should handle a one-dimensional index", function() {
+				expect(puzzle.normalizePosition(1)).toEqual(positions.topLeft);
+				expect(puzzle.normalizePosition(3)).toEqual(positions.topRight);
+				expect(puzzle.normalizePosition(7)).toEqual(positions.bottomLeft);
+				expect(puzzle.normalizePosition(9)).toEqual(positions.bottomRight);
+				expect(puzzle.normalizePosition(5)).toEqual(positions.middle);
+			});
+
+			it("should throw an exception if the arguments are out of bounds", function() {
+				expect(function() { puzzle.normalizePosition(-1, 1); }).toThrow();
+				expect(function() { puzzle.normalizePosition( 0, 1); }).toThrow();
+				expect(function() { puzzle.normalizePosition(10, 1); }).toThrow();
+				expect(function() { puzzle.normalizePosition(1, -1); }).toThrow();
+				expect(function() { puzzle.normalizePosition(1,  0); }).toThrow();
+				expect(function() { puzzle.normalizePosition(1, 10); }).toThrow();
+				expect(function() { puzzle.normalizePosition([-1, 1]); }).toThrow();
+				expect(function() { puzzle.normalizePosition([ 0, 1]); }).toThrow();
+				expect(function() { puzzle.normalizePosition([10, 1]); }).toThrow();
+				expect(function() { puzzle.normalizePosition([1, -1]); }).toThrow();
+				expect(function() { puzzle.normalizePosition([1,  0]); }).toThrow();
+				expect(function() { puzzle.normalizePosition([1, 10]); }).toThrow();
+				expect(function() { puzzle.normalizePosition({ row: -1, col:  1 }); }).toThrow();
+				expect(function() { puzzle.normalizePosition({ row:  0, col:  1 }); }).toThrow();
+				expect(function() { puzzle.normalizePosition({ row: 10, col:  1 }); }).toThrow();
+				expect(function() { puzzle.normalizePosition({ row:  1, col: -1 }); }).toThrow();
+				expect(function() { puzzle.normalizePosition({ row:  1, col:  0 }); }).toThrow();
+				expect(function() { puzzle.normalizePosition({ row:  1, col: 10 }); }).toThrow();
+				expect(function() { puzzle.normalizePosition(-1); }).toThrow();
+				expect(function() { puzzle.normalizePosition( 0); }).toThrow();
+				expect(function() { puzzle.normalizePosition(10); }).toThrow();
+			});
+		});
+
+		describe("getPosition()", function() {
+			it("should find the position from a piece by its number", function() {
+				expect(puzzle.getPosition(1)).toEqual({ index: 1, row: 1, col: 1 });
+				expect(puzzle.getPosition(2)).toEqual({ index: 2, row: 1, col: 2 });
+				expect(puzzle.getPosition(3)).toEqual({ index: 3, row: 1, col: 3 });
+				expect(puzzle.getPosition(4)).toEqual({ index: 4, row: 2, col: 1 });
+				expect(puzzle.getPosition(5)).toEqual({ index: 5, row: 2, col: 2 });
+				expect(puzzle.getPosition(6)).toEqual({ index: 6, row: 2, col: 3 });
+				expect(puzzle.getPosition(7)).toEqual({ index: 7, row: 3, col: 1 });
+				expect(puzzle.getPosition(8)).toEqual({ index: 8, row: 3, col: 2 });
+				expect(puzzle.getPosition(0)).toEqual({ index: 9, row: 3, col: 3 });
+			});
+
+			it("should throw an exception if the number is out of bounds", function() {
+				expect(function() { puzzle.getPosition(-1); }).toThrow();
+				expect(function() { puzzle.getPosition( 9); }).toThrow();
+			});
 		});
 	});
 
-	describe("to2dPosition()", function() {
-		it("should convert a one-dimensional index into a two-dimensional row-col index", function() {
-			expect(puzzle.to2dPosition(0)).toEqual(positions.topLeft);
-			expect(puzzle.to2dPosition(2)).toEqual(positions.topRight);
-			expect(puzzle.to2dPosition(6)).toEqual(positions.bottomLeft);
-			expect(puzzle.to2dPosition(8)).toEqual(positions.bottomRight);
-			expect(puzzle.to2dPosition(4)).toEqual(positions.middle);
-		});
-	});
-
-	describe("isSolvable()", function() {
-		it("should identify a solvable board as solvable", function() {
-			puzzle = new SliderPuzzle({
-				board: [1,	2,
-						0,	3]
-			});
-			expect(puzzle.isSolvable()).toEqual(true);
-
-			puzzle = new SliderPuzzle({
-				board: [1,	2,
-						3,	0]
-			});
-			expect(puzzle.isSolvable()).toEqual(true);
-
-			puzzle = new SliderPuzzle({
-				board: [1,	2,
-						0,	4]
-			});
-			expect(puzzle.isSolvable()).toEqual(true);
-
-			puzzle = new SliderPuzzle({
-				board: [1,	2,
-						4,	0]
-			});
-			expect(puzzle.isSolvable()).toEqual(true);
-
-			puzzle = new SliderPuzzle({
-				board: [1,	2,	3,
-						4,	5,	0],
-				rows: 2
-			});
-			expect(puzzle.isSolvable()).toEqual(true);
-		});
-
-		it("should not identify a non-solvable board as solvable", function() {
-			puzzle = new SliderPuzzle({
-				board: [2,	1,
-						3,	0]
-			});
-			expect(puzzle.isSolvable()).toEqual(false);
-
-			puzzle = new SliderPuzzle({
-				board: [1,	3,
-						2,	0]
-			});
-			expect(puzzle.isSolvable()).toEqual(false);
-
-			puzzle = new SliderPuzzle({
-				board: [1,	2,	3,
-						5,	4,	0],
-				rows: 2
-			});
-			expect(puzzle.isSolvable()).toEqual(false);
-		});
-	});
-
-	describe("isSolved()", function() {
-		it("should identify a solved board as solved", function() {
-			puzzle = new SliderPuzzle({
-				board: [1,	2,
-						3,	0]
-			});
-			expect(puzzle.isSolved()).toEqual(true);
-
-			puzzle = new SliderPuzzle({
-				board: [1,	2,
-						0,	4]
-			});
-			expect(puzzle.isSolved()).toEqual(true);
-
-			puzzle = new SliderPuzzle({
-				board: [1,	2,	3,
-						4,	5,	0],
-				rows: 2
-			});
-			expect(puzzle.isSolved()).toEqual(true);
-		});
-
-		it("should not identify a unsolved board as solved", function() {
-			puzzle = new SliderPuzzle({
-				board: [1,	2,
-						0,	3]
-			});
-			expect(puzzle.isSolved()).toEqual(false);
-
-			puzzle = new SliderPuzzle({
-				board: [1,	2,
-						4,	0]
-			});
-			expect(puzzle.isSolved()).toEqual(false);
-
-			puzzle = new SliderPuzzle({
-				board: [1,	2,	3,
-						4,	0,	5],
-				rows: 2
-			});
-			expect(puzzle.isSolved()).toEqual(false);
-		});
-	});
-
-	describe("normalizePosition()", function() {
-
-		it("should handle row and col passed in as seperate arguments", function() {
-			expect(puzzle.normalizePosition(0, 0)).toEqual(positions.topLeft);
-			expect(puzzle.normalizePosition(0, 2)).toEqual(positions.topRight);
-			expect(puzzle.normalizePosition(2, 0)).toEqual(positions.bottomLeft);
-			expect(puzzle.normalizePosition(2, 2)).toEqual(positions.bottomRight);
-			expect(puzzle.normalizePosition(1, 1)).toEqual(positions.middle);
-		});
-
-		it("should handle row and col passed in as an array", function() {
-			expect(puzzle.normalizePosition([0, 0])).toEqual(positions.topLeft);
-			expect(puzzle.normalizePosition([0, 2])).toEqual(positions.topRight);
-			expect(puzzle.normalizePosition([2, 0])).toEqual(positions.bottomLeft);
-			expect(puzzle.normalizePosition([2, 2])).toEqual(positions.bottomRight);
-			expect(puzzle.normalizePosition([1, 1])).toEqual(positions.middle);
-		});
-
-		it("should handle row and col passed in as an object", function() {
-			expect(puzzle.normalizePosition({ row: 0, col: 0 })).toEqual(positions.topLeft);
-			expect(puzzle.normalizePosition({ row: 0, col: 2 })).toEqual(positions.topRight);
-			expect(puzzle.normalizePosition({ row: 2, col: 0 })).toEqual(positions.bottomLeft);
-			expect(puzzle.normalizePosition({ row: 2, col: 2 })).toEqual(positions.bottomRight);
-			expect(puzzle.normalizePosition({ row: 1, col: 1 })).toEqual(positions.middle);
-		});
-
-		it("should handle a single value as the index of the one-dimensional board array", function() {
-			expect(puzzle.normalizePosition(0)).toEqual(positions.topLeft);
-			expect(puzzle.normalizePosition(2)).toEqual(positions.topRight);
-			expect(puzzle.normalizePosition(6)).toEqual(positions.bottomLeft);
-			expect(puzzle.normalizePosition(8)).toEqual(positions.bottomRight);
-			expect(puzzle.normalizePosition(4)).toEqual(positions.middle);
-		});
-	});
-
-	describe("getPosition()", function() {
-		it("should find positions when given a label number", function() {
-			expect(puzzle.getPosition(0)).toEqual(8);
-			expect(puzzle.getPosition(1)).toEqual(0);
-			expect(puzzle.getPosition(2)).toEqual(1);
-			expect(puzzle.getPosition(3)).toEqual(2);
-			expect(puzzle.getPosition(4)).toEqual(3);
-			expect(puzzle.getPosition(5)).toEqual(4);
-			expect(puzzle.getPosition(6)).toEqual(5);
-			expect(puzzle.getPosition(7)).toEqual(6);
-			expect(puzzle.getPosition(8)).toEqual(7);
-		});
-
+/*
 		// TODO disabled
 		xit("should find positions when given a direction keyword", function() {
 			expect(puzzle.getPosition('up'   )).toBeUndefined();
@@ -219,7 +276,6 @@ describe("Helper: ", function() {
 			expect(puzzle.getPosition('left' )).toBeUndefined();
 			expect(puzzle.getPosition('right')).toEqual(7);
 		});
-	});
 
 	describe("canMoveByPosition()", function() {
 		it("should only allow down and right moves if the hole is bottom right", function() {
@@ -366,5 +422,5 @@ describe("Helper: ", function() {
 			expect(puzzle.canMoveByPosition(2, 2)).toEqual(false);
 		});
 	});
-
+*/
 });
