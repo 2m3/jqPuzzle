@@ -375,155 +375,151 @@ describe("Helper: ", function() {
 				expect(function() { puzzle.canMoveDirection(     ); }).toThrow(DIRECTION_INVALID);
 			});
 		});
-	});
 
-/*
+		describe("canMove()", function() {
+			it("should only allow left and up moves if the hole is top left", function() {
+				puzzle = new SliderPuzzle({
+					board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+				});
 
-
-	describe("canMoveByPosition()", function() {
-		it("should only allow down and right moves if the hole is bottom right", function() {
-			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				expect(puzzle.canMove(1)).toEqual(false);
+				expect(puzzle.canMove(2)).toEqual({ index : 2, row : 1, col : 2 });
+				expect(puzzle.canMove(3)).toEqual(false);
+				expect(puzzle.canMove(4)).toEqual({ index : 4, row : 2, col : 1 });
+				expect(puzzle.canMove(5)).toEqual(false);
+				expect(puzzle.canMove(6)).toEqual(false);
+				expect(puzzle.canMove(7)).toEqual(false);
+				expect(puzzle.canMove(8)).toEqual(false);
+				expect(puzzle.canMove(9)).toEqual(false);
 			});
 
-			expect(puzzle.canMoveByPosition(0, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 2)).toEqual(true);
-			expect(puzzle.canMoveByPosition(2, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 1)).toEqual(true);
-			expect(puzzle.canMoveByPosition(2, 2)).toEqual(false);
-		});
+			it("should allow left, right and up moves if the hole is top middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
+				});
 
-		it("should only allow down, left and right moves if the hole is bottom middle", function() {
-			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				expect(puzzle.canMove(1)).toEqual({ index : 1, row : 1, col : 1 });
+				expect(puzzle.canMove(2)).toEqual(false);
+				expect(puzzle.canMove(3)).toEqual({ index : 3, row : 1, col : 3 });
+				expect(puzzle.canMove(4)).toEqual(false);
+				expect(puzzle.canMove(5)).toEqual({ index : 5, row : 2, col : 2 });
+				expect(puzzle.canMove(6)).toEqual(false);
+				expect(puzzle.canMove(7)).toEqual(false);
+				expect(puzzle.canMove(8)).toEqual(false);
+				expect(puzzle.canMove(9)).toEqual(false);
 			});
 
-			expect(puzzle.canMoveByPosition(0, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 1)).toEqual(true);
-			expect(puzzle.canMoveByPosition(1, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 0)).toEqual(true);
-			expect(puzzle.canMoveByPosition(2, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 2)).toEqual(true);
-		});
+			it("should only allow right and up moves if the hole is top right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 0, 3, 4, 5, 6, 7, 8]
+				});
 
-		it("should only allow down and left moves if the hole is bottom left", function() {
-			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 0, 7, 8]
+				expect(puzzle.canMove(1)).toEqual(false);
+				expect(puzzle.canMove(2)).toEqual({ index : 2, row : 1, col : 2 });
+				expect(puzzle.canMove(3)).toEqual(false);
+				expect(puzzle.canMove(4)).toEqual(false);
+				expect(puzzle.canMove(5)).toEqual(false);
+				expect(puzzle.canMove(6)).toEqual({ index : 6, row : 2, col : 3 });
+				expect(puzzle.canMove(7)).toEqual(false);
+				expect(puzzle.canMove(8)).toEqual(false);
+				expect(puzzle.canMove(9)).toEqual(false);
 			});
 
-			expect(puzzle.canMoveByPosition(0, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 0)).toEqual(true);
-			expect(puzzle.canMoveByPosition(1, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 1)).toEqual(true);
-			expect(puzzle.canMoveByPosition(2, 2)).toEqual(false);
-		});
+			it("should only allow left, up and down moves if the hole is middle left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
+				});
 
-		it("should only allow up, down and right moves if the hole is middle right", function() {
-			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 0, 6, 7, 8]
+				expect(puzzle.canMove(1)).toEqual({ index : 1, row : 1, col : 1 });
+				expect(puzzle.canMove(2)).toEqual(false);
+				expect(puzzle.canMove(3)).toEqual(false);
+				expect(puzzle.canMove(4)).toEqual(false);
+				expect(puzzle.canMove(5)).toEqual({ index : 5, row : 2, col : 2 });
+				expect(puzzle.canMove(6)).toEqual(false);
+				expect(puzzle.canMove(7)).toEqual({ index : 7, row : 3, col : 1 });
+				expect(puzzle.canMove(8)).toEqual(false);
+				expect(puzzle.canMove(9)).toEqual(false);
 			});
 
-			expect(puzzle.canMoveByPosition(0, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 2)).toEqual(true);
-			expect(puzzle.canMoveByPosition(1, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 1)).toEqual(true);
-			expect(puzzle.canMoveByPosition(1, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 2)).toEqual(true);
-		});
+			it("should allow left, right, up and down moves if the hole is middle middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 0, 5, 6, 7, 8]
+				});
 
-		it("should allow up, down, left and right moves if the hole is middle middle", function() {
-			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 0, 5, 6, 7, 8]
+				expect(puzzle.canMove(1)).toEqual(false);
+				expect(puzzle.canMove(2)).toEqual({ index : 2, row : 1, col : 2 });
+				expect(puzzle.canMove(3)).toEqual(false);
+				expect(puzzle.canMove(4)).toEqual({ index : 4, row : 2, col : 1 });
+				expect(puzzle.canMove(5)).toEqual(false);
+				expect(puzzle.canMove(6)).toEqual({ index : 6, row : 2, col : 3 });
+				expect(puzzle.canMove(7)).toEqual(false);
+				expect(puzzle.canMove(8)).toEqual({ index : 8, row : 3, col : 2 });
+				expect(puzzle.canMove(9)).toEqual(false);
 			});
 
-			expect(puzzle.canMoveByPosition(0, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 1)).toEqual(true);
-			expect(puzzle.canMoveByPosition(0, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 0)).toEqual(true);
-			expect(puzzle.canMoveByPosition(1, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 2)).toEqual(true);
-			expect(puzzle.canMoveByPosition(2, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 1)).toEqual(true);
-			expect(puzzle.canMoveByPosition(2, 2)).toEqual(false);
-		});
+			it("should only allow right, up and down moves if the hole is middle right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 0, 6, 7, 8]
+				});
 
-		it("should only allow top, down and left moves if the hole is middle left", function() {
-			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
+				expect(puzzle.canMove(1)).toEqual(false);
+				expect(puzzle.canMove(2)).toEqual(false);
+				expect(puzzle.canMove(3)).toEqual({ index : 3, row : 1, col : 3 });
+				expect(puzzle.canMove(4)).toEqual(false);
+				expect(puzzle.canMove(5)).toEqual({ index : 5, row : 2, col : 2 });
+				expect(puzzle.canMove(6)).toEqual(false);
+				expect(puzzle.canMove(7)).toEqual(false);
+				expect(puzzle.canMove(8)).toEqual(false);
+				expect(puzzle.canMove(9)).toEqual({ index : 9, row : 3, col : 3 });
 			});
 
-			expect(puzzle.canMoveByPosition(0, 0)).toEqual(true);
-			expect(puzzle.canMoveByPosition(0, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 1)).toEqual(true);
-			expect(puzzle.canMoveByPosition(1, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 0)).toEqual(true);
-			expect(puzzle.canMoveByPosition(2, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 2)).toEqual(false);
-		});
+			it("should only allow left and down moves if the hole is bottom left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 0, 7, 8]
+				});
 
-		it("should only allow down and right moves if the hole is top right", function() {
-			puzzle = new SliderPuzzle({
-				board: [1, 2, 0, 3, 4, 5, 6, 7, 8]
+				expect(puzzle.canMove(1)).toEqual(false);
+				expect(puzzle.canMove(2)).toEqual(false);
+				expect(puzzle.canMove(3)).toEqual(false);
+				expect(puzzle.canMove(4)).toEqual({ index : 4, row : 2, col : 1 });
+				expect(puzzle.canMove(5)).toEqual(false);
+				expect(puzzle.canMove(6)).toEqual(false);
+				expect(puzzle.canMove(7)).toEqual(false);
+				expect(puzzle.canMove(8)).toEqual({ index : 8, row : 3, col : 2 });
+				expect(puzzle.canMove(9)).toEqual(false);
 			});
 
-			expect(puzzle.canMoveByPosition(0, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 1)).toEqual(true);
-			expect(puzzle.canMoveByPosition(0, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 2)).toEqual(true);
-			expect(puzzle.canMoveByPosition(2, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 2)).toEqual(false);
-		});
+			it("should only allow left, right and down moves if the hole is bottom middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				});
 
-		it("should allow down, left and right moves if the hole is top middle", function() {
-			puzzle = new SliderPuzzle({
-				board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
+				expect(puzzle.canMove(1)).toEqual(false);
+				expect(puzzle.canMove(2)).toEqual(false);
+				expect(puzzle.canMove(3)).toEqual(false);
+				expect(puzzle.canMove(4)).toEqual(false);
+				expect(puzzle.canMove(5)).toEqual({ index : 5, row : 2, col : 2 });
+				expect(puzzle.canMove(6)).toEqual(false);
+				expect(puzzle.canMove(7)).toEqual({ index : 7, row : 3, col : 1 });
+				expect(puzzle.canMove(8)).toEqual(false);
+				expect(puzzle.canMove(9)).toEqual({ index : 9, row : 3, col : 3 });
 			});
 
-			expect(puzzle.canMoveByPosition(0, 0)).toEqual(true);
-			expect(puzzle.canMoveByPosition(0, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 2)).toEqual(true);
-			expect(puzzle.canMoveByPosition(1, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 1)).toEqual(true);
-			expect(puzzle.canMoveByPosition(1, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 2)).toEqual(false);
-		});
+			it("should only allow right and down moves if the hole is bottom right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				});
 
-		it("should only allow down and left moves if the hole is top left", function() {
-			puzzle = new SliderPuzzle({
-				board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+				expect(puzzle.canMove(1)).toEqual(false);
+				expect(puzzle.canMove(2)).toEqual(false);
+				expect(puzzle.canMove(3)).toEqual(false);
+				expect(puzzle.canMove(4)).toEqual(false);
+				expect(puzzle.canMove(5)).toEqual(false);
+				expect(puzzle.canMove(6)).toEqual({ index : 6, row : 2, col : 3 });
+				expect(puzzle.canMove(7)).toEqual(false);
+				expect(puzzle.canMove(8)).toEqual({ index : 8, row : 3, col : 2 });
+				expect(puzzle.canMove(9)).toEqual(false);
 			});
-
-			expect(puzzle.canMoveByPosition(0, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(0, 1)).toEqual(true);
-			expect(puzzle.canMoveByPosition(0, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 0)).toEqual(true);
-			expect(puzzle.canMoveByPosition(1, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(1, 2)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 0)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 1)).toEqual(false);
-			expect(puzzle.canMoveByPosition(2, 2)).toEqual(false);
 		});
 	});
-*/
 });
