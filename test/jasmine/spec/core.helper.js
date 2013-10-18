@@ -268,14 +268,117 @@ describe("Helper: ", function() {
 		});
 	});
 
-/*
-		// TODO disabled
-		xit("should find positions when given a direction keyword", function() {
-			expect(puzzle.getPosition('up'   )).toBeUndefined();
-			expect(puzzle.getPosition('down' )).toEqual(5);
-			expect(puzzle.getPosition('left' )).toBeUndefined();
-			expect(puzzle.getPosition('right')).toEqual(7);
+	describe("Moves", function() {
+		describe("canMoveDirection()", function() {
+			it("should only allow left and up moves if the hole is top left", function() {
+				puzzle = new SliderPuzzle({
+					board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+				});
+				expect(puzzle.canMoveDirection('up'   )).toEqual(4);
+				expect(puzzle.canMoveDirection('down' )).toEqual(false);
+				expect(puzzle.canMoveDirection('left' )).toEqual(2);
+				expect(puzzle.canMoveDirection('right')).toEqual(false);
+			});
+
+			it("should only allow left, right and up moves if the hole is top middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
+				});
+				expect(puzzle.canMoveDirection('up'   )).toEqual(5);
+				expect(puzzle.canMoveDirection('down' )).toEqual(false);
+				expect(puzzle.canMoveDirection('left' )).toEqual(3);
+				expect(puzzle.canMoveDirection('right')).toEqual(1);
+			});
+
+			it("should only allow right and up moves if the hole is top right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 0, 3, 4, 5, 6, 7, 8]
+				});
+				expect(puzzle.canMoveDirection('up'   )).toEqual(6);
+				expect(puzzle.canMoveDirection('down' )).toEqual(false);
+				expect(puzzle.canMoveDirection('left' )).toEqual(false);
+				expect(puzzle.canMoveDirection('right')).toEqual(2);
+			});
+
+			it("should only allow left, up and down moves if the hole is middle left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
+				});
+				expect(puzzle.canMoveDirection('up'   )).toEqual(7);
+				expect(puzzle.canMoveDirection('down' )).toEqual(1);
+				expect(puzzle.canMoveDirection('left' )).toEqual(5);
+				expect(puzzle.canMoveDirection('right')).toEqual(false);
+			});
+
+			it("should allow left, right, up and down moves if the hole is middle middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 0, 5, 6, 7, 8]
+				});
+				expect(puzzle.canMoveDirection('up'   )).toEqual(8);
+				expect(puzzle.canMoveDirection('down' )).toEqual(2);
+				expect(puzzle.canMoveDirection('left' )).toEqual(6);
+				expect(puzzle.canMoveDirection('right')).toEqual(4);
+			});
+
+			it("should only allow right, up and down moves if the hole is middle right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 0, 6, 7, 8]
+				});
+				expect(puzzle.canMoveDirection('up'   )).toEqual(9);
+				expect(puzzle.canMoveDirection('down' )).toEqual(3);
+				expect(puzzle.canMoveDirection('left' )).toEqual(false);
+				expect(puzzle.canMoveDirection('right')).toEqual(5);
+			});
+
+			it("should only allow left and down moves if the hole is bottom left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 0, 7, 8]
+				});
+				expect(puzzle.canMoveDirection('up'   )).toEqual(false);
+				expect(puzzle.canMoveDirection('down' )).toEqual(4);
+				expect(puzzle.canMoveDirection('left' )).toEqual(8);
+				expect(puzzle.canMoveDirection('right')).toEqual(false);
+			});
+
+			it("should only allow left, right and down moves if the hole is bottom middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				});
+				expect(puzzle.canMoveDirection('up'   )).toEqual(false);
+				expect(puzzle.canMoveDirection('down' )).toEqual(5);
+				expect(puzzle.canMoveDirection('left' )).toEqual(9);
+				expect(puzzle.canMoveDirection('right')).toEqual(7);
+			});
+
+			it("should only allow left and down moves if the hole is bottom right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				});
+				expect(puzzle.canMoveDirection('up'   )).toEqual(false);
+				expect(puzzle.canMoveDirection('down' )).toEqual(6);
+				expect(puzzle.canMoveDirection('left' )).toEqual(false);
+				expect(puzzle.canMoveDirection('right')).toEqual(8);
+			});
+
+			it("should throw an exception if the direction value is invalid", function() {
+				var DIRECTION_INVALID = 'invalid direction';
+
+				puzzle = new SliderPuzzle({
+					board: board3x3
+				});
+
+				expect(function() { puzzle.canMoveDirection('uup'); }).toThrow(DIRECTION_INVALID);
+				expect(function() { puzzle.canMoveDirection(''   ); }).toThrow(DIRECTION_INVALID);
+				expect(function() { puzzle.canMoveDirection(0    ); }).toThrow(DIRECTION_INVALID);
+				expect(function() { puzzle.canMoveDirection(false); }).toThrow(DIRECTION_INVALID);
+				expect(function() { puzzle.canMoveDirection(null ); }).toThrow(DIRECTION_INVALID);
+				expect(function() { puzzle.canMoveDirection(     ); }).toThrow(DIRECTION_INVALID);
+			});
 		});
+	});
+
+/*
+
 
 	describe("canMoveByPosition()", function() {
 		it("should only allow down and right moves if the hole is bottom right", function() {

@@ -469,6 +469,8 @@ SliderPuzzle.prototype = {
 	// returns the index of the piece that can be moved in the specified direction
 	// returns false if no piece can be moved in the specified direction
 	canMoveDirection: function(direction) {
+		var index;
+		var position;
 		var OFFSETS = {
 			up: this.options.cols,
 			down: -this.options.cols,
@@ -482,11 +484,16 @@ SliderPuzzle.prototype = {
 		}
 
 		// calculate index based on hole position
-		var index = this._hole + OFFSETS[direction];
+		index = this._hole + OFFSETS[direction];
 
-		// a piece can be moved by the specified direction
-		// if the calculated index is within the board's bounds
-		return (index < 1 || index > this._boardSize) && index;
+		try {
+			// check bounds (required as canMove() does not re-throw the exception)
+			position = this.getPositionFromIndex(index);
+			// check move
+			position = this.canMove(position);
+		} catch (e) { }
+
+		return !!position && index;
 	},
 
 	// get the position of a piece from its number
