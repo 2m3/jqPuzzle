@@ -160,10 +160,10 @@
 
 		$('#controls').on('click', 'button', function() {
 			if (puzzle) {
-				var newBoard = puzzle.move(this.name.toLowerCase());
-				console.log('move ' + this.name.toLowerCase(), newBoard);
+				var move = puzzle.moveDirection(this.name.toLowerCase());
+				console.log(move);
 
-				if (newBoard) {
+				if (move) {
 					$('#board').text(puzzle.toString());
 				}
 			}

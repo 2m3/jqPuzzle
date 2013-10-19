@@ -521,5 +521,32 @@ describe("Helper: ", function() {
 				expect(puzzle.canMove(9)).toEqual(false);
 			});
 		});
+
+		describe("move()", function() {
+			it("should allow a piece next to the hole to be moved exactly once", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle.move(1)).toBeTruthy();
+				expect(puzzle.move(1)).toEqual(false);
+				expect(puzzle.move(2)).toBeTruthy();
+				expect(puzzle.move(2)).toEqual(false);
+				expect(puzzle.move(3)).toBeTruthy();
+				expect(puzzle.move(3)).toEqual(false);
+				expect(puzzle.move(6)).toBeTruthy();
+				expect(puzzle.move(6)).toEqual(false);
+				expect(puzzle.move(5)).toBeTruthy();
+				expect(puzzle.move(5)).toEqual(false);
+				expect(puzzle.move(4)).toBeTruthy();
+				expect(puzzle.move(4)).toEqual(false);
+				expect(puzzle.move(7)).toBeTruthy();
+				expect(puzzle.move(7)).toEqual(false);
+				expect(puzzle.move(8)).toBeTruthy();
+				expect(puzzle.move(8)).toEqual(false);
+				expect(puzzle.move(9)).toBeTruthy();
+				expect(puzzle.move(9)).toEqual(false);
+			});
+		});
 	});
 });

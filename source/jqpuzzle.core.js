@@ -414,18 +414,16 @@ SliderPuzzle.prototype = {
 
 		if (fromPosition) {
 			// swap pieces
-			this._board[this._hole - 1] = this._board[fromPosition.index];
-			this._board[fromPosition.index] = 0;
+			this._board[this._hole - 1] = this._board[fromPosition.index - 1];
+			this._board[fromPosition.index - 1] = 0;
 
 			// update hole
-			this._hole = fromPosition.index + 1;
+			this._hole = fromPosition.index;
 
 			// TODO increase move and other counters
 			// TODO add move to stack
-
 			// TODO return move object instead
-			// return current board
-			return this._board;
+			return fromPosition;
 		}
 
 		return false;
