@@ -152,6 +152,14 @@ function SliderPuzzle(options) {
 		this.options.hole = this._boardSize;
 	}
 
+	// set offsets
+	this.offsets = {
+		up: this.options.cols,
+		down: -this.options.cols,
+		left: 1,
+		right: -1
+	};
+
 	// start the game
 	this.initGame();
 
@@ -397,118 +405,181 @@ SliderPuzzle.prototype = {
 		return this._solvedBoard;
 	},
 
-	// reset the board to the initial board layout
+	// resets the board to the initial board layout
 	resetBoard: function() {
 		this._board = this._initialBoard.slice(0);
 	},
 
-	// set the specified or shuffled initial hole position
+	// sets the specified or shuffled initial hole position
 	setInitialHole: function() {
 		this._initialHole = this.options.initialHole || $.inArray(0, this._initialBoard) + 1;
 	},
 
-	// TODO allow for a random move
-	// move a piece based on its position
-	move: function(row, col) {
-		var fromPosition = this.canMove(row, col);
-
-		if (fromPosition) {
-			// swap pieces
-			this._board[this._hole - 1] = this._board[fromPosition.index - 1];
-			this._board[fromPosition.index - 1] = 0;
-
-			// update hole
-			this._hole = fromPosition.index;
-
-			// TODO increase move and other counters
-			// TODO add move to stack
-			// TODO return move object instead
-			return fromPosition;
-		}
-
-		return false;
+	// TODO error case
+	// checks if a piece can be moved based on its position
+	// returns a move object if the piece can be moved
+	// returns false if the piece cannot be moved
+	canMove: function(row, col) {
+		return this._canMoveByPiece(this.getPiece(row, col));
 	},
 
-	// check if a piece can be moved based on its position
-	// returns the position object of the piece that can be moved
-	// returns false if the specified piece cannot be moved
-	canMove: function(row, col) {
-		var position = this.normalizePosition(row, col);
+	// TODO error case
+	// check if a piece can be moved based on its number
+	// returns a move object if the piece can be moved
+	// returns false if the piece cannot be moved
+	canMoveByNumber: function(number) {
+		return this._canMoveByPiece(this.getPieceByNumber(number));
+	},
+
+	// check if a piece can be moved based on a direction
+	// returns a move object if a piece can be moved in this direction
+	// returns false if no piece can be moved in this direction
+	canMoveByDirection: function(direction) {
+		var piece = this.getPieceByDirection(direction);
+
+		return piece && this._canMoveByPiece(piece);
+	},
+
+	// checks if a piece can be moved given an internal piece object
+	// returns a move object if the piece can be moved
+	// returns false if the piece cannot be moved
+	_canMoveByPiece: function(piece) {
+		var move;
 		var hole = this.normalizePosition(this._hole);
 
 		// a piece can be moved if it's neighboring the hole
 		// i.e. either the distance of the rows or the columns
 		// between the piece and the hole is exactly 1
-		return (Math.abs(position.row - hole.row) + Math.abs(position.col - hole.col) === 1) && position;
+		move = (Math.abs(piece.position.row - hole.row) + Math.abs(piece.position.col - hole.col) === 1);
+
+		if (move) {
+			// create a move object
+			move = {
+				number: piece.number,
+				from: piece.position,
+				to: hole
+			};
+
+			// add direction
+			move.direction = this.getDirection(move);
+		}
+
+		return move;
 	},
 
-	// TODO number gets lost - return a move object instead?
-	// move a piece based on its number
+	// TODO allow for a random move
+	// moves a piece based on its position
+	// returns a move object if the piece was moved
+	// returns false if the piece could not be moved
+	move: function(row, col) {
+		var move = this.canMove(row, col);
+
+		return move && this._moveByMove(move);
+	},
+
+	// moves a piece based on its number
+	// returns a move object if the piece was moved
+	// returns false if the piece could not be moved
 	moveNumber: function(number) {
-		return this.move(this.getPosition(number));
+		return this._moveByPiece(this.getPieceByNumber(number));
 	},
 
-	// TODO number gets lost - return a move object instead?
-	// check if a piece can be moved based on its number
-	canMoveNumber: function(number) {
-		return this.canMove(this.getPosition(number));
-	},
 
-	// TODO direction gets lost - return a move object instead?
 	// move a piece based on a direction
+	// returns a move object if a piece was moved in this direction
+	// returns false if no piece could not be moved in this direction
 	moveDirection: function(direction) {
-		var index = this.canMoveDirection(direction);
+		var move = this.canMoveByDirection(direction);
 
-		return index && this.move(index);
+		return move && this._moveByMove(move);
 	},
 
-	// TODO direction gets lost - return a move object instead?
-	// check if a piece can be moved based on a direction
-	// returns the index of the piece that can be moved in the specified direction
-	// returns false if no piece can be moved in the specified direction
-	canMoveDirection: function(direction) {
+	// moves a piece given an internal piece object
+	// returns a move object if the piece was moved
+	// returns false if the piece could not be moved
+	_moveByPiece: function(piece) {
+		var move = this._canMoveByPiece(piece);
+
+		return move && this._moveByMove(move);
+	},
+
+	// moves a piece given an internal move object
+	// returns the move object
+	_moveByMove: function(move) {
+		var index = move.from.index;
+
+		// swap pieces
+		this._board[this._hole - 1] = this._board[index - 1];
+		this._board[index - 1] = 0;
+
+		// update hole
+		this._hole = index;
+
+		// add timestamp
+		move.timestamp = new Date();
+
+		// TODO increase move and other counters
+		// TODO add move to stack
+
+		return move;
+	},
+
+	// TODO error case
+	// TODO also works for hole right now
+	// gets a piece based on its position
+	getPiece: function(row, col) {
+		var position = this.normalizePosition(row, col);
+
+		return {
+			number: this._board[position.index - 1],
+			position: position
+		};
+	},
+
+	// TODO error case
+	// gets a piece based on its number
+	getPieceByNumber: function(number) {
+		var index = $.inArray(number, this._board) + 1;
+
+		return {
+			number: number,
+			position: this.getPositionByIndex(index)
+		};
+	},
+
+	// TODO refactor to fix left/right issue (within bounds but on other row)
+	// gets a piece based on a direction
+	// returns false if no piece can be moved in this direction
+	getPieceByDirection: function(direction) {
 		var index;
 		var position;
-		var OFFSETS = {
-			up: this.options.cols,
-			down: -this.options.cols,
-			left: 1,
-			right: -1
-		};
 
 		// verify direction
-		if (!OFFSETS[direction]) {
+		if (!this.offsets[direction]) {
 			throw 'invalid direction';
 		}
 
 		// calculate index based on hole position
-		index = this._hole + OFFSETS[direction];
+		index = this._hole + this.offsets[direction];
 
 		try {
-			// check bounds (required as canMove() does not re-throw the exception)
-			position = this.getPositionFromIndex(index);
-			// check move
-			position = this.canMove(position);
+			// does only check boundaries but not check same row
+			position = this.getPositionByIndex(index);
 		} catch (e) { }
 
-		return !!position && index;
-	},
-
-	// get the position of a piece from its number
-	getPosition: function(number) {
-		var index = $.inArray(number, this._board) + 1;
-
-		return this.getPositionFromIndex(index);
-	},
-
-	// get the number of a piece from its position
-	getNumber: function(position) {
-		// TODO
+		// TODO not ideal - get piece re-calcs position
+		return !!position && this.getPiece(index);
 	},
 
 	// get the direction of a move from the position of the piece to be moved
-	getDirection: function(fromPosition) {
-		// TODO
+	getDirection: function(move) {
+		for (var direction in this.offsets) {
+			if (this.offsets.hasOwnProperty(direction)) {
+				if (move.to.index + this.offsets[direction] === move.from.index) {
+					return direction;
+				}
+			}
+		}
 	},
 
 	// normalize different position styles into position object
@@ -524,30 +595,30 @@ SliderPuzzle.prototype = {
 
 			// fill index if not set
 			if (!position.index) {
-				position = this.getPositionFromRowCol(position.row, position.col);
+				position = this.getPositionByRowCol(position.row, position.col);
 			}
 		}
 
 		// ([<row>, <col>]) - one-based, two-dimensional
 		else if ($.isArray(row)) {
-			position = this.getPositionFromRowCol(row[0], row[1]);
+			position = this.getPositionByRowCol(row[0], row[1]);
 		}
 
 		// (<index>) - one-based, one-dimensional
 		else if (col === undefined) {
-			position = this.getPositionFromIndex(row);
+			position = this.getPositionByIndex(row);
 		}
 
 		// (<row>, <col>) - one-based, two-dimensional
 		else {
-			position = this.getPositionFromRowCol(row, col);
+			position = this.getPositionByRowCol(row, col);
 		}
 
 		return position;
 	},
 
 	// create a position object from row and column numbers
-	getPositionFromRowCol: function(row, col) {
+	getPositionByRowCol: function(row, col) {
 		// expect row and col to be between 1 and the corresponding board's dimension
 		if (row < 1 || row > this.options.rows) {
 			throw 'invalid row';
@@ -564,7 +635,7 @@ SliderPuzzle.prototype = {
 	},
 
 	// create a position object from one-dimensional index
-	getPositionFromIndex: function(index) {
+	getPositionByIndex: function(index) {
 		// expect index to be between 1 and board size
 		if (index < 1 || index > this._boardSize) {
 			throw 'invalid index';
