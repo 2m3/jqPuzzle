@@ -415,7 +415,6 @@ SliderPuzzle.prototype = {
 		this._initialHole = this.options.initialHole || $.inArray(0, this._initialBoard) + 1;
 	},
 
-	// TODO error case
 	// checks if a piece can be moved based on its position
 	// returns a move object if the piece can be moved
 	// returns false if the piece cannot be moved
@@ -423,7 +422,6 @@ SliderPuzzle.prototype = {
 		return this._canMoveByPiece(this.getPiece(row, col));
 	},
 
-	// TODO error case
 	// check if a piece can be moved based on its number
 	// returns a move object if the piece can be moved
 	// returns false if the piece cannot be moved

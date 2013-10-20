@@ -771,6 +771,30 @@ describe("Helper: ", function() {
 				expect(puzzle.canMove(8)).toEqual({ number : 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right' });
 				expect(puzzle.canMove(9)).toEqual(false);
 			});
+
+			it("should throw an exception if the arguments are out of bounds", function() {
+				expect(function() { puzzle.canMove(-1); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.canMove( 0); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.canMove(10); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.canMove(-1, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.canMove( 0, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.canMove(10, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.canMove(1, -1); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.canMove(1,  0); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.canMove(1, 10); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.canMove([-1, 1]); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.canMove([ 0, 1]); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.canMove([10, 1]); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.canMove([1, -1]); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.canMove([1,  0]); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.canMove([1, 10]); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.canMove({ row: -1, col:  1 }); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.canMove({ row:  0, col:  1 }); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.canMove({ row: 10, col:  1 }); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.canMove({ row:  1, col: -1 }); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.canMove({ row:  1, col:  0 }); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.canMove({ row:  1, col: 10 }); }).toThrow(COL_INVALID);
+			});
 		});
 
 		describe("canMoveByNumber()", function() {
