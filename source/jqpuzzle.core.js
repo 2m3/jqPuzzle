@@ -482,7 +482,6 @@ SliderPuzzle.prototype = {
 		return this._moveByPiece(this.getPieceByNumber(number));
 	},
 
-
 	// move a piece based on a direction
 	// returns a move object if a piece was moved in this direction
 	// returns false if no piece could not be moved in this direction
