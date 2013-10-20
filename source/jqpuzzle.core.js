@@ -342,7 +342,7 @@ SliderPuzzle.prototype = {
 		// for big boards (approx. more than 86 pieces) the signature calculation
 		// yields 0 instead of 1 or -1 what might me due to a buffer overflow
 		if (Math.abs(signature) !==  1) {
-			throw 'board could not be generated';
+			throw 'board could not be checked for solvability';
 		}
 
 

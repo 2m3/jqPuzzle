@@ -95,6 +95,15 @@ describe("Helper: ", function() {
 				});
 				expect(puzzle.isSolvable()).toEqual(false);
 			});
+
+			it("should throw an exception if the signature calculation fails due to a big board", function() {
+				puzzle = new SliderPuzzle({
+					rows: 15,
+					cols: 15,
+					solvable: 'random'
+				});
+				expect(function() { puzzle.isSolvable(); }).toThrow('board could not be checked for solvability');
+			});
 		});
 
 		describe("isSolved()", function() {

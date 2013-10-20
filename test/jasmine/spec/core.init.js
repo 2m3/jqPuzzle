@@ -189,6 +189,14 @@ describe("Initialization:", function() {
 			expect(puzzle.options.rows).toEqual(4);
 			expect(puzzle.options.cols).toEqual(4);
 		});
+
+		it("should throw an exception if the signature calculation fails due to a big board", function() {
+			expect(function() { new SliderPuzzle({
+				rows: 15,
+				cols: 15
+			}); }).toThrow();
+		});
+
 	});
 
 	describe("When initialized WITH a board, a slider puzzle", function() {
