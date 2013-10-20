@@ -524,7 +524,6 @@ SliderPuzzle.prototype = {
 		return move;
 	},
 
-	// TODO error case
 	// TODO also works for hole right now
 	// gets a piece based on its position
 	getPiece: function(row, col) {
@@ -536,23 +535,29 @@ SliderPuzzle.prototype = {
 		};
 	},
 
-	// TODO error case
 	// gets a piece based on its number
 	getPieceByNumber: function(number) {
+		var position;
 		var index = $.inArray(number, this._board) + 1;
+
+		try {
+			position = this.getPositionByIndex(index);
+		} catch (e) {
+			throw 'invalid number';
+		}
 
 		return {
 			number: number,
-			position: this.getPositionByIndex(index)
+			position: position
 		};
 	},
 
-	// TODO refactor to fix left/right issue (within bounds but on other row)
 	// gets a piece based on a direction
 	// returns false if no piece can be moved in this direction
 	getPieceByDirection: function(direction) {
 		var index;
 		var position;
+		var hole;
 
 		// verify direction
 		if (!this.offsets[direction]) {
@@ -562,13 +567,23 @@ SliderPuzzle.prototype = {
 		// calculate index based on hole position
 		index = this._hole + this.offsets[direction];
 
+		// verify index is within bounds
 		try {
-			// does only check boundaries but not check same row
 			position = this.getPositionByIndex(index);
-		} catch (e) { }
+		} catch (e) {
+			return false;
+		}
 
-		// TODO not ideal - get piece re-calcs position
-		return !!position && this.getPiece(index);
+		// verify position is on same row as hole for left/right moves
+		if (direction == 'left' || direction == 'right') {
+			hole = this.getPositionByIndex(this._hole);
+
+			if (position.row !== hole.row) {
+				return false;
+			}
+		}
+
+		return position && this.getPiece(position);
 	},
 
 	// get the direction of a move from the position of the piece to be moved
