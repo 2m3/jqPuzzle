@@ -927,7 +927,6 @@ describe("Helper: ", function() {
 			});
 		});
 
-
 		describe("canMoveByDirection()", function() {
 			it("should only allow left and up moves if the hole is top left", function() {
 				puzzle = new SliderPuzzle({
