@@ -479,6 +479,152 @@ describe("Helper: ", function() {
 
 	describe("Moves: ", function() {
 
+		describe("_canMoveByPiece()", function() {
+			it("should only allow left and up moves if the hole is top left", function() {
+				puzzle = new SliderPuzzle({
+					board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._canMoveByPiece({ number: 0, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 1, position: positions3x3.topMiddle })).toEqual({ number : 1, from: positions3x3.topMiddle, to: positions3x3.topLeft, direction: 'left' });
+				expect(puzzle._canMoveByPiece({ number: 2, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 3, position: positions3x3.middleLeft })).toEqual({ number : 3, from: positions3x3.middleLeft, to: positions3x3.topLeft, direction: 'up' });
+				expect(puzzle._canMoveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should allow left, right and up moves if the hole is top middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._canMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number : 1, from: positions3x3.topLeft, to: positions3x3.topMiddle, direction: 'right' });
+				expect(puzzle._canMoveByPiece({ number: 0, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 2, position: positions3x3.topRight })).toEqual({ number : 2, from: positions3x3.topRight, to: positions3x3.topMiddle, direction: 'left' });
+				expect(puzzle._canMoveByPiece({ number: 3, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number : 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up' });
+				expect(puzzle._canMoveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should only allow right and up moves if the hole is top right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 0, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._canMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual({ number : 2, from: positions3x3.topMiddle, to: positions3x3.topRight, direction: 'right' });
+				expect(puzzle._canMoveByPiece({ number: 0, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 3, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual({ number : 5, from: positions3x3.middleRight, to: positions3x3.topRight, direction: 'up' });
+				expect(puzzle._canMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should only allow left, up and down moves if the hole is middle left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._canMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number : 1, from: positions3x3.topLeft, to: positions3x3.middleLeft, direction: 'down' });
+				expect(puzzle._canMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 0, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number : 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' });
+				expect(puzzle._canMoveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual({ number : 6, from: positions3x3.bottomLeft, to: positions3x3.middleLeft, direction: 'up' });
+				expect(puzzle._canMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should allow left, right, up and down moves if the hole is middle middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 0, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._canMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual({ number : 2, from: positions3x3.topMiddle, to: positions3x3.middleMiddle, direction: 'down' });
+				expect(puzzle._canMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual({ number : 4, from: positions3x3.middleLeft, to: positions3x3.middleMiddle, direction: 'right' });
+				expect(puzzle._canMoveByPiece({ number: 0, position: positions3x3.middleMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual({ number : 5, from: positions3x3.middleRight, to: positions3x3.middleMiddle, direction: 'left' });
+				expect(puzzle._canMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number : 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up' });
+				expect(puzzle._canMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should only allow right, up and down moves if the hole is middle right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 0, 6, 7, 8]
+				});
+
+				expect(puzzle._canMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual({ number : 3, from: positions3x3.topRight, to: positions3x3.middleRight, direction: 'down' });
+				expect(puzzle._canMoveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number : 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right' });
+				expect(puzzle._canMoveByPiece({ number: 0, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number : 8, from: positions3x3.bottomRight, to: positions3x3.middleRight, direction: 'up' });
+			});
+
+			it("should only allow left and down moves if the hole is bottom left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 0, 7, 8]
+				});
+
+				expect(puzzle._canMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual({ number : 4, from: positions3x3.middleLeft, to: positions3x3.bottomLeft, direction: 'down' });
+				expect(puzzle._canMoveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 6, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 0, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number : 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' });
+				expect(puzzle._canMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should only allow left, right and down moves if the hole is bottom middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				});
+
+				expect(puzzle._canMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number : 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' });
+				expect(puzzle._canMoveByPiece({ number: 6, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 7, position: positions3x3.bottomLeft })).toEqual({ number : 7, from: positions3x3.bottomLeft, to: positions3x3.bottomMiddle, direction: 'right' });
+				expect(puzzle._canMoveByPiece({ number: 0, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number : 8, from: positions3x3.bottomRight, to: positions3x3.bottomMiddle, direction: 'left' });
+			});
+
+			it("should only allow right and down moves if the hole is bottom right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				});
+
+				expect(puzzle._canMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 6, position: positions3x3.middleRight })).toEqual({ number : 6, from: positions3x3.middleRight, to: positions3x3.bottomRight, direction: 'down' });
+				expect(puzzle._canMoveByPiece({ number: 7, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._canMoveByPiece({ number: 8, position: positions3x3.bottomMiddle })).toEqual({ number : 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right' });
+				expect(puzzle._canMoveByPiece({ number: 0, position: positions3x3.bottomRight })).toEqual(false);
+			});
+		});
+
 		describe("canMove()", function() {
 			it("should only allow left and up moves if the hole is top left", function() {
 				puzzle = new SliderPuzzle({
