@@ -480,7 +480,7 @@ SliderPuzzle.prototype = {
 	// moves a piece based on its number
 	// returns a move object if the piece was moved
 	// returns false if the piece could not be moved
-	moveNumber: function(number) {
+	moveByNumber: function(number) {
 		return this._moveByPiece(this.getPieceByNumber(number));
 	},
 
@@ -488,7 +488,7 @@ SliderPuzzle.prototype = {
 	// move a piece based on a direction
 	// returns a move object if a piece was moved in this direction
 	// returns false if no piece could not be moved in this direction
-	moveDirection: function(direction) {
+	moveByDirection: function(direction) {
 		var move = this.canMoveByDirection(direction);
 
 		return move && this._moveByMove(move);
