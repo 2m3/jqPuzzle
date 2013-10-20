@@ -763,5 +763,14 @@ describe("Helper: ", function() {
 				expect(puzzle.move(9)).toEqual(false);
 			});
 		});
+
+		describe("_getDirection()", function() {
+			it("should return the correct direction for a move ", function() {
+				expect(puzzle._getDirection({ number : 1, from: positions3x3.middleMiddle, to: positions3x3.topMiddle })).toEqual('up');
+				expect(puzzle._getDirection({ number : 1, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle })).toEqual('down');
+				expect(puzzle._getDirection({ number : 1, from: positions3x3.middleMiddle, to: positions3x3.middleLeft })).toEqual('left');
+				expect(puzzle._getDirection({ number : 1, from: positions3x3.middleMiddle, to: positions3x3.middleRight })).toEqual('right');
+			});
+		});
 	});
 });

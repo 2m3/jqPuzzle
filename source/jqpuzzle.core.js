@@ -461,7 +461,7 @@ SliderPuzzle.prototype = {
 			};
 
 			// add direction
-			move.direction = this.getDirection(move);
+			move.direction = this._getDirection(move);
 		}
 
 		return move;
@@ -587,7 +587,7 @@ SliderPuzzle.prototype = {
 	},
 
 	// get the direction of a move from the position of the piece to be moved
-	getDirection: function(move) {
+	_getDirection: function(move) {
 		for (var direction in this.offsets) {
 			if (this.offsets.hasOwnProperty(direction)) {
 				if (move.to.index + this.offsets[direction] === move.from.index) {
