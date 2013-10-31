@@ -2216,6 +2216,176 @@ describe("Helper: ", function() {
 			});
 		});
 
+		describe("_moveByPiece()", function() {
+			it("should only allow left and up moves if the hole is top left", function() {
+				puzzle = new SliderPuzzle({
+					board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._moveByPiece({ number: 0, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topMiddle })).toEqual({ number : 1, from: positions3x3.topMiddle, to: positions3x3.topLeft, direction: 'left', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(1)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 3, position: positions3x3.middleLeft })).toEqual({ number : 3, from: positions3x3.middleLeft, to: positions3x3.topLeft, direction: 'up', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(1)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should allow left, right and up moves if the hole is top middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number : 1, from: positions3x3.topLeft, to: positions3x3.topMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(2)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 0, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topRight })).toEqual({ number : 2, from: positions3x3.topRight, to: positions3x3.topMiddle, direction: 'left', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(2)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 3, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number : 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(2)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should only allow right and up moves if the hole is top right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 0, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual({ number : 2, from: positions3x3.topMiddle, to: positions3x3.topRight, direction: 'right', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(3)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 0, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 3, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual({ number : 5, from: positions3x3.middleRight, to: positions3x3.topRight, direction: 'up', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(3)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should only allow left, up and down moves if the hole is middle left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number : 1, from: positions3x3.topLeft, to: positions3x3.middleLeft, direction: 'down', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(4)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 0, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number : 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(4)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual({ number : 6, from: positions3x3.bottomLeft, to: positions3x3.middleLeft, direction: 'up', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(4)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should allow left, right, up and down moves if the hole is middle middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 0, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual({ number : 2, from: positions3x3.topMiddle, to: positions3x3.middleMiddle, direction: 'down', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(5)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual({ number : 4, from: positions3x3.middleLeft, to: positions3x3.middleMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(5)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 0, position: positions3x3.middleMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual({ number : 5, from: positions3x3.middleRight, to: positions3x3.middleMiddle, direction: 'left', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(5)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number : 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(5)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should only allow right, up and down moves if the hole is middle right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 0, 6, 7, 8]
+				});
+
+				expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight })).toEqual({ number : 3, from: positions3x3.topRight, to: positions3x3.middleRight, direction: 'down', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(6)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number : 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(6)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 0, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number : 8, from: positions3x3.bottomRight, to: positions3x3.middleRight, direction: 'up', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(6)).toBeTruthy();
+			});
+
+			it("should only allow left and down moves if the hole is bottom left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 0, 7, 8]
+				});
+
+				expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual({ number : 4, from: positions3x3.middleLeft, to: positions3x3.bottomLeft, direction: 'down', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(7)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 6, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 0, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number : 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(7)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual(false);
+			});
+
+			it("should only allow left, right and down moves if the hole is bottom middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				});
+
+				expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number : 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(8)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 6, position: positions3x3.middleRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomLeft })).toEqual({ number : 7, from: positions3x3.bottomLeft, to: positions3x3.bottomMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(8)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 0, position: positions3x3.bottomMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number : 8, from: positions3x3.bottomRight, to: positions3x3.bottomMiddle, direction: 'left', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(8)).toBeTruthy();
+			});
+
+			it("should only allow right and down moves if the hole is bottom right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				});
+
+				expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 6, position: positions3x3.middleRight })).toEqual({ number : 6, from: positions3x3.middleRight, to: positions3x3.bottomRight, direction: 'down', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(9)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomLeft })).toEqual(false);
+				expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomMiddle })).toEqual({ number : 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', timestamp: jasmine.any(Date) });
+				expect(puzzle.move(9)).toBeTruthy();
+				expect(puzzle._moveByPiece({ number: 0, position: positions3x3.bottomRight })).toEqual(false);
+			});
+		});
+
 		describe("_getDirection()", function() {
 			it("should return the correct direction for a move ", function() {
 				expect(puzzle._getDirection({ number : 1, from: positions3x3.middleMiddle, to: positions3x3.topMiddle })).toEqual('up');
