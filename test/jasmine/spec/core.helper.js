@@ -1852,6 +1852,30 @@ describe("Helper: ", function() {
 				expect(puzzle.move({ row: 3, col: 3 })).toEqual(false);
 			});
 
+			it("should throw an exception if the arguments are out of bounds", function() {
+				expect(function() { puzzle.move(-1); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.move( 0); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.move(10); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.move(-1, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.move( 0, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.move(10, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.move(1, -1); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.move(1,  0); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.move(1, 10); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.move([-1, 1]); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.move([ 0, 1]); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.move([10, 1]); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.move([1, -1]); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.move([1,  0]); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.move([1, 10]); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.move({ row: -1, col:  1 }); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.move({ row:  0, col:  1 }); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.move({ row: 10, col:  1 }); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.move({ row:  1, col: -1 }); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.move({ row:  1, col:  0 }); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.move({ row:  1, col: 10 }); }).toThrow(COL_INVALID);
+			});
+
 			it("should allow a piece next to the hole to be moved exactly once", function() {
 				puzzle = new SliderPuzzle({
 					board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
