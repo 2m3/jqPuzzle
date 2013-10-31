@@ -160,7 +160,7 @@
 
 		$('#controls').on('click', 'button', function() {
 			if (puzzle) {
-				var move = puzzle.moveDirection(this.name.toLowerCase());
+				var move = puzzle.moveByDirection(this.name.toLowerCase());
 				console.log(move);
 
 				if (move) {
