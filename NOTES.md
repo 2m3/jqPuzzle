@@ -204,9 +204,9 @@ The `piece` object contains the following properties:
 * `number`: 
 The number of the piece as an integer value between 1 and `rows*cols`.
 * `position`: 
-The position of the piece as a `position` object (see `getPosition`)
+The position of the piece as a `position` object (see `getPosition()`)
 
-`getPiece()` can be called with the following arguments:
+`getPiece()` can be called with the same arguments as `getPosition()`:
 
 * `getPiece(<index>)` - one-dimensional index
 
