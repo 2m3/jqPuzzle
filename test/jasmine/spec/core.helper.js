@@ -158,46 +158,46 @@ describe("Helper: ", function() {
 			});
 		});
 
-		describe("getPositionByRowCol()", function() {
+		describe("_getPositionByRowCol()", function() {
 			it("should return a position based on row and col numbers", function() {
-				expect(puzzle.getPositionByRowCol(1, 1)).toEqual(positions3x3.topLeft     );
-				expect(puzzle.getPositionByRowCol(1, 2)).toEqual(positions3x3.topMiddle   );
-				expect(puzzle.getPositionByRowCol(1, 3)).toEqual(positions3x3.topRight    );
-				expect(puzzle.getPositionByRowCol(2, 1)).toEqual(positions3x3.middleLeft  );
-				expect(puzzle.getPositionByRowCol(2, 2)).toEqual(positions3x3.middleMiddle);
-				expect(puzzle.getPositionByRowCol(2, 3)).toEqual(positions3x3.middleRight );
-				expect(puzzle.getPositionByRowCol(3, 1)).toEqual(positions3x3.bottomLeft  );
-				expect(puzzle.getPositionByRowCol(3, 2)).toEqual(positions3x3.bottomMiddle);
-				expect(puzzle.getPositionByRowCol(3, 3)).toEqual(positions3x3.bottomRight );
+				expect(puzzle._getPositionByRowCol(1, 1)).toEqual(positions3x3.topLeft     );
+				expect(puzzle._getPositionByRowCol(1, 2)).toEqual(positions3x3.topMiddle   );
+				expect(puzzle._getPositionByRowCol(1, 3)).toEqual(positions3x3.topRight    );
+				expect(puzzle._getPositionByRowCol(2, 1)).toEqual(positions3x3.middleLeft  );
+				expect(puzzle._getPositionByRowCol(2, 2)).toEqual(positions3x3.middleMiddle);
+				expect(puzzle._getPositionByRowCol(2, 3)).toEqual(positions3x3.middleRight );
+				expect(puzzle._getPositionByRowCol(3, 1)).toEqual(positions3x3.bottomLeft  );
+				expect(puzzle._getPositionByRowCol(3, 2)).toEqual(positions3x3.bottomMiddle);
+				expect(puzzle._getPositionByRowCol(3, 3)).toEqual(positions3x3.bottomRight );
 			});
 
 			it("should throw an exception if the row or col value is out of bounds", function() {
-				expect(function() { puzzle.getPositionByRowCol(-1, 1); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.getPositionByRowCol( 0, 1); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.getPositionByRowCol(10, 1); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.getPositionByRowCol(1, -1); }).toThrow(COL_INVALID);
-				expect(function() { puzzle.getPositionByRowCol(1,  0); }).toThrow(COL_INVALID);
-				expect(function() { puzzle.getPositionByRowCol(1, 10); }).toThrow(COL_INVALID);
+				expect(function() { puzzle._getPositionByRowCol(-1, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle._getPositionByRowCol( 0, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle._getPositionByRowCol(10, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle._getPositionByRowCol(1, -1); }).toThrow(COL_INVALID);
+				expect(function() { puzzle._getPositionByRowCol(1,  0); }).toThrow(COL_INVALID);
+				expect(function() { puzzle._getPositionByRowCol(1, 10); }).toThrow(COL_INVALID);
 			});
 		});
 
-		describe("getPositionByIndex()", function() {
+		describe("_getPositionByIndex()", function() {
 			it("should return a position based on a one-dimensional index", function() {
-				expect(puzzle.getPositionByIndex(1)).toEqual(positions3x3.topLeft     );
-				expect(puzzle.getPositionByIndex(2)).toEqual(positions3x3.topMiddle   );
-				expect(puzzle.getPositionByIndex(3)).toEqual(positions3x3.topRight    );
-				expect(puzzle.getPositionByIndex(4)).toEqual(positions3x3.middleLeft  );
-				expect(puzzle.getPositionByIndex(5)).toEqual(positions3x3.middleMiddle);
-				expect(puzzle.getPositionByIndex(6)).toEqual(positions3x3.middleRight );
-				expect(puzzle.getPositionByIndex(7)).toEqual(positions3x3.bottomLeft  );
-				expect(puzzle.getPositionByIndex(8)).toEqual(positions3x3.bottomMiddle);
-				expect(puzzle.getPositionByIndex(9)).toEqual(positions3x3.bottomRight );
+				expect(puzzle._getPositionByIndex(1)).toEqual(positions3x3.topLeft     );
+				expect(puzzle._getPositionByIndex(2)).toEqual(positions3x3.topMiddle   );
+				expect(puzzle._getPositionByIndex(3)).toEqual(positions3x3.topRight    );
+				expect(puzzle._getPositionByIndex(4)).toEqual(positions3x3.middleLeft  );
+				expect(puzzle._getPositionByIndex(5)).toEqual(positions3x3.middleMiddle);
+				expect(puzzle._getPositionByIndex(6)).toEqual(positions3x3.middleRight );
+				expect(puzzle._getPositionByIndex(7)).toEqual(positions3x3.bottomLeft  );
+				expect(puzzle._getPositionByIndex(8)).toEqual(positions3x3.bottomMiddle);
+				expect(puzzle._getPositionByIndex(9)).toEqual(positions3x3.bottomRight );
 			});
 
 			it("should throw an exception if the one-dimensional index is out of bounds", function() {
-				expect(function() { puzzle.getPositionByIndex(-1); }).toThrow(INDEX_INVALID);
-				expect(function() { puzzle.getPositionByIndex( 0); }).toThrow(INDEX_INVALID);
-				expect(function() { puzzle.getPositionByIndex(10); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle._getPositionByIndex(-1); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle._getPositionByIndex( 0); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle._getPositionByIndex(10); }).toThrow(INDEX_INVALID);
 			});
 		});
 

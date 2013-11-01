@@ -534,7 +534,7 @@ SliderPuzzle.prototype = {
 		var index = $.inArray(number, this._board) + 1;
 
 		try {
-			position = this.getPositionByIndex(index);
+			position = this._getPositionByIndex(index);
 		} catch (e) {
 			throw 'invalid number';
 		}
@@ -562,14 +562,14 @@ SliderPuzzle.prototype = {
 
 		// verify index is within bounds
 		try {
-			position = this.getPositionByIndex(index);
+			position = this._getPositionByIndex(index);
 		} catch (e) {
 			return false;
 		}
 
 		// verify position is on same row as hole for left/right moves
 		if (direction == 'left' || direction == 'right') {
-			hole = this.getPositionByIndex(this._hole);
+			hole = this._getPositionByIndex(this._hole);
 
 			if (position.row !== hole.row) {
 				return false;
@@ -627,30 +627,30 @@ SliderPuzzle.prototype = {
 
 			// fill index if not set
 			if (!position.index) {
-				position = this.getPositionByRowCol(position.row, position.col);
+				position = this._getPositionByRowCol(position.row, position.col);
 			}
 		}
 
 		// ([<row>, <col>]) - row and col as array
 		else if ($.isArray(row)) {
-			position = this.getPositionByRowCol(row[0], row[1]);
+			position = this._getPositionByRowCol(row[0], row[1]);
 		}
 
 		// (<index>) - one-dimensional index
 		else if (col === undefined) {
-			position = this.getPositionByIndex(row);
+			position = this._getPositionByIndex(row);
 		}
 
 		// (<row>, <col>) - row and col as separate arguments
 		else {
-			position = this.getPositionByRowCol(row, col);
+			position = this._getPositionByRowCol(row, col);
 		}
 
 		return position;
 	},
 
 	// creates a position object from row and column numbers
-	getPositionByRowCol: function(row, col) {
+	_getPositionByRowCol: function(row, col) {
 		// expect row and col to be between 1 and the corresponding board's dimension
 		if (row < 1 || row > this.options.rows) {
 			throw 'invalid row';
@@ -667,7 +667,7 @@ SliderPuzzle.prototype = {
 	},
 
 	// creates a position object from a one-dimensional index
-	getPositionByIndex: function(index) {
+	_getPositionByIndex: function(index) {
 		// expect index to be between 1 and board size
 		if (index < 1 || index > this._boardSize) {
 			throw 'invalid index';
