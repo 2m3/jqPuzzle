@@ -159,7 +159,7 @@ describe("Helper: ", function() {
 		});
 
 		describe("getPositionByRowCol()", function() {
-			it("should create a position object from given row and col numbers", function() {
+			it("should return a position based on row and col numbers", function() {
 				expect(puzzle.getPositionByRowCol(1, 1)).toEqual(positions3x3.topLeft     );
 				expect(puzzle.getPositionByRowCol(1, 2)).toEqual(positions3x3.topMiddle   );
 				expect(puzzle.getPositionByRowCol(1, 3)).toEqual(positions3x3.topRight    );
@@ -182,7 +182,7 @@ describe("Helper: ", function() {
 		});
 
 		describe("getPositionByIndex()", function() {
-			it("should create a position object from a given one-dimensional index", function() {
+			it("should return a position based on a one-dimensional index", function() {
 				expect(puzzle.getPositionByIndex(1)).toEqual(positions3x3.topLeft     );
 				expect(puzzle.getPositionByIndex(2)).toEqual(positions3x3.topMiddle   );
 				expect(puzzle.getPositionByIndex(3)).toEqual(positions3x3.topRight    );
@@ -202,7 +202,7 @@ describe("Helper: ", function() {
 		});
 
 		describe("normalizePosition()", function() {
-			it("should handle a one-dimensional index", function() {
+			it("should return a position based on a one-dimensional index", function() {
 				expect(puzzle.normalizePosition(1)).toEqual(positions3x3.topLeft     );
 				expect(puzzle.normalizePosition(2)).toEqual(positions3x3.topMiddle   );
 				expect(puzzle.normalizePosition(3)).toEqual(positions3x3.topRight    );
@@ -214,7 +214,7 @@ describe("Helper: ", function() {
 				expect(puzzle.normalizePosition(9)).toEqual(positions3x3.bottomRight );
 			});
 
-			it("should handle row and col passed in as seperate arguments", function() {
+			it("should return a position based on row and col passed in as seperate arguments", function() {
 				expect(puzzle.normalizePosition(1, 1)).toEqual(positions3x3.topLeft     );
 				expect(puzzle.normalizePosition(1, 2)).toEqual(positions3x3.topMiddle   );
 				expect(puzzle.normalizePosition(1, 3)).toEqual(positions3x3.topRight    );
@@ -226,7 +226,7 @@ describe("Helper: ", function() {
 				expect(puzzle.normalizePosition(3, 3)).toEqual(positions3x3.bottomRight );
 			});
 
-			it("should handle row and col passed in as an array", function() {
+			it("should return a position based on row and col passed in as an array", function() {
 				expect(puzzle.normalizePosition([1, 1])).toEqual(positions3x3.topLeft     );
 				expect(puzzle.normalizePosition([1, 2])).toEqual(positions3x3.topMiddle   );
 				expect(puzzle.normalizePosition([1, 3])).toEqual(positions3x3.topRight    );
@@ -238,7 +238,7 @@ describe("Helper: ", function() {
 				expect(puzzle.normalizePosition([3, 3])).toEqual(positions3x3.bottomRight );
 			});
 
-			it("should handle row and col passed in as an object", function() {
+			it("should return a position based on row and col passed in as an object", function() {
 				expect(puzzle.normalizePosition({ row: 1, col: 1 })).toEqual(positions3x3.topLeft     );
 				expect(puzzle.normalizePosition({ row: 1, col: 2 })).toEqual(positions3x3.topMiddle   );
 				expect(puzzle.normalizePosition({ row: 1, col: 3 })).toEqual(positions3x3.topRight    );
@@ -284,7 +284,7 @@ describe("Helper: ", function() {
 		});
 
 		describe("getPiece()", function() {
-			it("should return the piece based on its index", function() {
+			it("should return a piece based on a one-dimensional index", function() {
 				expect(puzzle.getPiece(1)).toEqual(pieces3x3.topLeft     );
 				expect(puzzle.getPiece(2)).toEqual(pieces3x3.topMiddle   );
 				expect(puzzle.getPiece(3)).toEqual(pieces3x3.topRight    );
@@ -296,7 +296,7 @@ describe("Helper: ", function() {
 				expect(puzzle.getPiece(9)).toEqual(pieces3x3.bottomRight );
 			});
 
-			it("should handle row and col passed in as seperate arguments", function() {
+			it("should return a piece based on row and col passed in as seperate arguments", function() {
 				expect(puzzle.getPiece(1, 1)).toEqual(pieces3x3.topLeft     );
 				expect(puzzle.getPiece(1, 2)).toEqual(pieces3x3.topMiddle   );
 				expect(puzzle.getPiece(1, 3)).toEqual(pieces3x3.topRight    );
@@ -308,7 +308,7 @@ describe("Helper: ", function() {
 				expect(puzzle.getPiece(3, 3)).toEqual(pieces3x3.bottomRight );
 			});
 
-			it("should handle row and col passed in as an array", function() {
+			it("should return a piece based on row and col passed in as an array", function() {
 				expect(puzzle.getPiece([1, 1])).toEqual(pieces3x3.topLeft     );
 				expect(puzzle.getPiece([1, 2])).toEqual(pieces3x3.topMiddle   );
 				expect(puzzle.getPiece([1, 3])).toEqual(pieces3x3.topRight    );
@@ -320,7 +320,7 @@ describe("Helper: ", function() {
 				expect(puzzle.getPiece([3, 3])).toEqual(pieces3x3.bottomRight );
 			});
 
-			it("should handle row and col passed in as an object", function() {
+			it("should return a piece based on row and col passed in as an object", function() {
 				expect(puzzle.getPiece({ row: 1, col: 1 })).toEqual(pieces3x3.topLeft     );
 				expect(puzzle.getPiece({ row: 1, col: 2 })).toEqual(pieces3x3.topMiddle   );
 				expect(puzzle.getPiece({ row: 1, col: 3 })).toEqual(pieces3x3.topRight    );
@@ -358,7 +358,7 @@ describe("Helper: ", function() {
 		});
 
 		describe("getPieceByNumber()", function() {
-			it("should return the piece based on its number", function() {
+			it("should return a piece based on its number", function() {
 				expect(puzzle.getPieceByNumber(1)).toEqual(pieces3x3.topLeft     );
 				expect(puzzle.getPieceByNumber(2)).toEqual(pieces3x3.topMiddle   );
 				expect(puzzle.getPieceByNumber(3)).toEqual(pieces3x3.topRight    );
