@@ -422,14 +422,14 @@ SliderPuzzle.prototype = {
 		return this._canMoveByPiece(this.getPiece(row, col));
 	},
 
-	// check if a piece can be moved based on its number
+	// checks if a piece can be moved based on its number
 	// returns a move object if the piece can be moved
 	// returns false if the piece cannot be moved
 	canMoveByNumber: function(number) {
 		return this._canMoveByPiece(this.getPieceByNumber(number));
 	},
 
-	// check if a piece can be moved based on a direction
+	// checks if a piece can be moved based on a direction
 	// returns a move object if a piece can be moved in this direction
 	// returns false if no piece can be moved in this direction
 	canMoveByDirection: function(direction) {
@@ -595,7 +595,7 @@ SliderPuzzle.prototype = {
 		return move;
 	},
 
-	// get the direction of a move from the position of the piece to be moved
+	// gets the direction of a move from the position of the piece to be moved
 	_getDirection: function(move) {
 		for (var direction in this.offsets) {
 			if (this.offsets.hasOwnProperty(direction)) {
@@ -613,7 +613,7 @@ SliderPuzzle.prototype = {
 		}
 	},
 
-	// normalize different position styles into position object
+	// normalizes different position styles into position object
 	// (<index>) - one-based, one-dimensional
 	// (<row>, <col>) - one-based, two-dimensional
 	// ([<row>, <col>]) - one-based, two-dimensional, array notation
@@ -648,7 +648,7 @@ SliderPuzzle.prototype = {
 		return position;
 	},
 
-	// create a position object from row and column numbers
+	// creates a position object from row and column numbers
 	getPositionByRowCol: function(row, col) {
 		// expect row and col to be between 1 and the corresponding board's dimension
 		if (row < 1 || row > this.options.rows) {
@@ -665,7 +665,7 @@ SliderPuzzle.prototype = {
 		};
 	},
 
-	// create a position object from one-dimensional index
+	// creates a position object from a one-dimensional index
 	getPositionByIndex: function(index) {
 		// expect index to be between 1 and board size
 		if (index < 1 || index > this._boardSize) {
