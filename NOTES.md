@@ -150,6 +150,45 @@ The `shuffle` option is ignored when a `board` is specified.
 
 
 
+Methods
+=======
+
+`getPosition(arguments)`
+------------------------
+
+Returns a position object that identifies a single position on the board. It contains the following properties:
+
+* index: 
+The one-dimensional index of the position as an integer value between 1 (top left) and `rows*cols` (bottom right).
+* row: 
+The row of the position as an integer value between 1 and `rows`.
+* column:
+The row of the position as an integer value between 1 and `columns`.
+
+`getPosition` can be called with the following arguments:
+
+* `getPosition(<index>)` - one-dimensional index
+
+		puzzle.getPosition(4)
+
+* `getPosition(<row>, <col>)` - row and col as separate arguments
+
+		puzzle.getPosition(2, 1)
+
+* `getPosition([<row>, <col>])` - row and col as array
+
+		puzzle.getPosition({2, 1})
+
+* `getPosition({row: <row>, col: <col>})` - row and col as object
+
+		puzzle.getPosition({row: 2, col: 1})
+
+All examples would return the following position object in a 3x3 board:
+
+	{ index: 4, row: 2, col: 1 }
+
+
+
 Internals
 =========
 
