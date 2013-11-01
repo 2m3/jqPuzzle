@@ -201,77 +201,77 @@ describe("Helper: ", function() {
 			});
 		});
 
-		describe("normalizePosition()", function() {
+		describe("getPosition()", function() {
 			it("should return a position based on a one-dimensional index", function() {
-				expect(puzzle.normalizePosition(1)).toEqual(positions3x3.topLeft     );
-				expect(puzzle.normalizePosition(2)).toEqual(positions3x3.topMiddle   );
-				expect(puzzle.normalizePosition(3)).toEqual(positions3x3.topRight    );
-				expect(puzzle.normalizePosition(4)).toEqual(positions3x3.middleLeft  );
-				expect(puzzle.normalizePosition(5)).toEqual(positions3x3.middleMiddle);
-				expect(puzzle.normalizePosition(6)).toEqual(positions3x3.middleRight );
-				expect(puzzle.normalizePosition(7)).toEqual(positions3x3.bottomLeft  );
-				expect(puzzle.normalizePosition(8)).toEqual(positions3x3.bottomMiddle);
-				expect(puzzle.normalizePosition(9)).toEqual(positions3x3.bottomRight );
+				expect(puzzle.getPosition(1)).toEqual(positions3x3.topLeft     );
+				expect(puzzle.getPosition(2)).toEqual(positions3x3.topMiddle   );
+				expect(puzzle.getPosition(3)).toEqual(positions3x3.topRight    );
+				expect(puzzle.getPosition(4)).toEqual(positions3x3.middleLeft  );
+				expect(puzzle.getPosition(5)).toEqual(positions3x3.middleMiddle);
+				expect(puzzle.getPosition(6)).toEqual(positions3x3.middleRight );
+				expect(puzzle.getPosition(7)).toEqual(positions3x3.bottomLeft  );
+				expect(puzzle.getPosition(8)).toEqual(positions3x3.bottomMiddle);
+				expect(puzzle.getPosition(9)).toEqual(positions3x3.bottomRight );
 			});
 
 			it("should return a position based on row and col passed in as seperate arguments", function() {
-				expect(puzzle.normalizePosition(1, 1)).toEqual(positions3x3.topLeft     );
-				expect(puzzle.normalizePosition(1, 2)).toEqual(positions3x3.topMiddle   );
-				expect(puzzle.normalizePosition(1, 3)).toEqual(positions3x3.topRight    );
-				expect(puzzle.normalizePosition(2, 1)).toEqual(positions3x3.middleLeft  );
-				expect(puzzle.normalizePosition(2, 2)).toEqual(positions3x3.middleMiddle);
-				expect(puzzle.normalizePosition(2, 3)).toEqual(positions3x3.middleRight );
-				expect(puzzle.normalizePosition(3, 1)).toEqual(positions3x3.bottomLeft  );
-				expect(puzzle.normalizePosition(3, 2)).toEqual(positions3x3.bottomMiddle);
-				expect(puzzle.normalizePosition(3, 3)).toEqual(positions3x3.bottomRight );
+				expect(puzzle.getPosition(1, 1)).toEqual(positions3x3.topLeft     );
+				expect(puzzle.getPosition(1, 2)).toEqual(positions3x3.topMiddle   );
+				expect(puzzle.getPosition(1, 3)).toEqual(positions3x3.topRight    );
+				expect(puzzle.getPosition(2, 1)).toEqual(positions3x3.middleLeft  );
+				expect(puzzle.getPosition(2, 2)).toEqual(positions3x3.middleMiddle);
+				expect(puzzle.getPosition(2, 3)).toEqual(positions3x3.middleRight );
+				expect(puzzle.getPosition(3, 1)).toEqual(positions3x3.bottomLeft  );
+				expect(puzzle.getPosition(3, 2)).toEqual(positions3x3.bottomMiddle);
+				expect(puzzle.getPosition(3, 3)).toEqual(positions3x3.bottomRight );
 			});
 
 			it("should return a position based on row and col passed in as an array", function() {
-				expect(puzzle.normalizePosition([1, 1])).toEqual(positions3x3.topLeft     );
-				expect(puzzle.normalizePosition([1, 2])).toEqual(positions3x3.topMiddle   );
-				expect(puzzle.normalizePosition([1, 3])).toEqual(positions3x3.topRight    );
-				expect(puzzle.normalizePosition([2, 1])).toEqual(positions3x3.middleLeft  );
-				expect(puzzle.normalizePosition([2, 2])).toEqual(positions3x3.middleMiddle);
-				expect(puzzle.normalizePosition([2, 3])).toEqual(positions3x3.middleRight );
-				expect(puzzle.normalizePosition([3, 1])).toEqual(positions3x3.bottomLeft  );
-				expect(puzzle.normalizePosition([3, 2])).toEqual(positions3x3.bottomMiddle);
-				expect(puzzle.normalizePosition([3, 3])).toEqual(positions3x3.bottomRight );
+				expect(puzzle.getPosition([1, 1])).toEqual(positions3x3.topLeft     );
+				expect(puzzle.getPosition([1, 2])).toEqual(positions3x3.topMiddle   );
+				expect(puzzle.getPosition([1, 3])).toEqual(positions3x3.topRight    );
+				expect(puzzle.getPosition([2, 1])).toEqual(positions3x3.middleLeft  );
+				expect(puzzle.getPosition([2, 2])).toEqual(positions3x3.middleMiddle);
+				expect(puzzle.getPosition([2, 3])).toEqual(positions3x3.middleRight );
+				expect(puzzle.getPosition([3, 1])).toEqual(positions3x3.bottomLeft  );
+				expect(puzzle.getPosition([3, 2])).toEqual(positions3x3.bottomMiddle);
+				expect(puzzle.getPosition([3, 3])).toEqual(positions3x3.bottomRight );
 			});
 
 			it("should return a position based on row and col passed in as an object", function() {
-				expect(puzzle.normalizePosition({ row: 1, col: 1 })).toEqual(positions3x3.topLeft     );
-				expect(puzzle.normalizePosition({ row: 1, col: 2 })).toEqual(positions3x3.topMiddle   );
-				expect(puzzle.normalizePosition({ row: 1, col: 3 })).toEqual(positions3x3.topRight    );
-				expect(puzzle.normalizePosition({ row: 2, col: 1 })).toEqual(positions3x3.middleLeft  );
-				expect(puzzle.normalizePosition({ row: 2, col: 2 })).toEqual(positions3x3.middleMiddle);
-				expect(puzzle.normalizePosition({ row: 2, col: 3 })).toEqual(positions3x3.middleRight );
-				expect(puzzle.normalizePosition({ row: 3, col: 1 })).toEqual(positions3x3.bottomLeft  );
-				expect(puzzle.normalizePosition({ row: 3, col: 2 })).toEqual(positions3x3.bottomMiddle);
-				expect(puzzle.normalizePosition({ row: 3, col: 3 })).toEqual(positions3x3.bottomRight );
+				expect(puzzle.getPosition({ row: 1, col: 1 })).toEqual(positions3x3.topLeft     );
+				expect(puzzle.getPosition({ row: 1, col: 2 })).toEqual(positions3x3.topMiddle   );
+				expect(puzzle.getPosition({ row: 1, col: 3 })).toEqual(positions3x3.topRight    );
+				expect(puzzle.getPosition({ row: 2, col: 1 })).toEqual(positions3x3.middleLeft  );
+				expect(puzzle.getPosition({ row: 2, col: 2 })).toEqual(positions3x3.middleMiddle);
+				expect(puzzle.getPosition({ row: 2, col: 3 })).toEqual(positions3x3.middleRight );
+				expect(puzzle.getPosition({ row: 3, col: 1 })).toEqual(positions3x3.bottomLeft  );
+				expect(puzzle.getPosition({ row: 3, col: 2 })).toEqual(positions3x3.bottomMiddle);
+				expect(puzzle.getPosition({ row: 3, col: 3 })).toEqual(positions3x3.bottomRight );
 			});
 
 			it("should throw an exception if the arguments are out of bounds", function() {
-				expect(function() { puzzle.normalizePosition(-1); }).toThrow(INDEX_INVALID);
-				expect(function() { puzzle.normalizePosition( 0); }).toThrow(INDEX_INVALID);
-				expect(function() { puzzle.normalizePosition(10); }).toThrow(INDEX_INVALID);
-				expect(function() { puzzle.normalizePosition(-1, 1); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.normalizePosition( 0, 1); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.normalizePosition(10, 1); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.normalizePosition(1, -1); }).toThrow(COL_INVALID);
-				expect(function() { puzzle.normalizePosition(1,  0); }).toThrow(COL_INVALID);
-				expect(function() { puzzle.normalizePosition(1, 10); }).toThrow(COL_INVALID);
-				expect(function() { puzzle.normalizePosition([-1, 1]); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.normalizePosition([ 0, 1]); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.normalizePosition([10, 1]); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.normalizePosition([1, -1]); }).toThrow(COL_INVALID);
-				expect(function() { puzzle.normalizePosition([1,  0]); }).toThrow(COL_INVALID);
-				expect(function() { puzzle.normalizePosition([1, 10]); }).toThrow(COL_INVALID);
-				expect(function() { puzzle.normalizePosition({ row: -1, col:  1 }); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.normalizePosition({ row:  0, col:  1 }); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.normalizePosition({ row: 10, col:  1 }); }).toThrow(ROW_INVALID);
-				expect(function() { puzzle.normalizePosition({ row:  1, col: -1 }); }).toThrow(COL_INVALID);
-				expect(function() { puzzle.normalizePosition({ row:  1, col:  0 }); }).toThrow(COL_INVALID);
-				expect(function() { puzzle.normalizePosition({ row:  1, col: 10 }); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPosition(-1); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.getPosition( 0); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.getPosition(10); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.getPosition(-1, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPosition( 0, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPosition(10, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPosition(1, -1); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPosition(1,  0); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPosition(1, 10); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPosition([-1, 1]); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPosition([ 0, 1]); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPosition([10, 1]); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPosition([1, -1]); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPosition([1,  0]); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPosition([1, 10]); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPosition({ row: -1, col:  1 }); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPosition({ row:  0, col:  1 }); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPosition({ row: 10, col:  1 }); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle.getPosition({ row:  1, col: -1 }); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPosition({ row:  1, col:  0 }); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPosition({ row:  1, col: 10 }); }).toThrow(COL_INVALID);
 			});
 		});
 	});

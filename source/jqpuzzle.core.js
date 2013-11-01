@@ -520,7 +520,7 @@ SliderPuzzle.prototype = {
 	// TODO also works for hole right now
 	// gets a piece based on its position
 	getPiece: function(row, col) {
-		var position = this.normalizePosition(row, col);
+		var position = this.getPosition(row, col);
 
 		return {
 			number: this._board[position.index - 1],
@@ -586,7 +586,7 @@ SliderPuzzle.prototype = {
 		var move = {
 			number: piece.number,
 			from: piece.position,
-			to: this.normalizePosition(this._hole)
+			to: this.getPosition(this._hole)
 		};
 
 		// add direction
@@ -613,14 +613,15 @@ SliderPuzzle.prototype = {
 		}
 	},
 
-	// normalizes different position styles into position object
-	// (<index>) - one-based, one-dimensional
-	// (<row>, <col>) - one-based, two-dimensional
-	// ([<row>, <col>]) - one-based, two-dimensional, array notation
-	normalizePosition: function(row, col) {
+	// creates a position object from different input styles
+	// (<index>) - one-dimensional index
+	// (<row>, <col>) - row and col as separate arguments
+	// ([<row>, <col>]) - row and col as array
+	// ({row: <row>, col: <col>}) - row and col as object
+	getPosition: function(row, col) {
 		var position;
 
-		// ({row: <row>, col: <col>}) - one-based, two-dimensional, object
+		// ({row: <row>, col: <col>}) - row and col as object
 		if ($.isPlainObject(row)) {
 			position = row;
 
@@ -630,17 +631,17 @@ SliderPuzzle.prototype = {
 			}
 		}
 
-		// ([<row>, <col>]) - one-based, two-dimensional
+		// ([<row>, <col>]) - row and col as array
 		else if ($.isArray(row)) {
 			position = this.getPositionByRowCol(row[0], row[1]);
 		}
 
-		// (<index>) - one-based, one-dimensional
+		// (<index>) - one-dimensional index
 		else if (col === undefined) {
 			position = this.getPositionByIndex(row);
 		}
 
-		// (<row>, <col>) - one-based, two-dimensional
+		// (<row>, <col>) - row and col as separate arguments
 		else {
 			position = this.getPositionByRowCol(row, col);
 		}
