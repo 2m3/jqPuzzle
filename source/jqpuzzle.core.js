@@ -445,22 +445,6 @@ SliderPuzzle.prototype = {
 		return this._canMoveByMove(this._getMoveByPiece(piece));
 	},
 
-	// creates an internal move object given an internal piece object
-	// does not guarantee that the move is valid
-	_getMoveByPiece: function(piece) {
-		// create move object
-		var move = {
-			number: piece.number,
-			from: piece.position,
-			to: this.normalizePosition(this._hole)
-		};
-
-		// add direction
-		move.direction = this._getDirection(move);
-
-		return move;
-	},
-
 	// checks if a piece can be moved given an internal move object
 	// returns a move object if the piece can be moved
 	// returns false if the piece cannot be moved
@@ -595,11 +579,34 @@ SliderPuzzle.prototype = {
 		return position && this.getPiece(position);
 	},
 
+	// creates an internal move object given an internal piece object
+	// does not guarantee that the move is valid
+	_getMoveByPiece: function(piece) {
+		// create move object
+		var move = {
+			number: piece.number,
+			from: piece.position,
+			to: this.normalizePosition(this._hole)
+		};
+
+		// add direction
+		move.direction = this._getDirection(move);
+
+		return move;
+	},
+
 	// get the direction of a move from the position of the piece to be moved
 	_getDirection: function(move) {
 		for (var direction in this.offsets) {
 			if (this.offsets.hasOwnProperty(direction)) {
 				if (move.to.index + this.offsets[direction] === move.from.index) {
+					// verify from and to are on same row for left/right moves
+					if (direction == 'left' || direction == 'right') {
+						if (move.from.row !== move.to.row) {
+							return;
+						}
+					}
+
 					return direction;
 				}
 			}

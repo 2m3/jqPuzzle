@@ -490,6 +490,152 @@ describe("Helper: ", function() {
 
 	describe("Moves: ", function() {
 
+		describe("_getMoveByPiece()", function() {
+			it("should return the left and up moves if the hole is top left", function() {
+				puzzle = new SliderPuzzle({
+					board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._getMoveByPiece({ number: 0, position: positions3x3.topLeft })).toEqual({ number: 0, from: positions3x3.topLeft, to: positions3x3.topLeft });
+				expect(puzzle._getMoveByPiece({ number: 1, position: positions3x3.topMiddle })).toEqual({ number : 1, from: positions3x3.topMiddle, to: positions3x3.topLeft, direction: 'left' });
+				expect(puzzle._getMoveByPiece({ number: 2, position: positions3x3.topRight })).toEqual({ number: 2, from: positions3x3.topRight, to: positions3x3.topLeft });
+				expect(puzzle._getMoveByPiece({ number: 3, position: positions3x3.middleLeft })).toEqual({ number : 3, from: positions3x3.middleLeft, to: positions3x3.topLeft, direction: 'up' });
+				expect(puzzle._getMoveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topLeft });
+				expect(puzzle._getMoveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual({ number: 5, from: positions3x3.middleRight, to: positions3x3.topLeft });
+				expect(puzzle._getMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual({ number: 6, from: positions3x3.bottomLeft, to: positions3x3.topLeft });
+				expect(puzzle._getMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.topLeft });
+				expect(puzzle._getMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number: 8, from: positions3x3.bottomRight, to: positions3x3.topLeft });
+			});
+
+			it("should return the left, right and up moves if the hole is top middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._getMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number : 1, from: positions3x3.topLeft, to: positions3x3.topMiddle, direction: 'right' });
+				expect(puzzle._getMoveByPiece({ number: 0, position: positions3x3.topMiddle })).toEqual({ number: 0, from: positions3x3.topMiddle, to: positions3x3.topMiddle });
+				expect(puzzle._getMoveByPiece({ number: 2, position: positions3x3.topRight })).toEqual({ number : 2, from: positions3x3.topRight, to: positions3x3.topMiddle, direction: 'left' });
+				expect(puzzle._getMoveByPiece({ number: 3, position: positions3x3.middleLeft })).toEqual({ number: 3, from: positions3x3.middleLeft, to: positions3x3.topMiddle });
+				expect(puzzle._getMoveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number : 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up' });
+				expect(puzzle._getMoveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual({ number: 5, from: positions3x3.middleRight, to: positions3x3.topMiddle });
+				expect(puzzle._getMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual({ number: 6, from: positions3x3.bottomLeft, to: positions3x3.topMiddle });
+				expect(puzzle._getMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.topMiddle });
+				expect(puzzle._getMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number: 8, from: positions3x3.bottomRight, to: positions3x3.topMiddle });
+			});
+
+			it("should return the right and up moves if the hole is top right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 0, 3, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._getMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number: 1, from: positions3x3.topLeft, to: positions3x3.topRight });
+				expect(puzzle._getMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual({ number : 2, from: positions3x3.topMiddle, to: positions3x3.topRight, direction: 'right' });
+				expect(puzzle._getMoveByPiece({ number: 0, position: positions3x3.topRight })).toEqual({ number: 0, from: positions3x3.topRight, to: positions3x3.topRight });
+				expect(puzzle._getMoveByPiece({ number: 3, position: positions3x3.middleLeft })).toEqual({ number: 3, from: positions3x3.middleLeft, to: positions3x3.topRight });
+				expect(puzzle._getMoveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topRight });
+				expect(puzzle._getMoveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual({ number : 5, from: positions3x3.middleRight, to: positions3x3.topRight, direction: 'up' });
+				expect(puzzle._getMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual({ number: 6, from: positions3x3.bottomLeft, to: positions3x3.topRight });
+				expect(puzzle._getMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.topRight });
+				expect(puzzle._getMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number: 8, from: positions3x3.bottomRight, to: positions3x3.topRight });
+			});
+
+			it("should return the left, up and down moves if the hole is middle left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._getMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number : 1, from: positions3x3.topLeft, to: positions3x3.middleLeft, direction: 'down' });
+				expect(puzzle._getMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual({ number: 2, from: positions3x3.topMiddle, to: positions3x3.middleLeft });
+				expect(puzzle._getMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual({ number: 3, from: positions3x3.topRight, to: positions3x3.middleLeft });
+				expect(puzzle._getMoveByPiece({ number: 0, position: positions3x3.middleLeft })).toEqual({ number: 0, from: positions3x3.middleLeft, to: positions3x3.middleLeft });
+				expect(puzzle._getMoveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number : 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' });
+				expect(puzzle._getMoveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual({ number: 5, from: positions3x3.middleRight, to: positions3x3.middleLeft });
+				expect(puzzle._getMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual({ number : 6, from: positions3x3.bottomLeft, to: positions3x3.middleLeft, direction: 'up' });
+				expect(puzzle._getMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleLeft });
+				expect(puzzle._getMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number: 8, from: positions3x3.bottomRight, to: positions3x3.middleLeft });
+			});
+
+			it("should return the left, right, up and down moves if the hole is middle middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 0, 5, 6, 7, 8]
+				});
+
+				expect(puzzle._getMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number: 1, from: positions3x3.topLeft, to: positions3x3.middleMiddle });
+				expect(puzzle._getMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual({ number : 2, from: positions3x3.topMiddle, to: positions3x3.middleMiddle, direction: 'down' });
+				expect(puzzle._getMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual({ number: 3, from: positions3x3.topRight, to: positions3x3.middleMiddle });
+				expect(puzzle._getMoveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual({ number : 4, from: positions3x3.middleLeft, to: positions3x3.middleMiddle, direction: 'right' });
+				expect(puzzle._getMoveByPiece({ number: 0, position: positions3x3.middleMiddle })).toEqual({ number: 0, from: positions3x3.middleMiddle, to: positions3x3.middleMiddle });
+				expect(puzzle._getMoveByPiece({ number: 5, position: positions3x3.middleRight })).toEqual({ number : 5, from: positions3x3.middleRight, to: positions3x3.middleMiddle, direction: 'left' });
+				expect(puzzle._getMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual({ number: 6, from: positions3x3.bottomLeft, to: positions3x3.middleMiddle });
+				expect(puzzle._getMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number : 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up' });
+				expect(puzzle._getMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number: 8, from: positions3x3.bottomRight, to: positions3x3.middleMiddle });
+			});
+
+			it("should return the right, up and down moves if the hole is middle right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 0, 6, 7, 8]
+				});
+
+				expect(puzzle._getMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number: 1, from: positions3x3.topLeft, to: positions3x3.middleRight });
+				expect(puzzle._getMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual({ number: 2, from: positions3x3.topMiddle, to: positions3x3.middleRight });
+				expect(puzzle._getMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual({ number : 3, from: positions3x3.topRight, to: positions3x3.middleRight, direction: 'down' });
+				expect(puzzle._getMoveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual({ number: 4, from: positions3x3.middleLeft, to: positions3x3.middleRight });
+				expect(puzzle._getMoveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number : 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right' });
+				expect(puzzle._getMoveByPiece({ number: 0, position: positions3x3.middleRight })).toEqual({ number: 0, from: positions3x3.middleRight, to: positions3x3.middleRight });
+				expect(puzzle._getMoveByPiece({ number: 6, position: positions3x3.bottomLeft })).toEqual({ number: 6, from: positions3x3.bottomLeft, to: positions3x3.middleRight });
+				expect(puzzle._getMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleRight });
+				expect(puzzle._getMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number : 8, from: positions3x3.bottomRight, to: positions3x3.middleRight, direction: 'up' });
+			});
+
+			it("should return the left and down moves if the hole is bottom left", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 0, 7, 8]
+				});
+
+				expect(puzzle._getMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number: 1, from: positions3x3.topLeft, to: positions3x3.bottomLeft });
+				expect(puzzle._getMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual({ number: 2, from: positions3x3.topMiddle, to: positions3x3.bottomLeft });
+				expect(puzzle._getMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual({ number: 3, from: positions3x3.topRight, to: positions3x3.bottomLeft });
+				expect(puzzle._getMoveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual({ number : 4, from: positions3x3.middleLeft, to: positions3x3.bottomLeft, direction: 'down' });
+				expect(puzzle._getMoveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomLeft });
+				expect(puzzle._getMoveByPiece({ number: 6, position: positions3x3.middleRight })).toEqual({ number: 6, from: positions3x3.middleRight, to: positions3x3.bottomLeft });
+				expect(puzzle._getMoveByPiece({ number: 0, position: positions3x3.bottomLeft })).toEqual({ number: 0, from: positions3x3.bottomLeft, to: positions3x3.bottomLeft });
+				expect(puzzle._getMoveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number : 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' });
+				expect(puzzle._getMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number: 8, from: positions3x3.bottomRight, to: positions3x3.bottomLeft });
+			});
+
+			it("should return the left, right and down moves if the hole is bottom middle", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				});
+
+				expect(puzzle._getMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number: 1, from: positions3x3.topLeft, to: positions3x3.bottomMiddle });
+				expect(puzzle._getMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual({ number: 2, from: positions3x3.topMiddle, to: positions3x3.bottomMiddle });
+				expect(puzzle._getMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual({ number: 3, from: positions3x3.topRight, to: positions3x3.bottomMiddle });
+				expect(puzzle._getMoveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual({ number: 4, from: positions3x3.middleLeft, to: positions3x3.bottomMiddle });
+				expect(puzzle._getMoveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number : 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' });
+				expect(puzzle._getMoveByPiece({ number: 6, position: positions3x3.middleRight })).toEqual({ number: 6, from: positions3x3.middleRight, to: positions3x3.bottomMiddle });
+				expect(puzzle._getMoveByPiece({ number: 7, position: positions3x3.bottomLeft })).toEqual({ number : 7, from: positions3x3.bottomLeft, to: positions3x3.bottomMiddle, direction: 'right' });
+				expect(puzzle._getMoveByPiece({ number: 0, position: positions3x3.bottomMiddle })).toEqual({ number: 0, from: positions3x3.bottomMiddle, to: positions3x3.bottomMiddle });
+				expect(puzzle._getMoveByPiece({ number: 8, position: positions3x3.bottomRight })).toEqual({ number : 8, from: positions3x3.bottomRight, to: positions3x3.bottomMiddle, direction: 'left' });
+			});
+
+			it("should return the right and down moves if the hole is bottom right", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				});
+
+				expect(puzzle._getMoveByPiece({ number: 1, position: positions3x3.topLeft })).toEqual({ number: 1, from: positions3x3.topLeft, to: positions3x3.bottomRight });
+				expect(puzzle._getMoveByPiece({ number: 2, position: positions3x3.topMiddle })).toEqual({ number: 2, from: positions3x3.topMiddle, to: positions3x3.bottomRight });
+				expect(puzzle._getMoveByPiece({ number: 3, position: positions3x3.topRight })).toEqual({ number: 3, from: positions3x3.topRight, to: positions3x3.bottomRight });
+				expect(puzzle._getMoveByPiece({ number: 4, position: positions3x3.middleLeft })).toEqual({ number: 4, from: positions3x3.middleLeft, to: positions3x3.bottomRight });
+				expect(puzzle._getMoveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomRight });
+				expect(puzzle._getMoveByPiece({ number: 6, position: positions3x3.middleRight })).toEqual({ number : 6, from: positions3x3.middleRight, to: positions3x3.bottomRight, direction: 'down' });
+				expect(puzzle._getMoveByPiece({ number: 7, position: positions3x3.bottomLeft })).toEqual({ number: 7, from: positions3x3.bottomLeft, to: positions3x3.bottomRight });
+				expect(puzzle._getMoveByPiece({ number: 8, position: positions3x3.bottomMiddle })).toEqual({ number : 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right' });
+				expect(puzzle._getMoveByPiece({ number: 0, position: positions3x3.bottomRight })).toEqual({ number: 0, from: positions3x3.bottomRight, to: positions3x3.bottomRight });
+			});
+		});
+
 		describe("_canMoveByPiece()", function() {
 			it("should only allow left and up moves if the hole is top left", function() {
 				puzzle = new SliderPuzzle({
