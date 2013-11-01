@@ -165,7 +165,7 @@ The row of the position as an integer value between 1 and `rows`.
 * column:
 The row of the position as an integer value between 1 and `columns`.
 
-`getPosition` can be called with the following arguments:
+`getPosition()` can be called with the following arguments:
 
 * `getPosition(<index>)` - one-dimensional index
 
@@ -177,7 +177,7 @@ The row of the position as an integer value between 1 and `columns`.
 
 * `getPosition([<row>, <col>])` - row and col as array
 
-		puzzle.getPosition({2, 1})
+		puzzle.getPosition([2, 1])
 
 * `getPosition({row: <row>, col: <col>})` - row and col as object
 
