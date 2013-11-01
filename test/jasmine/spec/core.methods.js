@@ -1,4 +1,4 @@
-describe("Helper: ", function() {
+describe("Methods: ", function() {
 
 	var puzzle;
 
