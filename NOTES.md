@@ -153,10 +153,10 @@ The `shuffle` option is ignored when a `board` is specified.
 Methods
 =======
 
-`getPosition(arguments)`
-------------------------
+`getPosition(<arguments>)`
+--------------------------
 
-Returns a `position` object given any kind of position value.
+Returns the `position` object for any kind of position value.
 
 A `position` object identifies a single position on the board. A position is a slot that that can hold a piece.
 
@@ -189,13 +189,13 @@ The row of the position as an integer value between 1 and `columns`.
 
 All examples would return the following `position` object on a 3x3 board:
 
-	{ index: 4, row: 2, col: 1 }
+		{ index: 4, row: 2, col: 1 }
 
 
-`getPiece(arguments)`
----------------------
+`getPiece(<arguments>)`
+-----------------------
 
-Returns a `piece` object given any kind of position value. 
+Returns the `piece` object of the piece that is currently located at the position specified by any kind of position value.
 
 A `piece` object identifies a single piece on the board. A piece is a numbered element that has a position.
 
@@ -226,7 +226,37 @@ The position of the piece as a `position` object (see `getPosition`)
 
 All examples would e.g. return the following `piece` object on a 3x3 board:
 
-	{ number: 8, position: { index: 4, row: 2, col: 1 } }
+		{ number: 8, position: { index: 4, row: 2, col: 1 } }
+
+
+`getPieceByNumber(<number>)`
+----------------------------
+
+Returns the `piece` object of the piece with the specified number.
+
+See `getPiece()` for a description of the `piece` object.
+
+		puzzle.getPieceByNumber(8)
+
+This would e.g. return the following `piece` object on a 3x3 board:
+
+		{ number: 8, position: { index: 4, row: 2, col: 1 } }
+
+
+`getPieceByDirection(<direction>)`
+----------------------------------
+
+Returns the `piece` object of the piece that can be moved in the specified direction.
+
+See `getPiece()` for a description of the `piece` object.
+
+`getPieceByDirection()` accepts the following direction keywords: `left`, `right`, `up`, `down`
+
+		puzzle.getPieceByDirection('up')
+
+This would e.g. return the following `piece` object on a 3x3 board:
+
+		{ number: 8, position: { index: 4, row: 2, col: 1 } }
 
 
 
