@@ -442,27 +442,37 @@ SliderPuzzle.prototype = {
 	// returns a move object if the piece can be moved
 	// returns false if the piece cannot be moved
 	_canMoveByPiece: function(piece) {
-		var move;
-		var hole = this.normalizePosition(this._hole);
+		return this._canMoveByMove(this._getMoveByPiece(piece));
+	},
 
-		// a piece can be moved if it's neighboring the hole
-		// i.e. either the distance of the rows or the columns
-		// between the piece and the hole is exactly 1
-		move = (Math.abs(piece.position.row - hole.row) + Math.abs(piece.position.col - hole.col) === 1);
+	// creates an internal move object given an internal piece object
+	// does not guarantee that the move is valid
+	_getMoveByPiece: function(piece) {
+		// create move object
+		var move = {
+			number: piece.number,
+			from: piece.position,
+			to: this.normalizePosition(this._hole)
+		};
 
-		if (move) {
-			// create a move object
-			move = {
-				number: piece.number,
-				from: piece.position,
-				to: hole
-			};
-
-			// add direction
-			move.direction = this._getDirection(move);
-		}
+		// add direction
+		move.direction = this._getDirection(move);
 
 		return move;
+	},
+
+	// checks if a piece can be moved given an internal move object
+	// returns a move object if the piece can be moved
+	// returns false if the piece cannot be moved
+	_canMoveByMove: function(move) {
+		// a move can be performed if the piece is to be moved to the hole position
+		var canMove = (move.to.index === this._hole);
+
+		// and the piece is neighboring the hole, i.e. either the distance of
+		// the rows or the columms between the piece and the hole is exactly 1
+		canMove &= (Math.abs(move.from.row - move.to.row) + Math.abs(move.from.col - move.to.col) === 1);
+
+		return !!canMove && move;
 	},
 
 	// TODO allow for a random move
@@ -470,9 +480,7 @@ SliderPuzzle.prototype = {
 	// returns a move object if the piece was moved
 	// returns false if the piece could not be moved
 	move: function(row, col) {
-		var move = this.canMove(row, col);
-
-		return move && this._moveByMove(move);
+		return this._moveByPiece(this.getPiece(row, col));
 	},
 
 	// moves a piece based on its number
@@ -495,28 +503,32 @@ SliderPuzzle.prototype = {
 	// returns a move object if the piece was moved
 	// returns false if the piece could not be moved
 	_moveByPiece: function(piece) {
-		var move = this._canMoveByPiece(piece);
-
-		return move && this._moveByMove(move);
+		return this._moveByMove(this._getMoveByPiece(piece));
 	},
 
 	// moves a piece given an internal move object
-	// returns the move object
+	// returns a move object if the piece was moved
+	// returns false if the piece could not be moved
 	_moveByMove: function(move) {
 		var index = move.from.index;
 
-		// swap pieces
-		this._board[this._hole - 1] = this._board[index - 1];
-		this._board[index - 1] = 0;
+		// check valid move
+		move = this._canMoveByMove(move);
 
-		// update hole
-		this._hole = index;
+		if (move) {
+			// swap pieces
+			this._board[this._hole - 1] = this._board[index - 1];
+			this._board[index - 1] = 0;
 
-		// add timestamp
-		move.timestamp = new Date();
+			// update hole
+			this._hole = index;
 
-		// TODO increase move and other counters
-		// TODO add move to stack
+			// add timestamp
+			move.timestamp = new Date();
+
+			// TODO increase move and other counters
+			// TODO add move to stack
+		}
 
 		return move;
 	},
