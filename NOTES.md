@@ -10,7 +10,7 @@ Expects any integer value greater than or equal to 2.
 
 Defaults to 4.
 
-There is no upper boundary for the number of rows. However, the calculation whether a board is solvable fails for big boards. The calculation is safe for boards with a maximum of approx. 86 pieces (rows*cols).
+There is no upper boundary for the number of rows. However, the calculation whether a board is solvable fails for big boards. It is safe for boards with a maximum of approx. 86 pieces (rows*cols).
 
 
 `cols`
@@ -22,7 +22,7 @@ Expects any integer value greater than or equal to 2.
 
 Defaults to 4.
 
-There is no upper boundary for the number of columns. However, the calculation whether a board is solvable fails for big boards. The calculation is safe for boards with a maximum of approx. 86 pieces (rows*cols).
+There is no upper boundary for the number of columns. However, the calculation whether a board is solvable fails for big boards. It is safe for boards with a maximum of approx. 86 pieces (rows*cols).
 
 
 `hole`
