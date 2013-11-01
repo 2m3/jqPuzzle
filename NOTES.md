@@ -156,13 +156,17 @@ Methods
 `getPosition(arguments)`
 ------------------------
 
-Returns a position object that identifies a single position on the board. It contains the following properties:
+Returns a `position` object given any kind of position value.
 
-* index: 
+A `position` object identifies a single position on the board. A position is a slot that that can hold a piece.
+
+The `position` object contains the following properties:
+
+* `index`: 
 The one-dimensional index of the position as an integer value between 1 (top left) and `rows*cols` (bottom right).
-* row: 
+* `row`: 
 The row of the position as an integer value between 1 and `rows`.
-* column:
+* `column`:
 The row of the position as an integer value between 1 and `columns`.
 
 `getPosition()` can be called with the following arguments:
@@ -183,9 +187,46 @@ The row of the position as an integer value between 1 and `columns`.
 
 		puzzle.getPosition({row: 2, col: 1})
 
-All examples would return the following position object in a 3x3 board:
+All examples would return the following `position` object on a 3x3 board:
 
 	{ index: 4, row: 2, col: 1 }
+
+
+`getPiece(arguments)`
+---------------------
+
+Returns a `piece` object given any kind of position value. 
+
+A `piece` object identifies a single piece on the board. A piece is a numbered element that has a position.
+
+The `piece` object contains the following properties:
+
+* `number`: 
+The number of the piece as an integer value between 1 and `rows*cols`.
+* `position`: 
+The position of the piece as a `position` object (see `getPosition`)
+
+`getPiece()` can be called with the following arguments:
+
+* `getPiece(<index>)` - one-dimensional index
+
+		puzzle.getPiece(4)
+
+* `getPiece(<row>, <col>)` - row and col as separate arguments
+
+		puzzle.getPiece(2, 1)
+
+* `getPiece([<row>, <col>])` - row and col as array
+
+		puzzle.getPiece([2, 1])
+
+* `getPiece({row: <row>, col: <col>})` - row and col as object
+
+		puzzle.getPiece({row: 2, col: 1})
+
+All examples would e.g. return the following `piece` object on a 3x3 board:
+
+	{ number: 8, position: { index: 4, row: 2, col: 1 } }
 
 
 
