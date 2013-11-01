@@ -415,6 +415,137 @@ SliderPuzzle.prototype = {
 		this._initialHole = this.options.initialHole || $.inArray(0, this._initialBoard) + 1;
 	},
 
+	// creates a position object from different input styles
+	// (<index>) - one-dimensional index
+	// (<row>, <col>) - row and col as separate arguments
+	// ([<row>, <col>]) - row and col as array
+	// ({row: <row>, col: <col>}) - row and col as object
+	getPosition: function(row, col) {
+		var position;
+
+		// ({row: <row>, col: <col>}) - row and col as object
+		if ($.isPlainObject(row)) {
+			position = row;
+
+			// fill index if not set
+			if (!position.index) {
+				position = this._getPositionByRowCol(position.row, position.col);
+			}
+		}
+
+		// ([<row>, <col>]) - row and col as array
+		else if ($.isArray(row)) {
+			position = this._getPositionByRowCol(row[0], row[1]);
+		}
+
+		// (<index>) - one-dimensional index
+		else if (col === undefined) {
+			position = this._getPositionByIndex(row);
+		}
+
+		// (<row>, <col>) - row and col as separate arguments
+		else {
+			position = this._getPositionByRowCol(row, col);
+		}
+
+		return position;
+	},
+
+	// creates a position object from row and column numbers
+	_getPositionByRowCol: function(row, col) {
+		// expect row and col to be between 1 and the corresponding board's dimension
+		if (row < 1 || row > this.options.rows) {
+			throw 'invalid row';
+		}
+		if (col < 1 || col > this.options.cols) {
+			throw 'invalid col';
+		}
+
+		return {
+			index: (row - 1) * this.options.cols + (col - 1) + 1,
+			row: row,
+			col: col
+		};
+	},
+
+	// creates a position object from a one-dimensional index
+	_getPositionByIndex: function(index) {
+		// expect index to be between 1 and board size
+		if (index < 1 || index > this._boardSize) {
+			throw 'invalid index';
+		}
+
+		var col = (index - 1) % this.options.cols;
+
+		return {
+			index: index,
+			row: Math.floor((index - 1 - col) / this.options.cols) + 1,
+			col: col + 1
+		};
+	},
+
+	// TODO also works for hole right now
+	// gets a piece based on its position
+	getPiece: function(row, col) {
+		var position = this.getPosition(row, col);
+
+		return {
+			number: this._board[position.index - 1],
+			position: position
+		};
+	},
+
+	// gets a piece based on its number
+	getPieceByNumber: function(number) {
+		var position;
+		var index = $.inArray(number, this._board) + 1;
+
+		try {
+			position = this._getPositionByIndex(index);
+		} catch (e) {
+			throw 'invalid number';
+		}
+
+		return {
+			number: number,
+			position: position
+		};
+	},
+
+	// gets a piece based on a direction
+	// returns false if no piece can be moved in this direction
+	getPieceByDirection: function(direction) {
+		var index;
+		var position;
+		var hole;
+
+		// verify direction
+		if (!this.offsets[direction]) {
+			throw 'invalid direction';
+		}
+
+		// calculate index based on hole position
+		index = this._hole + this.offsets[direction];
+
+		// verify index is within bounds
+		try {
+			position = this._getPositionByIndex(index);
+		} catch (e) {
+			return false;
+		}
+
+		// verify position is on same row as hole for left/right moves
+		if (direction == 'left' || direction == 'right') {
+			hole = this._getPositionByIndex(this._hole);
+
+			if (position.row !== hole.row) {
+				return false;
+			}
+		}
+
+		return position && this.getPiece(position);
+	},
+
 	// checks if a piece can be moved based on its position
 	// returns a move object if the piece can be moved
 	// returns false if the piece cannot be moved
@@ -517,68 +648,6 @@ SliderPuzzle.prototype = {
 		return move;
 	},
 
-	// TODO also works for hole right now
-	// gets a piece based on its position
-	getPiece: function(row, col) {
-		var position = this.getPosition(row, col);
-
-		return {
-			number: this._board[position.index - 1],
-			position: position
-		};
-	},
-
-	// gets a piece based on its number
-	getPieceByNumber: function(number) {
-		var position;
-		var index = $.inArray(number, this._board) + 1;
-
-		try {
-			position = this._getPositionByIndex(index);
-		} catch (e) {
-			throw 'invalid number';
-		}
-
-		return {
-			number: number,
-			position: position
-		};
-	},
-
-	// gets a piece based on a direction
-	// returns false if no piece can be moved in this direction
-	getPieceByDirection: function(direction) {
-		var index;
-		var position;
-		var hole;
-
-		// verify direction
-		if (!this.offsets[direction]) {
-			throw 'invalid direction';
-		}
-
-		// calculate index based on hole position
-		index = this._hole + this.offsets[direction];
-
-		// verify index is within bounds
-		try {
-			position = this._getPositionByIndex(index);
-		} catch (e) {
-			return false;
-		}
-
-		// verify position is on same row as hole for left/right moves
-		if (direction == 'left' || direction == 'right') {
-			hole = this._getPositionByIndex(this._hole);
-
-			if (position.row !== hole.row) {
-				return false;
-			}
-		}
-
-		return position && this.getPiece(position);
-	},
-
 	// creates an internal move object given an internal piece object
 	// does not guarantee that the move is valid
 	_getMoveByPiece: function(piece) {
@@ -611,75 +680,6 @@ SliderPuzzle.prototype = {
 				}
 			}
 		}
-	},
-
-	// creates a position object from different input styles
-	// (<index>) - one-dimensional index
-	// (<row>, <col>) - row and col as separate arguments
-	// ([<row>, <col>]) - row and col as array
-	// ({row: <row>, col: <col>}) - row and col as object
-	getPosition: function(row, col) {
-		var position;
-
-		// ({row: <row>, col: <col>}) - row and col as object
-		if ($.isPlainObject(row)) {
-			position = row;
-
-			// fill index if not set
-			if (!position.index) {
-				position = this._getPositionByRowCol(position.row, position.col);
-			}
-		}
-
-		// ([<row>, <col>]) - row and col as array
-		else if ($.isArray(row)) {
-			position = this._getPositionByRowCol(row[0], row[1]);
-		}
-
-		// (<index>) - one-dimensional index
-		else if (col === undefined) {
-			position = this._getPositionByIndex(row);
-		}
-
-		// (<row>, <col>) - row and col as separate arguments
-		else {
-			position = this._getPositionByRowCol(row, col);
-		}
-
-		return position;
-	},
-
-	// creates a position object from row and column numbers
-	_getPositionByRowCol: function(row, col) {
-		// expect row and col to be between 1 and the corresponding board's dimension
-		if (row < 1 || row > this.options.rows) {
-			throw 'invalid row';
-		}
-		if (col < 1 || col > this.options.cols) {
-			throw 'invalid col';
-		}
-
-		return {
-			index: (row - 1) * this.options.cols + (col - 1) + 1,
-			row: row,
-			col: col
-		};
-	},
-
-	// creates a position object from a one-dimensional index
-	_getPositionByIndex: function(index) {
-		// expect index to be between 1 and board size
-		if (index < 1 || index > this._boardSize) {
-			throw 'invalid index';
-		}
-
-		var col = (index - 1) % this.options.cols;
-
-		return {
-			index: index,
-			row: Math.floor((index - 1 - col) / this.options.cols) + 1,
-			col: col + 1
-		};
 	},
 
 	toString: function() {
