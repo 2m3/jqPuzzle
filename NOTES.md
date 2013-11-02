@@ -158,7 +158,7 @@ Methods
 
 Returns the `position` object for any kind of position value.
 
-A `position` object identifies a single position on the board. A position is a slot that that can hold a piece.
+A `position` object defines a single position on the board. A position is a slot that that can hold a piece.
 
 The `position` object contains the following properties:
 
@@ -197,14 +197,14 @@ All examples would return the following `position` object on a 3x3 board:
 
 Returns the `piece` object of the piece that is currently located at the position specified by any kind of position value.
 
-A `piece` object identifies a single piece on the board. A piece is a numbered element that has a position.
+A `piece` object defines a single piece on the board. A piece is a numbered element that has a position.
 
 The `piece` object contains the following properties:
 
 * `number`: 
 The number of the piece as an integer value between 1 and `rows*cols`.
 * `position`: 
-The position of the piece as a `position` object (see `getPosition()`)
+The position of the piece as a `position` object (see `getPosition()`).
 
 `getPiece()` can be called with the same arguments as `getPosition()`:
 
@@ -257,6 +257,67 @@ See `getPiece()` for a description of the `piece` object.
 This would e.g. return the following `piece` object on a 3x3 board:
 
 		{ number: 8, position: { index: 4, row: 2, col: 1 } }
+
+
+`canMove(<arguments>)`
+----------------------
+
+Checks if the piece can be moved that is currently located at the position specified by any kind of position value.
+
+Returns a `move` object if the piece can be moved.
+Returns `false` if the piece cannot be moved.
+
+A `move` object defines a single (potential) move on the board. A move changes the position of a piece by swapping it with the position of the hole.
+
+The `move` object contains the following properties:
+
+* `number`: 
+The number of the piece to be moved as an integer value between 1 and `rows*cols`.
+* `from`: 
+The position of the piece to be moved as a `position` object (see `getPosition()`).
+* `to`: 
+The position to which the piece is to be moved as a `position` object (see `getPosition()`).
+* `direction`:
+The direction in which the piece is to be moved.
+
+`canMove()` can be called with the same arguments as `getPosition()`:
+
+* `canMove(<index>)` - one-dimensional index
+
+		puzzle.canMove(4)
+
+* `canMove(<row>, <col>)` - row and col as separate arguments
+
+		puzzle.canMove(2, 1)
+
+* `canMove([<row>, <col>])` - row and col as array
+
+		puzzle.canMove([2, 1])
+
+* `canMove({row: <row>, col: <col>})` - row and col as object
+
+		puzzle.canMove({row: 2, col: 1})
+
+All examples would e.g. return the following `move` object on a 3x3 board:
+
+		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up' }
+
+
+
+`canMoveByNumber(<number>)`
+---------------------------
+
+Checks if a piece can be moved based on its number.
+Returns a `move` object if the piece can be moved.
+Returns `false` if the piece cannot be moved.
+
+
+`canMoveByDirection(<direction>)`
+---------------------------------
+
+Checks if a piece can be moved based on a direction.
+Returns a `move` object if a piece can be moved in this direction.
+Returns `false` if no piece can be moved in this direction.
 
 
 
