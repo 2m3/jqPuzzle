@@ -208,20 +208,9 @@ The position of the piece as a `position` object (see `getPosition()`).
 
 `getPiece()` can be called with the same arguments as `getPosition()`:
 
-* `getPiece(<index>)` - one-dimensional index
-
 		puzzle.getPiece(4)
-
-* `getPiece(<row>, <col>)` - row and col as separate arguments
-
 		puzzle.getPiece(2, 1)
-
-* `getPiece([<row>, <col>])` - row and col as array
-
 		puzzle.getPiece([2, 1])
-
-* `getPiece({row: <row>, col: <col>})` - row and col as object
-
 		puzzle.getPiece({row: 2, col: 1})
 
 All examples would e.g. return the following `piece` object on a 3x3 board:
@@ -247,6 +236,7 @@ This would e.g. return the following `piece` object on a 3x3 board:
 ----------------------------------
 
 Returns the `piece` object of the piece that can be moved in the specified direction.
+Returns `false` if no piece can be moved in this direction.
 
 See `getPiece()` for a description of the `piece` object.
 
@@ -267,7 +257,7 @@ Checks if the piece can be moved that is currently located at the position speci
 Returns a `move` object if the piece can be moved.
 Returns `false` if the piece cannot be moved.
 
-A `move` object defines a single (potential) move on the board. A move changes the position of a piece by swapping it with the position of the hole.
+A `move` object defines a single (potential) move on the board. A move changes the position of a piece by swapping it with the hole.
 
 The `move` object contains the following properties:
 
@@ -278,24 +268,13 @@ The position of the piece to be moved as a `position` object (see `getPosition()
 * `to`: 
 The position to which the piece is to be moved as a `position` object (see `getPosition()`).
 * `direction`:
-The direction in which the piece is to be moved.
+The direction in which the piece is to be moved. One of `left`, `right`, `up`, `down`.
 
 `canMove()` can be called with the same arguments as `getPosition()`:
 
-* `canMove(<index>)` - one-dimensional index
-
 		puzzle.canMove(4)
-
-* `canMove(<row>, <col>)` - row and col as separate arguments
-
 		puzzle.canMove(2, 1)
-
-* `canMove([<row>, <col>])` - row and col as array
-
 		puzzle.canMove([2, 1])
-
-* `canMove({row: <row>, col: <col>})` - row and col as object
-
 		puzzle.canMove({row: 2, col: 1})
 
 All examples would e.g. return the following `move` object on a 3x3 board:
@@ -307,17 +286,38 @@ All examples would e.g. return the following `move` object on a 3x3 board:
 `canMoveByNumber(<number>)`
 ---------------------------
 
-Checks if a piece can be moved based on its number.
+Checks if the piece with the specified number can be moved.
+
 Returns a `move` object if the piece can be moved.
 Returns `false` if the piece cannot be moved.
+
+See `canMove()` for a description of the `move` object.
+
+		puzzle.canMoveByNumber(8)
+
+This would e.g. return the following `move` object on a 3x3 board:
+
+		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up' }
+
 
 
 `canMoveByDirection(<direction>)`
 ---------------------------------
 
-Checks if a piece can be moved based on a direction.
+Checks if a piece can be moved in the specified direction.
+
 Returns a `move` object if a piece can be moved in this direction.
 Returns `false` if no piece can be moved in this direction.
+
+See `canMove()` for a description of the `move` object.
+
+`canMoveByDirection()` accepts the following direction keywords: `left`, `right`, `up`, `down`
+
+		puzzle.canMoveByDirection('up')
+
+This would e.g. return the following `move` object on a 3x3 board:
+
+		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up' }
 
 
 
