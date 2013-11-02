@@ -2046,6 +2046,116 @@ describe("Methods: ", function() {
 				expect(puzzle.move(9)).toBeTruthy();
 				expect(puzzle.move(9)).toEqual(false);
 			});
+
+			it("should update the hole after a successful move", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
+				});
+
+				puzzle.move(1);
+				expect(puzzle._hole).toEqual(1);
+				puzzle.move(2);
+				expect(puzzle._hole).toEqual(2);
+				puzzle.move(3);
+				expect(puzzle._hole).toEqual(3);
+				puzzle.move(6);
+				expect(puzzle._hole).toEqual(6);
+				puzzle.move(5);
+				expect(puzzle._hole).toEqual(5);
+				puzzle.move(4);
+				expect(puzzle._hole).toEqual(4);
+				puzzle.move(7);
+				expect(puzzle._hole).toEqual(7);
+				puzzle.move(8);
+				expect(puzzle._hole).toEqual(8);
+				puzzle.move(9);
+				expect(puzzle._hole).toEqual(9);
+			});
+
+			it("should not update the hole after a unsuccessful move", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				});
+
+				puzzle.move(1);
+				expect(puzzle._hole).toEqual(9);
+				puzzle.move(2);
+				expect(puzzle._hole).toEqual(9);
+				puzzle.move(3);
+				expect(puzzle._hole).toEqual(9);
+				puzzle.move(4);
+				expect(puzzle._hole).toEqual(9);
+				puzzle.move(5);
+				expect(puzzle._hole).toEqual(9);
+
+				puzzle.move(6); // successful
+				puzzle.move(3); // successful
+				puzzle.move(2); // successful
+
+				puzzle.move(6);
+				expect(puzzle._hole).toEqual(2);
+				puzzle.move(7);
+				expect(puzzle._hole).toEqual(2);
+				puzzle.move(8);
+				expect(puzzle._hole).toEqual(2);
+				puzzle.move(9);
+				expect(puzzle._hole).toEqual(2);
+			});
+
+			it("should update the board after a successful move", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
+				});
+
+				puzzle.move(1);
+				expect(puzzle._board).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8]);
+				puzzle.move(2);
+				expect(puzzle._board).toEqual([1, 0, 2, 3, 4, 5, 6, 7, 8]);
+				puzzle.move(3);
+				expect(puzzle._board).toEqual([1, 2, 0, 3, 4, 5, 6, 7, 8]);
+				puzzle.move(6);
+				expect(puzzle._board).toEqual([1, 2, 5, 3, 4, 0, 6, 7, 8]);
+				puzzle.move(5);
+				expect(puzzle._board).toEqual([1, 2, 5, 3, 0, 4, 6, 7, 8]);
+				puzzle.move(4);
+				expect(puzzle._board).toEqual([1, 2, 5, 0, 3, 4, 6, 7, 8]);
+				puzzle.move(7);
+				expect(puzzle._board).toEqual([1, 2, 5, 6, 3, 4, 0, 7, 8]);
+				puzzle.move(8);
+				expect(puzzle._board).toEqual([1, 2, 5, 6, 3, 4, 7, 0, 8]);
+				puzzle.move(9);
+				expect(puzzle._board).toEqual([1, 2, 5, 6, 3, 4, 7, 8, 0]);
+			});
+
+			it("should not update the board after a unsuccessful move", function() {
+				puzzle = new SliderPuzzle({
+					board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				});
+
+				puzzle.move(1);
+				expect(puzzle._board).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 0]);
+				puzzle.move(2);
+				expect(puzzle._board).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 0]);
+				puzzle.move(3);
+				expect(puzzle._board).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 0]);
+				puzzle.move(4);
+				expect(puzzle._board).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 0]);
+				puzzle.move(5);
+				expect(puzzle._board).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 0]);
+
+				puzzle.move(6); // successful
+				puzzle.move(3); // successful
+				puzzle.move(2); // successful
+
+				puzzle.move(6);
+				expect(puzzle._board).toEqual([1, 0, 2, 4, 5, 3, 7, 8, 6]);
+				puzzle.move(7);
+				expect(puzzle._board).toEqual([1, 0, 2, 4, 5, 3, 7, 8, 6]);
+				puzzle.move(8);
+				expect(puzzle._board).toEqual([1, 0, 2, 4, 5, 3, 7, 8, 6]);
+				puzzle.move(9);
+				expect(puzzle._board).toEqual([1, 0, 2, 4, 5, 3, 7, 8, 6]);
+			});
 		});
 
 		describe("moveByNumber()", function() {
