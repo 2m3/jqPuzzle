@@ -451,15 +451,9 @@ SliderPuzzle.prototype = {
 		return position;
 	},
 
-	// creates a position object from row and column numbers
+	// creates a position object from row and column values
 	_getPositionByRowCol: function(row, col) {
-		// expect row and col to be between 1 and the corresponding board's dimension
-		if (row < 1 || row > this.options.rows) {
-			throw 'invalid row';
-		}
-		if (col < 1 || col > this.options.cols) {
-			throw 'invalid col';
-		}
+		this._verifyRowCol(row, col);
 
 		return {
 			index: (row - 1) * this.options.cols + (col - 1) + 1,
@@ -470,10 +464,7 @@ SliderPuzzle.prototype = {
 
 	// creates a position object from a one-dimensional index
 	_getPositionByIndex: function(index) {
-		// expect index to be between 1 and board size
-		if (index < 1 || index > this._boardSize) {
-			throw 'invalid index';
-		}
+		this._verifyIndex(index);
 
 		var col = (index - 1) % this.options.cols;
 
@@ -482,6 +473,25 @@ SliderPuzzle.prototype = {
 			row: Math.floor((index - 1 - col) / this.options.cols) + 1,
 			col: col + 1
 		};
+	},
+
+	// verifies that specified row and col values are between 1 and the corresponding board's dimension
+	// throws an exception otherwise
+	_verifyRowCol: function(row, col) {
+		if (row < 1 || row > this.options.rows) {
+			throw 'invalid row';
+		}
+		if (col < 1 || col > this.options.cols) {
+			throw 'invalid col';
+		}
+	},
+
+	// verifies that a specified index is between 1 and board size
+	// throws an exception otherwise
+	_verifyIndex: function(index) {
+		if (index < 1 || index > this._boardSize) {
+			throw 'invalid index';
+		}
 	},
 
 	// TODO also works for hole right now

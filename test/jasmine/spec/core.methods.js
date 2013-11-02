@@ -274,6 +274,43 @@ describe("Methods: ", function() {
 				expect(function() { puzzle._getPositionByIndex(10); }).toThrow(INDEX_INVALID);
 			});
 		});
+
+		describe("_verifyIndex()", function() {
+			it("should only throw an exception if the one-dimensional index is out of bounds", function() {
+				expect(function() { puzzle._verifyIndex(1); }).not.toThrow();
+				expect(function() { puzzle._verifyIndex(2); }).not.toThrow();
+				expect(function() { puzzle._verifyIndex(3); }).not.toThrow();
+				expect(function() { puzzle._verifyIndex(4); }).not.toThrow();
+				expect(function() { puzzle._verifyIndex(5); }).not.toThrow();
+				expect(function() { puzzle._verifyIndex(6); }).not.toThrow();
+				expect(function() { puzzle._verifyIndex(7); }).not.toThrow();
+				expect(function() { puzzle._verifyIndex(8); }).not.toThrow();
+				expect(function() { puzzle._verifyIndex(9); }).not.toThrow();
+				expect(function() { puzzle._verifyIndex(-1); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle._verifyIndex( 0); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle._verifyIndex(10); }).toThrow(INDEX_INVALID);
+			});
+		});
+
+		describe("_verifyRowCol()", function() {
+			it("should only throw an exception if the rowr col value is out of bounds", function() {
+				expect(function() { puzzle._verifyRowCol(1, 1); }).not.toThrow();
+				expect(function() { puzzle._verifyRowCol(1, 2); }).not.toThrow();
+				expect(function() { puzzle._verifyRowCol(1, 3); }).not.toThrow();
+				expect(function() { puzzle._verifyRowCol(2, 1); }).not.toThrow();
+				expect(function() { puzzle._verifyRowCol(2, 2); }).not.toThrow();
+				expect(function() { puzzle._verifyRowCol(2, 3); }).not.toThrow();
+				expect(function() { puzzle._verifyRowCol(3, 1); }).not.toThrow();
+				expect(function() { puzzle._verifyRowCol(3, 2); }).not.toThrow();
+				expect(function() { puzzle._verifyRowCol(3, 3); }).not.toThrow();
+				expect(function() { puzzle._verifyRowCol(-1, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle._verifyRowCol( 0, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle._verifyRowCol(10, 1); }).toThrow(ROW_INVALID);
+				expect(function() { puzzle._verifyRowCol(1, -1); }).toThrow(COL_INVALID);
+				expect(function() { puzzle._verifyRowCol(1,  0); }).toThrow(COL_INVALID);
+				expect(function() { puzzle._verifyRowCol(1, 10); }).toThrow(COL_INVALID);
+			});
+		});
 	});
 
 	describe("Pieces: ", function() {
