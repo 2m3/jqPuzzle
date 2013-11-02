@@ -581,6 +581,7 @@ SliderPuzzle.prototype = {
 	// returns false if the piece cannot be moved
 	_canMoveByMove: function(move) {
 		// a move can be performed if the piece is to be moved to the hole position
+		// (double-check - this is guaranteed by all move methods)
 		var canMove = (move.to.index === this._hole);
 
 		// and the piece is neighboring the hole, i.e. either the distance of
