@@ -543,7 +543,7 @@ SliderPuzzle.prototype = {
 			}
 		}
 
-		return position && this.getPiece(position);
+		return this.getPiece(position);
 	},
 
 	// checks if a piece can be moved based on its position
