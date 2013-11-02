@@ -215,7 +215,10 @@ The position of the piece as a `position` object (see `getPosition()`).
 
 All examples would e.g. return the following `piece` object on a 3x3 board:
 
-		{ number: 8, position: { index: 4, row: 2, col: 1 } }
+		{
+			number: 8,
+			position: { index: 4, row: 2, col: 1 }
+		}
 
 
 `getPieceByNumber(<number>)`
@@ -229,7 +232,10 @@ See `getPiece()` for a description of the `piece` object.
 
 This would e.g. return the following `piece` object on a 3x3 board:
 
-		{ number: 8, position: { index: 4, row: 2, col: 1 } }
+		{
+			number: 8,
+			position: { index: 4, row: 2, col: 1 }
+		}
 
 
 `getPieceByDirection(<direction>)`
@@ -246,7 +252,10 @@ See `getPiece()` for a description of the `piece` object.
 
 This would e.g. return the following `piece` object on a 3x3 board:
 
-		{ number: 8, position: { index: 4, row: 2, col: 1 } }
+		{
+			number: 8,
+			position: { index: 4, row: 2, col: 1 }
+		}
 
 
 `canMove(<arguments>)`
@@ -279,7 +288,12 @@ The direction in which the piece is to be moved. One of `left`, `right`, `up`, `
 
 All examples would e.g. return the following `move` object on a 3x3 board:
 
-		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up' }
+		{
+			number: 8,
+			from: { index: 4, row: 2, col: 1 },
+			to: { index: 1, row: 1, col: 1 },
+			direction: 'up'
+		}
 
 
 
@@ -297,7 +311,12 @@ See `canMove()` for a description of the `move` object.
 
 This would e.g. return the following `move` object on a 3x3 board:
 
-		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up' }
+		{
+			number: 8,
+			from: { index: 4, row: 2, col: 1 },
+			to: { index: 1, row: 1, col: 1 },
+			direction: 'up'
+		}
 
 
 
@@ -317,7 +336,12 @@ See `canMove()` for a description of the `move` object.
 
 This would e.g. return the following `move` object on a 3x3 board:
 
-		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up' }
+		{
+			number: 8,
+			from: { index: 4, row: 2, col: 1 },
+			to: { index: 1, row: 1, col: 1 },
+			direction: 'up'
+		}
 
 
 `move(<arguments>)`
@@ -344,7 +368,13 @@ The point in time when the move was performed as a JavaScript `Date` object.
 
 All examples would e.g. return the following `move` object on a 3x3 board:
 
-		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up', timestamp: <date> }
+		{
+			number: 8,
+			from: { index: 4, row: 2, col: 1 },
+			to: { index: 1, row: 1, col: 1 },
+			direction: 'up',
+			timestamp: <date>
+		}
 
 
 `moveByNumber(<number>)`
@@ -361,7 +391,13 @@ See `move()` for a description of the `move` object.
 
 This would e.g. return the following `move` object on a 3x3 board:
 
-		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up', timestamp: <date> }
+		{
+			number: 8,
+			from: { index: 4, row: 2, col: 1 },
+			to: { index: 1, row: 1, col: 1 },
+			direction: 'up',
+			timestamp: <date>
+		}
 
 
 `moveByDirection(<direction>)`
@@ -380,7 +416,13 @@ See `move()` for a description of the `move` object.
 
 This would e.g. return the following `move` object on a 3x3 board:
 
-		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up', timestamp: <date> }
+		{
+			number: 8,
+			from: { index: 4, row: 2, col: 1 },
+			to: { index: 1, row: 1, col: 1 },
+			direction: 'up',
+			timestamp: <date>
+		}
 
 
 
