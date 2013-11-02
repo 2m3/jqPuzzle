@@ -415,7 +415,7 @@ SliderPuzzle.prototype = {
 		this._initialHole = this.options.initialHole || $.inArray(0, this._initialBoard) + 1;
 	},
 
-	// creates a position object from different input styles
+	// creates a position object from any kind of position value
 	// (<index>) - one-dimensional index
 	// (<row>, <col>) - row and col as separate arguments
 	// ([<row>, <col>]) - row and col as array
