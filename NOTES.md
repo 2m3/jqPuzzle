@@ -320,6 +320,69 @@ This would e.g. return the following `move` object on a 3x3 board:
 		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up' }
 
 
+`move(<arguments>)`
+-------------------
+
+Moves the piece that is currently located at the position specified by any kind of position value.
+
+Returns a `move` object if the piece can be moved.
+Returns `false` if the piece cannot be moved.
+
+A `move` object defines a single move on the board. A move changes the position of a piece by swapping it with the hole.
+
+See `canMove()` for a description of the `move` object. In addition, the `move` object returned by this method contains the following property:
+
+* `timestamp`: 
+The point in time when the move was performed as a JavaScript `Date` object.
+
+`move()` can be called with the same arguments as `getPosition()`:
+
+		puzzle.move(4)
+		puzzle.move(2, 1)
+		puzzle.move([2, 1])
+		puzzle.move({row: 2, col: 1})
+
+All examples would e.g. return the following `move` object on a 3x3 board:
+
+		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up', timestamp: <date> }
+
+
+`moveByNumber(<number>)`
+------------------------
+
+Moves the piece with the specified number.
+
+Returns a `move` object if the piece can be moved.
+Returns `false` if the piece cannot be moved.
+
+See `move()` for a description of the `move` object.
+
+		puzzle.moveByNumber(8)
+
+This would e.g. return the following `move` object on a 3x3 board:
+
+		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up', timestamp: <date> }
+
+
+`moveByDirection(<direction>)`
+------------------------------
+
+Moves a piece in the specified direction.
+
+Returns a `move` object if a piece can be moved in this direction.
+Returns `false` if no piece can be moved in this direction.
+
+See `move()` for a description of the `move` object.
+
+`moveByDirection()` accepts the following direction keywords: `left`, `right`, `up`, `down`
+
+		puzzle.moveByDirection('up')
+
+This would e.g. return the following `move` object on a 3x3 board:
+
+		{ number: 8, from: { index: 4, row: 2, col: 1 }, to: { index: 1, row: 1, col: 1 }, direction: 'up', timestamp: <date> }
+
+
 
 Internals
 =========
