@@ -10,7 +10,7 @@ KeyboardController = (function() {
 		var direction = arrowKeys[e.keyCode];
 
 		if (puzzle && direction) {
-			puzzle.move(direction);
+			puzzle.moveByDirection(direction);
 			$('#board').text(puzzle.toString());
 		}
 	});
