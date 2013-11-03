@@ -169,7 +169,7 @@ The row of the position as an integer value between 1 and `rows`.
 * `column`:
 The row of the position as an integer value between 1 and `columns`.
 
-`getPosition()` can be called with the following arguments:
+`getPosition()` accepts the following arguments:
 
 * `getPosition(<index>)` - one-dimensional index
 
@@ -206,7 +206,7 @@ The number of the piece as an integer value between 1 and `rows*cols`.
 * `position`: 
 The position of the piece as a `position` object (see `getPosition()`).
 
-`getPiece()` can be called with the same arguments as `getPosition()`:
+`getPiece()` accepts the same arguments as `getPosition()`:
 
 		puzzle.getPiece(4)
 		puzzle.getPiece(2, 1)
@@ -227,6 +227,8 @@ All examples would e.g. return the following `piece` object on a 3x3 board:
 Returns the `piece` object of the piece with the specified number.
 
 See `getPiece()` for a description of the `piece` object.
+
+`getPieceByNumber()` accepts an integer value between 1 and `rows*cols`.
 
 		puzzle.getPieceByNumber(8)
 
@@ -279,7 +281,7 @@ The position to which the piece is to be moved as a `position` object (see `getP
 * `direction`:
 The direction in which the piece is to be moved. One of `left`, `right`, `up`, `down`.
 
-`canMove()` can be called with the same arguments as `getPosition()`:
+`canMove()` accepts the same arguments as `getPosition()`:
 
 		puzzle.canMove(4)
 		puzzle.canMove(2, 1)
@@ -306,6 +308,8 @@ Returns a `move` object if the piece can be moved.
 Returns `false` if the piece cannot be moved.
 
 See `canMove()` for a description of the `move` object.
+
+`canMoveByNumber()` accepts an integer value between 1 and `rows*cols`.
 
 		puzzle.canMoveByNumber(8)
 
@@ -359,7 +363,7 @@ See `canMove()` for a description of the `move` object. In addition, the `move` 
 * `timestamp`: 
 The point in time when the move was performed as a JavaScript `Date` object.
 
-`move()` can be called with the same arguments as `getPosition()`:
+`move()` accepts the same arguments as `getPosition()`:
 
 		puzzle.move(4)
 		puzzle.move(2, 1)
@@ -386,6 +390,8 @@ Returns a `move` object if the piece can be moved.
 Returns `false` if the piece cannot be moved.
 
 See `move()` for a description of the `move` object.
+
+`moveByNumber()` accepts an integer value between 1 and `rows*cols`.
 
 		puzzle.moveByNumber(8)
 
