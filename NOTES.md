@@ -40,7 +40,7 @@ The `hole` option is ignored when a `board` is specified.
 `initialHole`
 -------------
 
-Specifies the initial position of the hole in a shuffled puzzle.
+Specifies the initial position of the hole on a shuffled board.
 
 Expects any integer value between 1 (top left) and `rows*cols` (bottom right).
 
