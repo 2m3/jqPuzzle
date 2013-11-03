@@ -453,7 +453,12 @@ SliderPuzzle.prototype = {
 
 	// creates a position object from row and column values
 	_getPositionByRowCol: function(row, col) {
-		this._verifyRowCol(row, col);
+		if (!this._isValidRow(row)) {
+			throw 'invalid row';
+		}
+		if (!this._isValidCol(col)) {
+			throw 'invalid col';
+		}
 
 		return {
 			index: (row - 1) * this.options.cols + (col - 1) + 1,
@@ -464,7 +469,9 @@ SliderPuzzle.prototype = {
 
 	// creates a position object from a one-dimensional index
 	_getPositionByIndex: function(index) {
-		this._verifyIndex(index);
+		if (!this._isValidIndex(index)) {
+			throw 'invalid index';
+		}
 
 		var col = (index - 1) % this.options.cols;
 
@@ -475,23 +482,19 @@ SliderPuzzle.prototype = {
 		};
 	},
 
-	// verifies that specified row and col values are between 1 and the corresponding board's dimension
-	// throws an exception otherwise
-	_verifyRowCol: function(row, col) {
-		if (row < 1 || row > this.options.rows) {
-			throw 'invalid row';
-		}
-		if (col < 1 || col > this.options.cols) {
-			throw 'invalid col';
-		}
+	// verifies that a specified row is between 1 and the board's rows
+	_isValidRow: function(row) {
+		return (row > 0 && row <= this.options.rows);
+	},
+
+	// verifies that a specified col is between 1 and the board's cols
+	_isValidCol: function(col) {
+		return (col > 0 && col <= this.options.cols);
 	},
 
 	// verifies that a specified index is between 1 and board size
-	// throws an exception otherwise
-	_verifyIndex: function(index) {
-		if (index < 1 || index > this._boardSize) {
-			throw 'invalid index';
-		}
+	_isValidIndex: function(index) {
+		return (index > 0 && index <= this._boardSize);
 	},
 
 	// TODO also works for hole right now
