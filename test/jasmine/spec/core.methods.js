@@ -313,6 +313,71 @@ describe("Methods: ", function() {
 				expect(puzzle._isValidCol(10)).toEqual(false);
 			});
 		});
+
+		describe("_getPositionByTargetAndDirection()", function() {
+			it("should only return the positions for left and up moves if the hole is top left", function() {
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topLeft, 'left' )).toEqual(positions3x3.topMiddle );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topLeft, 'right')).toEqual(false);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topLeft, 'up'   )).toEqual(positions3x3.middleLeft);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topLeft, 'down' )).toEqual(false);
+			});
+
+			it("should only return the positions for left, right and up moves if the hole is top middle", function() {
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topMiddle, 'up'   )).toEqual(positions3x3.middleMiddle);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topMiddle, 'down' )).toEqual(false);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topMiddle, 'left' )).toEqual(positions3x3.topRight    );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topMiddle, 'right')).toEqual(positions3x3.topLeft     );
+			});
+
+			it("should only return the positions for right and up moves if the hole is top right", function() {
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topRight, 'up'   )).toEqual(positions3x3.middleRight );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topRight, 'down' )).toEqual(false);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topRight, 'left' )).toEqual(false);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.topRight, 'right')).toEqual(positions3x3.topMiddle   );
+			});
+
+			it("should only return the positions for left, up and down moves if the hole is middle left", function() {
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleLeft, 'up'   )).toEqual(positions3x3.bottomLeft  );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleLeft, 'down' )).toEqual(positions3x3.topLeft     );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleLeft, 'left' )).toEqual(positions3x3.middleMiddle);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleLeft, 'right')).toEqual(false);
+			});
+
+			it("should return the positions for left, right, up and down moves if the hole is middle middle", function() {
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleMiddle, 'up'   )).toEqual(positions3x3.bottomMiddle);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleMiddle, 'down' )).toEqual(positions3x3.topMiddle   );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleMiddle, 'left' )).toEqual(positions3x3.middleRight );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleMiddle, 'right')).toEqual(positions3x3.middleLeft  );
+			});
+
+			it("should only return the positions for right, up and down moves if the hole is middle right", function() {
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleRight, 'up'   )).toEqual(positions3x3.bottomRight );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleRight, 'down' )).toEqual(positions3x3.topRight    );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleRight, 'left' )).toEqual(false);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.middleRight, 'right')).toEqual(positions3x3.middleMiddle);
+			});
+
+			it("should only return the positions for left and down moves if the hole is bottom left", function() {
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomLeft, 'up'   )).toEqual(false);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomLeft, 'down' )).toEqual(positions3x3.middleLeft  );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomLeft, 'left' )).toEqual(positions3x3.bottomMiddle);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomLeft, 'right')).toEqual(false);
+			});
+
+			it("should only return the positions for left, right and down moves if the hole is bottom middle", function() {
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomMiddle, 'up'   )).toEqual(false);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomMiddle, 'down' )).toEqual(positions3x3.middleMiddle);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomMiddle, 'left' )).toEqual(positions3x3.bottomRight );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomMiddle, 'right')).toEqual(positions3x3.bottomLeft  );
+			});
+
+			it("should only return the positions for left and down moves if the hole is bottom right", function() {
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomRight, 'up'   )).toEqual(false);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomRight, 'down' )).toEqual(positions3x3.middleRight );
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomRight, 'left' )).toEqual(false);
+				expect(puzzle._getPositionByTargetAndDirection(positions3x3.bottomRight, 'right')).toEqual(positions3x3.bottomMiddle);
+			});
+		});
 	});
 
 	describe("Pieces: ", function() {

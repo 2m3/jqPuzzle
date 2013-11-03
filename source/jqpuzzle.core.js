@@ -152,12 +152,12 @@ function SliderPuzzle(options) {
 		this.options.hole = this._boardSize;
 	}
 
-	// set offsets
-	this.offsets = {
-		up: this.options.cols,
-		down: -this.options.cols,
-		left: 1,
-		right: -1
+	// the offsets for a start position compared to a target position per direction
+	this.directionOffsets = {
+		up:    { index:  this.options.cols, row:  1, col: 0 },
+		down:  { index: -this.options.cols, row: -1, col: 0 },
+		left:  { index:  1, row: 0, col:  1 },
+		right: { index: -1, row: 0, col: -1 }
 	};
 
 	// start the game
@@ -497,6 +497,28 @@ SliderPuzzle.prototype = {
 		return (index > 0 && index <= this._boardSize);
 	},
 
+	// calculates the start position for a move based on target position and direction
+	// returns false if no position can be found
+	_getPositionByTargetAndDirection: function(target, direction) {
+		var position;
+		var offset = this.directionOffsets[direction];
+
+		// verify direction
+		if (!offset) {
+			throw 'invalid direction';
+		}
+
+		// calculate start position
+		position = {
+			index: target.index + offset.index,
+			row: target.row + offset.row,
+			col: target.col + offset.col
+		};
+
+		// return valid positions only
+		return this._isValidRow(position.row) && this._isValidCol(position.col) && position;
+	},
+
 	// TODO also works for hole right now
 	// gets a piece based on its position
 	getPiece: function(row, col) {
@@ -528,35 +550,12 @@ SliderPuzzle.prototype = {
 	// gets a piece based on a direction
 	// returns false if no piece can be moved in this direction
 	getPieceByDirection: function(direction) {
-		var index;
-		var position;
-		var hole;
+		var hole = this._getPositionByIndex(this._hole);
 
-		// verify direction
-		if (!this.offsets[direction]) {
-			throw 'invalid direction';
-		}
+		// calculate piece position based on hole position and direction
+		position = this._getPositionByTargetAndDirection(hole, direction);
 
-		// calculate index based on hole position
-		index = this._hole + this.offsets[direction];
-
-		// verify index is within bounds
-		try {
-			position = this._getPositionByIndex(index);
-		} catch (e) {
-			return false;
-		}
-
-		// verify position is on same row as hole for left/right moves
-		if (direction == 'left' || direction == 'right') {
-			hole = this._getPositionByIndex(this._hole);
-
-			if (position.row !== hole.row) {
-				return false;
-			}
-		}
-
-		return this.getPiece(position);
+		return position && this.getPiece(position);
 	},
 
 	// checks if a piece can be moved based on its position
@@ -680,16 +679,15 @@ SliderPuzzle.prototype = {
 
 	// gets the direction of a move from the position of the piece to be moved
 	_getDirection: function(move) {
-		for (var direction in this.offsets) {
-			if (this.offsets.hasOwnProperty(direction)) {
-				if (move.to.index + this.offsets[direction] === move.from.index) {
-					// verify from and to are on same row for left/right moves
-					if (direction == 'left' || direction == 'right') {
-						if (move.from.row !== move.to.row) {
-							return;
-						}
-					}
+		var position;
 
+		for (var direction in this.directionOffsets) {
+			if (this.directionOffsets.hasOwnProperty(direction)) {
+				// calculate start position based on target position and direction
+				position = this._getPositionByTargetAndDirection(move.to, direction);
+
+				// and compare to actual position
+				if (position.index === move.from.index) {
 					return direction;
 				}
 			}
