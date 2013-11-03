@@ -451,6 +451,21 @@ SliderPuzzle.prototype = {
 		return position;
 	},
 
+	// creates a position object from a one-dimensional index
+	_getPositionByIndex: function(index) {
+		if (!this._isValidIndex(index)) {
+			throw 'invalid index';
+		}
+
+		var col = (index - 1) % this.options.cols;
+
+		return {
+			index: index,
+			row: Math.floor((index - 1 - col) / this.options.cols) + 1,
+			col: col + 1
+		};
+	},
+
 	// creates a position object from row and column values
 	_getPositionByRowCol: function(row, col) {
 		if (!this._isValidRow(row)) {
@@ -467,19 +482,9 @@ SliderPuzzle.prototype = {
 		};
 	},
 
-	// creates a position object from a one-dimensional index
-	_getPositionByIndex: function(index) {
-		if (!this._isValidIndex(index)) {
-			throw 'invalid index';
-		}
-
-		var col = (index - 1) % this.options.cols;
-
-		return {
-			index: index,
-			row: Math.floor((index - 1 - col) / this.options.cols) + 1,
-			col: col + 1
-		};
+	// verifies that a specified index is between 1 and board size
+	_isValidIndex: function(index) {
+		return (index > 0 && index <= this._boardSize);
 	},
 
 	// verifies that a specified row is between 1 and the board's rows
@@ -490,11 +495,6 @@ SliderPuzzle.prototype = {
 	// verifies that a specified col is between 1 and the board's cols
 	_isValidCol: function(col) {
 		return (col > 0 && col <= this.options.cols);
-	},
-
-	// verifies that a specified index is between 1 and board size
-	_isValidIndex: function(index) {
-		return (index > 0 && index <= this._boardSize);
 	},
 
 	// calculates the start position for a move based on target position and direction
