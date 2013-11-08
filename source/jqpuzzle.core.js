@@ -321,13 +321,14 @@ SliderPuzzle.prototype = {
 	// checks if the board is solvable
 	isSolvable: function() {
 		var signature = 1;
-		var baseSignature;
+		var referenceValue;
 		var board;
 		var i;
 		var j;
 
-		// get a clone of the initial board and convert to form that the algorithm can work with
-		// by replacing 0 with the missing number so that the board contains all numbers from 1 to (rows*cols)
+		// get a clone of the initial board and convert to a form
+		// the algorithm can work with by replacing 0 with the missing
+		// number so that the board contains all numbers from 1 to (rows*cols)
 		board = this._initialBoard.slice(0);
 		board[this._initialHole - 1] = this.options.hole;
 
@@ -345,19 +346,32 @@ SliderPuzzle.prototype = {
 			throw 'board could not be checked for solvability';
 		}
 
+		// if hole and initial hole position were the same
+		// (i.e. the initial position of the hole equals its final position),
+		// a board would be solvable when the signature is 1
+		// as the positions can be different, the reference value needs to be adjusted
 
-		// TODO incorrect implementation
-		// compare to 1 (even permutation) if initial hole position and solved hole position equal
-		// or the distance between these positions is even
-		// compare to -1 (odd permutation) if the distance is odd
-		baseSignature = Math.abs(this.options.hole - this._initialHole) % 2 ? -1 : 1;
+		// the following logic was found empirically by solving many puzzles ...
 
-		// this works for 2x2 boards
-		//var distance = Math.abs(this.options.hole - this._initialHole);
-		//if (distance === 0 || distance == 3) baseSignature = 1;
-		//if (distance == 1 || distance == 2) baseSignature = -1;
+		// start with -1 for even hole values, 1 for odd
+		referenceValue = (this.options.hole % 2 === 0) ? -1 : 1;
 
-		return signature === baseSignature;
+		// invert if initial hole position is even
+		if (this._initialHole % 2 === 0) {
+			referenceValue *= -1;
+		}
+
+		// boards with an even number of cols need additional adjustment
+		if (this.options.cols % 2 === 0) {
+			// invert if the rows of the hole and the initial hole position
+			// do not have the same parity (even or odd)
+			if (this._getPositionByIndex(this._initialHole).row % 2 !== this._getPositionByIndex(this.options.hole).row % 2) {
+				referenceValue *= -1;
+			}
+		}
+
+		// the board is solvable if the signature equals the reference value
+		return signature === referenceValue;
 	},
 
 	// checks if the board is solved
