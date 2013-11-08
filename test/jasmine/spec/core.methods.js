@@ -67,18 +67,126 @@ describe("Methods: ", function() {
 				}
 			});
 
-			it("should identify a solvable board as solvable", function() {
+			it("should only identify solvable boards as solvable", function() {
 				puzzle = new SliderPuzzle({
-					board: [1,	2,
-							0,	3]
+					board: [0,	2,
+							3,	4]
 				});
 				expect(puzzle.isSolvable()).toEqual(true);
 
 				puzzle = new SliderPuzzle({
-					board: [1,	2,
+					board: [0,	2,
+							4,	3]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [2,	0,
+							3,	4]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [2,	0,
+							4,	3]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [3,	2,
+							0,	4]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [2,	3,
+							0,	4]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [2,	4,
 							3,	0]
 				});
 				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [4,	2,
+							3,	0]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [0,	1,
+							3,	4]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [0,	1,
+							4,	3]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	0,
+							3,	4]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	0,
+							4,	3]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [3,	1,
+							0,	4]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	3,
+							0,	4]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	4,
+							3,	0]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [4,	1,
+							3,	0]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [0,	2,
+							1,	4]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [0,	2,
+							4,	1]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [2,	0,
+							1,	4]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [2,	0,
+							4,	1]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
 
 				puzzle = new SliderPuzzle({
 					board: [1,	2,
@@ -87,36 +195,68 @@ describe("Methods: ", function() {
 				expect(puzzle.isSolvable()).toEqual(true);
 
 				puzzle = new SliderPuzzle({
-					board: [1,	2,
-							4,	0]
+					board: [2,	1,
+							0,	4]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [2,	4,
+							1,	0]
 				});
 				expect(puzzle.isSolvable()).toEqual(true);
 
 				puzzle = new SliderPuzzle({
-					board: [1,	2,	3,
-							4,	5,	0],
-					rows: 2
+					board: [4,	2,
+							1,	0]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [0,	2,
+							1,	3]
 				});
 				expect(puzzle.isSolvable()).toEqual(true);
-			});
 
-			it("should not identify a non-solvable board as solvable", function() {
+				puzzle = new SliderPuzzle({
+					board: [0,	2,
+							3,	1]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [2,	0,
+							1,	3]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [2,	0,
+							3,	1]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							0,	3]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
+				puzzle = new SliderPuzzle({
+					board: [2,	1,
+							0,	3]
+				});
+				expect(puzzle.isSolvable()).toEqual(false);
+
+				puzzle = new SliderPuzzle({
+					board: [1,	2,
+							3,	0]
+				});
+				expect(puzzle.isSolvable()).toEqual(true);
+
 				puzzle = new SliderPuzzle({
 					board: [2,	1,
 							3,	0]
-				});
-				expect(puzzle.isSolvable()).toEqual(false);
-
-				puzzle = new SliderPuzzle({
-					board: [1,	3,
-							2,	0]
-				});
-				expect(puzzle.isSolvable()).toEqual(false);
-
-				puzzle = new SliderPuzzle({
-					board: [1,	2,	3,
-							5,	4,	0],
-					rows: 2
 				});
 				expect(puzzle.isSolvable()).toEqual(false);
 			});
