@@ -42,6 +42,31 @@ describe("Methods: ", function() {
 	describe("Solving: ", function() {
 
 		describe("isSolvable()", function() {
+			it("should identify puzzles without a board option as solvable", function() {
+				var rows;
+				var cols;
+				var hole;
+				var initialHole;
+				var boardSize;
+
+				for (rows = 2; rows <= 5; rows++) {
+					for (cols = 2; cols <= 5; cols++) {
+						boardSize = rows * cols;
+						for (hole = 1; hole <= boardSize; hole++) {
+							for (initialHole = 1; initialHole <= boardSize; initialHole++) {
+								puzzle = new SliderPuzzle({
+									rows: rows,
+									cols: cols,
+									hole: hole,
+									initialHole: initialHole
+								});
+								expect(puzzle.isSolvable()).toEqual(true);
+							}
+						}
+					}
+				}
+			});
+
 			it("should identify a solvable board as solvable", function() {
 				puzzle = new SliderPuzzle({
 					board: [1,	2,
