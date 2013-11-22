@@ -109,6 +109,7 @@
 		<button name="down" >DOWN</button>
 		<button name="left" >LEFT</button>
 		<button name="right">RIGHT</button>
+		<button name="random">RANDOM</button>
 	</div>
 	<pre id="board"></pre>
 	<script>
@@ -159,11 +160,18 @@
 		});
 
 		$('#controls').on('click', 'button', function() {
+			var direction = this.name.toLowerCase();
+			var move;
+
 			if (puzzle) {
-				var move = puzzle.moveByDirection(this.name.toLowerCase());
-				console.log(move);
+				if (direction === 'random') {
+					move = puzzle.moveRandomly();
+				} else {
+					move = puzzle.moveByDirection(this.name.toLowerCase());
+				}
 
 				if (move) {
+					console.log(move);
 					$('#board').text(puzzle.toString());
 				}
 			}

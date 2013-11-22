@@ -431,6 +431,28 @@ This would e.g. return the following `move` object on a 3x3 board:
 		}
 
 
+`moveRandomly()`
+----------------
+
+Moves a random piece.
+
+Returns a `move` object.
+
+See `move()` for a description of the `move` object.
+
+		puzzle.moveRandomly()
+
+This would e.g. return the following `move` object on a 3x3 board:
+
+		{
+			number: 8,
+			from: { index: 4, row: 2, col: 1 },
+			to: { index: 1, row: 1, col: 1 },
+			direction: 'up',
+			timestamp: <date>
+		}
+
+
 
 Internals
 =========

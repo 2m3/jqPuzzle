@@ -2741,6 +2741,36 @@ describe("Methods: ", function() {
 			});
 		});
 
+		describe("moveRandomly()", function() {
+			it("should always allow for a random move", function() {
+				puzzle = new SliderPuzzle();
+
+				for (var i = 0; i < 1000; i++) {
+					expect(puzzle.moveRandomly()).toBeTruthy();
+				}
+			});
+
+			it("should not move a piece back and forth", function() {
+				var move;
+				var lastDirection;
+
+				puzzle = new SliderPuzzle();
+
+				for (var i = 0; i < 1000; i++) {
+					move = puzzle.moveRandomly();
+
+					if (move) {
+						if (move.direction === 'up'   ) expect(lastDirection).not.toEqual('down' );
+						if (move.direction === 'down' ) expect(lastDirection).not.toEqual('up'   );
+						if (move.direction === 'left' ) expect(lastDirection).not.toEqual('right');
+						if (move.direction === 'right') expect(lastDirection).not.toEqual('left' );
+					}
+
+					lastDirection = move.direction;
+				}
+			});
+		});
+
 		describe("_moveByPiece()", function() {
 			it("should only allow left and up moves if the hole is top left", function() {
 				puzzle = new SliderPuzzle({

@@ -617,7 +617,6 @@ SliderPuzzle.prototype = {
 		return !!canMove && move;
 	},
 
-	// TODO allow for a random move
 	// moves a piece based on its position
 	// returns a move object if the piece was moved
 	// returns false if the piece could not be moved
@@ -632,13 +631,48 @@ SliderPuzzle.prototype = {
 		return this._moveByPiece(this.getPieceByNumber(number));
 	},
 
-	// move a piece based on a direction
+	// moves a piece based on a direction
 	// returns a move object if a piece was moved in this direction
 	// returns false if no piece could not be moved in this direction
 	moveByDirection: function(direction) {
 		var move = this.canMoveByDirection(direction);
 
 		return move && this._moveByMove(move);
+	},
+
+	// moves a random piece
+	// returns a move object
+	moveRandomly: function() {
+		var directions = ['up', 'left', 'right', 'down'];
+		var pickDirections;
+		var direction;
+		var move;
+		var i;
+
+		// get a clone of the directions
+		pickDirections = directions.slice(0);
+
+		while (pickDirections.length) {
+			// randomly pick a direction and re-index
+			i = Math.floor(Math.random() * pickDirections.length);
+			direction = pickDirections.splice(i, 1)[0];
+
+			// two random moves must not move a single piece back and forth
+			// the inverse of a direction is found by reversing the directions array
+			// TODO replace _lastDirection with last move from stack
+			if (this._lastDirection === directions[directions.length - $.inArray(direction, directions) - 1]) {
+				continue;
+			}
+
+			// try to move a piece in this direction
+			move = this.moveByDirection(direction);
+
+			// break if the move was possible
+			if (move) {
+				this._lastDirection = direction;
+				return move;
+			}
+		}
 	},
 
 	// moves a piece given an internal piece object
