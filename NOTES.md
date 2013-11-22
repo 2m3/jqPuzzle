@@ -146,6 +146,8 @@ Note that there is a difference between the values `0` and `false`. While `shuff
 
 Defaults to `true`.
 
+When the `shuffle` option is specified with a different value than `true` the `initialHole` option is ignored.
+
 The `shuffle` option is ignored when a `board` is specified.
 
 
