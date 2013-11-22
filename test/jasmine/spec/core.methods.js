@@ -2341,7 +2341,7 @@ describe("Methods: ", function() {
 				expect(puzzle._hole).toEqual(9);
 			});
 
-			it("should not update the hole after a unsuccessful move", function() {
+			it("should not update the hole after an unsuccessful move", function() {
 				puzzle = new SliderPuzzle({
 					board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
 				});
@@ -2396,7 +2396,7 @@ describe("Methods: ", function() {
 				expect(puzzle._board).toEqual([1, 2, 5, 6, 3, 4, 7, 8, 0]);
 			});
 
-			it("should not update the board after a unsuccessful move", function() {
+			it("should not update the board after an unsuccessful move", function() {
 				puzzle = new SliderPuzzle({
 					board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
 				});
