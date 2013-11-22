@@ -372,7 +372,7 @@ describe("Methods: ", function() {
 				expect(puzzle.getPosition({ row: 3, col: 3 })).toEqual(positions3x3.bottomRight );
 			});
 
-			it("should throw an exception if the arguments are out of bounds", function() {
+			it("should throw an exception if the arguments are invalid", function() {
 				expect(function() { puzzle.getPosition(-1); }).toThrow(INDEX_INVALID);
 				expect(function() { puzzle.getPosition( 0); }).toThrow(INDEX_INVALID);
 				expect(function() { puzzle.getPosition(10); }).toThrow(INDEX_INVALID);
@@ -394,6 +394,8 @@ describe("Methods: ", function() {
 				expect(function() { puzzle.getPosition({ row:  1, col: -1 }); }).toThrow(COL_INVALID);
 				expect(function() { puzzle.getPosition({ row:  1, col:  0 }); }).toThrow(COL_INVALID);
 				expect(function() { puzzle.getPosition({ row:  1, col: 10 }); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPosition(null); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.getPosition(    ); }).toThrow(INDEX_INVALID);
 			});
 		});
 
@@ -601,7 +603,7 @@ describe("Methods: ", function() {
 				expect(puzzle.getPiece({ row: 3, col: 3 })).toEqual(pieces3x3.bottomRight );
 			});
 
-			it("should throw an exception if the arguments are out of bounds", function() {
+			it("should throw an exception if the arguments are invalid", function() {
 				expect(function() { puzzle.getPiece(-1); }).toThrow(INDEX_INVALID);
 				expect(function() { puzzle.getPiece( 0); }).toThrow(INDEX_INVALID);
 				expect(function() { puzzle.getPiece(10); }).toThrow(INDEX_INVALID);
@@ -623,6 +625,8 @@ describe("Methods: ", function() {
 				expect(function() { puzzle.getPiece({ row:  1, col: -1 }); }).toThrow(COL_INVALID);
 				expect(function() { puzzle.getPiece({ row:  1, col:  0 }); }).toThrow(COL_INVALID);
 				expect(function() { puzzle.getPiece({ row:  1, col: 10 }); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.getPiece(null); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.getPiece(    ); }).toThrow(INDEX_INVALID);
 			});
 		});
 
@@ -1174,7 +1178,7 @@ describe("Methods: ", function() {
 				expect(puzzle.canMove({ row: 3, col: 3 })).toEqual(false);
 			});
 
-			it("should throw an exception if the arguments are out of bounds", function() {
+			it("should throw an exception if the arguments are invalid", function() {
 				expect(function() { puzzle.canMove(-1); }).toThrow(INDEX_INVALID);
 				expect(function() { puzzle.canMove( 0); }).toThrow(INDEX_INVALID);
 				expect(function() { puzzle.canMove(10); }).toThrow(INDEX_INVALID);
@@ -1196,6 +1200,8 @@ describe("Methods: ", function() {
 				expect(function() { puzzle.canMove({ row:  1, col: -1 }); }).toThrow(COL_INVALID);
 				expect(function() { puzzle.canMove({ row:  1, col:  0 }); }).toThrow(COL_INVALID);
 				expect(function() { puzzle.canMove({ row:  1, col: 10 }); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.canMove(null); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.canMove(    ); }).toThrow(INDEX_INVALID);
 			});
 		});
 
@@ -2267,7 +2273,7 @@ describe("Methods: ", function() {
 				expect(puzzle.move({ row: 3, col: 3 })).toEqual(false);
 			});
 
-			it("should throw an exception if the arguments are out of bounds", function() {
+			it("should throw an exception if the arguments are invalid", function() {
 				expect(function() { puzzle.move(-1); }).toThrow(INDEX_INVALID);
 				expect(function() { puzzle.move( 0); }).toThrow(INDEX_INVALID);
 				expect(function() { puzzle.move(10); }).toThrow(INDEX_INVALID);
@@ -2289,6 +2295,8 @@ describe("Methods: ", function() {
 				expect(function() { puzzle.move({ row:  1, col: -1 }); }).toThrow(COL_INVALID);
 				expect(function() { puzzle.move({ row:  1, col:  0 }); }).toThrow(COL_INVALID);
 				expect(function() { puzzle.move({ row:  1, col: 10 }); }).toThrow(COL_INVALID);
+				expect(function() { puzzle.move(null); }).toThrow(INDEX_INVALID);
+				expect(function() { puzzle.move(    ); }).toThrow(INDEX_INVALID);
 			});
 
 			it("should allow a piece next to the hole to be moved exactly once", function() {
