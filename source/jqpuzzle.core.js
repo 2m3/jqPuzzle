@@ -311,11 +311,23 @@ SliderPuzzle.prototype = {
 
 	// generates a board with the specified number of moves away from the solved board
 	generateBoardByMovesAwayFromSolvedBoard: function(movesAway) {
+		// ignore specified initial hole option
+		this.options.initialHole = undefined;
+
 		// start with the solved board
 		this._initialBoard = this.getSolvedBoard().slice(0);
 
-		// TODO perform movesAway random moves and make sure we do not move back and forth
-		// these moves change this._initialBoard instead of this._board
+		// set initial hole and restart to be able to perform moves
+		this.setInitialHole();
+		this.restart();
+
+		// randomly move pieces
+		while (movesAway-- > 0) {
+			this.moveRandomly();
+		}
+
+		// set the resulting board as initial board
+		this._initialBoard = this._board;
 	},
 
 	// checks if the board is solvable

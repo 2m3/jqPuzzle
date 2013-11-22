@@ -46,7 +46,7 @@ Expects any integer value between 1 (top left) and `rows*cols` (bottom right).
 
 Defaults to a random position.
 
-The `intiialHole` option is ignored when a `board` is specified.
+The `intiialHole` option is ignored when a `board` is specified or the `shuffle` option is specified with a different value than `true`.
 
 
 `board`
@@ -140,7 +140,7 @@ The `solvable` option is ignored when a `board` is specified.
 
 Specifies whether the board is immediately shuffled or not. If set to `false`, the game must be explicitly started by calling `shuffle()`.
 
-Expects either `true` or `false`. Any integer value is interpreted as the number of random moves away from the solved board (meaning that the puzzle can be solved with at most the specified number of moves). 
+Expects either `true`, `false` or any positive integer value. Integer values are interpreted as the number of random moves away from the solved board (meaning that the puzzle can be solved with at most the specified number of moves). 
 
 Note that there is a difference between the values `0` and `false`. While `shuffle: 0` starts a game that is immediately solved, `shuffle: false` does not start the game before explicitly calling `shuffle()`.
 
