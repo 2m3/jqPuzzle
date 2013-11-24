@@ -225,7 +225,7 @@ SliderPuzzle.prototype = {
 		this.reset();
 	},
 
-	// resets all game variables to their default state
+	// resets all game variables to their initial state
 	reset: function() {
 		if (this._initialHole === undefined || this._initialBoard === undefined) {
 			throw "board must be shuffled first";
