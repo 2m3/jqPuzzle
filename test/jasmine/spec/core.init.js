@@ -994,16 +994,27 @@ describe("Initialization:", function() {
 			expect(puzzle._playing).toEqual(true);
 		});
 
-		// TODO
-		xit("should start with the board one move away from the solved board if the shuffle option is set to 1", function() {
+		it("should start with the board one move away from the solved board if the shuffle option is set to 1", function() {
 			puzzle = new SliderPuzzle({
 				rows: 2,
 				cols: 2,
 				shuffle: 1
 			});
 			expect(puzzle.isSolved()).toEqual(false);
-			expect(puzzle._board).toEqualAny([1,2,0,3], [1,0,3,2]);
+			expect(puzzle._board).toEqualAny([[1,2,0,3], [1,0,3,2]]);
 			expect(puzzle._playing).toEqual(true);
 		});
+
+		it("should start with the board two moves away from the solved board if the shuffle option is set to 2", function() {
+			puzzle = new SliderPuzzle({
+				rows: 2,
+				cols: 2,
+				shuffle: 2
+			});
+			expect(puzzle.isSolved()).toEqual(false);
+			expect(puzzle._board).toEqualAny([[0,2,1,3], [0,1,3,2]]);
+			expect(puzzle._playing).toEqual(true);
+		});
+
 	});
 });
