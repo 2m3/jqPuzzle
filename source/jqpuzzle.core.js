@@ -213,20 +213,24 @@ SliderPuzzle.prototype = {
 		this.setInitialHole();
 
 		// start game
-		this.restart();
+		this.reset();
 	},
 
-	// restarts the game with a new board
+	// restarts the game with a shuffled board
 	shuffle: function() {
 		// shuffle
 		this.generateBoard();
 
-		// restart game
-		this.restart();
+		// reset game
+		this.reset();
 	},
 
 	// resets all game variables to their default state
-	restart: function() {
+	reset: function() {
+		if (this._initialHole === undefined || this._initialBoard === undefined) {
+			throw "board must be shuffled first";
+		}
+
 		this.resetBoard();
 		this._hole = this._initialHole;
 		this._moves = [];
@@ -317,9 +321,9 @@ SliderPuzzle.prototype = {
 		// start with the solved board
 		this._initialBoard = this.getSolvedBoard().slice(0);
 
-		// set initial hole and restart to be able to perform moves
+		// set initial hole and reset the game to be able to perform moves
 		this.setInitialHole();
-		this.restart();
+		this.reset();
 
 		// randomly move pieces
 		while (movesAway-- > 0) {

@@ -155,6 +155,50 @@ The `shuffle` option is ignored when a `board` is specified.
 Methods
 =======
 
+`shuffle()`
+-----------
+
+Starts or restarts the game with a freshly shuffled board.
+
+If the puzzle was initialized with the `shuffle` option set to `false`, the game must be explicitly started by calling this method.
+
+`shuffle()` can be called at any time during a game. When called, the current game state is lost.
+
+		puzzle.shuffle()
+
+
+`reset()`
+---------
+
+Resets all game variables to their initial state. While `shuffle()` always starts with freshly shuffled board, `reset()` restores the initial board layout before the first move was performed.
+
+`reset()` can be called at any time during a game once the board was shuffled. When called, the current game state is lost.
+
+		puzzle.reset()
+
+
+`isSolvable()`
+--------------
+
+Checks if the board is solvable. Note that only every other random board layout can be solved. `isSolvable()` can be used to check if a specified board is solvable.
+
+Returns `true` if the board can be solved.
+Returns `false` if the board cannot be solved.
+
+		puzzle.isSolvable()
+
+
+`isSolved()`
+------------
+
+Checks if the current board is solved.
+
+Returns `true` if the board is solved.
+Returns `false` if the board is solved.
+
+		puzzle.isSolved()
+
+
 `getPosition(<arguments>)`
 --------------------------
 
@@ -469,14 +513,6 @@ The options hash contains properties that do not change once a game is initializ
 * `this.options.board`
 * `this.options.hole`
 * `this.options.initialHole`
-
-Methods
--------
-
-* `shuffle()`
-* `restart()`
-* `isSolvable()`
-* `isSolved()`
 
 Internal Properties
 -------------------
