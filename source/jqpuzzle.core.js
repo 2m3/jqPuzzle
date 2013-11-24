@@ -238,7 +238,7 @@ SliderPuzzle.prototype = {
 		// TODO reset solved
 		// TODO reset timer
 
-		// TOOD check this._playing when moving
+		// TODO check this._playing when moving
 		this._playing = true;
 	},
 
