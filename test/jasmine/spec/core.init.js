@@ -1015,6 +1015,5 @@ describe("Initialization:", function() {
 			expect(puzzle._board).toEqualAny([[0,2,1,3], [0,1,3,2]]);
 			expect(puzzle._playing).toEqual(true);
 		});
-
 	});
 });
