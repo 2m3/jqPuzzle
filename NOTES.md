@@ -155,16 +155,19 @@ The `shuffle` option is ignored when a `board` is specified.
 Methods
 =======
 
-`shuffle()`
------------
+`shuffle(<movesAway>)`
+----------------------
 
 Starts or restarts the game with a freshly shuffled board.
 
 If the puzzle was initialized with the `shuffle` option set to `false`, the game must be explicitly started by calling this method.
 
+When called without an argument, a random board layout is shuffled. When called with a positive integer value, this value is interpreted as the number of random moves away from the solved board (meaning that the puzzle can be solved with at most the specified number of moves). Calling `shuffle(0)` starts a game that is immediately solved.
+
 `shuffle()` can be called at any time during a game. When called, the current game state is lost.
 
 		puzzle.shuffle()
+		puzzle.shuffle(4)
 
 
 `reset()`

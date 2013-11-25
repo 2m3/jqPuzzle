@@ -129,13 +129,6 @@ function SliderPuzzle(options) {
 				options.hole = this._boardSize;
 			}
 		}
-
-		// handle shuffle option
-		if (options.shuffle !== undefined) {
-			// expect value to be greater than or equal to 0 or make sure to have a boolean
-			value = parseInt(options.shuffle, 10);
-			options.shuffle = (isNaN(value) || value < 0) ? !!options.shuffle : value;
-		}
 	}
 
 	// merge passed in options with defaults (options wins)
@@ -196,8 +189,10 @@ SliderPuzzle.prototype = {
 		}
 		// or handle shuffle option
 		else {
-			// initialize with the solved board (requires a call to shuffle() to start the game)
+			// initialize with the solved board
+			// requires a call to shuffle() to start the game
 			if (this.options.shuffle === false) {
+				// TODO need to set initial board?
 				this._initialBoard = this._board = this.getSolvedBoard().slice(0);
 
 				// do not start game
@@ -205,9 +200,11 @@ SliderPuzzle.prototype = {
 			}
 			// or start with a shuffled board
 			else {
-				this.generateBoard();
+				this.shuffle(this.options.shuffle, true);
 			}
 		}
+
+		// TODO check if this needs to be called in all cases
 
 		// set initial hole position
 		this.setInitialHole();
@@ -217,9 +214,26 @@ SliderPuzzle.prototype = {
 	},
 
 	// restarts the game with a shuffled board
-	shuffle: function() {
-		// shuffle
-		this.generateBoard();
+	shuffle: function(movesAway, setOption) {
+		if (movesAway !== undefined && movesAway !== true) {
+			// for numeric values, generate a board with the
+			// specified number of moves away from the solved board
+
+			// expect value to be greater than or equal to 0
+			movesAway = parseInt(movesAway, 10);
+			if (isNaN(movesAway) || movesAway < 0) {
+				throw 'invalid shuffle value';
+			}
+
+			// make sure shuffle option is set
+			if (setOption) {
+				this.options.shuffle = movesAway;
+			}
+
+			this.generateBoardByMovesAwayFromSolvedBoard(movesAway);
+		} else {
+			this.generateBoard();
+		}
 
 		// reset game
 		this.reset();
@@ -248,13 +262,6 @@ SliderPuzzle.prototype = {
 		var i;
 		var item;
 		var breaker = 100;
-
-		// for numeric values, generate a board with the specified number of moves away from the solved board
-		// explicitly call parseInt() again as isNaN(Boolean) === false
-		if (!isNaN(parseInt(this.options.shuffle, 10))) {
-			this.generateBoardByMovesAwayFromSolvedBoard(this.options.shuffle);
-			return;
-		}
 
 		// create a shuffled board by picking items from the sorted board
 		// and repeat if the solvability of the board does not match the specified option

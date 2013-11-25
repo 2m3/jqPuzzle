@@ -932,26 +932,34 @@ describe("Initialization:", function() {
 				shuffle: false
 			});
 			expect(puzzle.options.shuffle).toEqual(false);
+		});
 
-			puzzle = new SliderPuzzle({
-				shuffle: -1
-			});
-			expect(puzzle.options.shuffle).toEqual(true);
+		it("should throw an exception if the shuffle option is neither a boolean nor a positive integer", function() {
+			var SHUFFLE_INVALID = "invalid shuffle value";
 
-			puzzle = new SliderPuzzle({
-				shuffle: "-2"
-			});
-			expect(puzzle.options.shuffle).toEqual(true);
+			expect(function() {
+				puzzle = new SliderPuzzle({
+					shuffle: -1
+				});
+			}).toThrow(SHUFFLE_INVALID);
 
-			puzzle = new SliderPuzzle({
-				shuffle: "test"
-			});
-			expect(puzzle.options.shuffle).toEqual(true);
+			expect(function() {
+				puzzle = new SliderPuzzle({
+					shuffle: "-2"
+				});
+			}).toThrow(SHUFFLE_INVALID);
 
-			puzzle = new SliderPuzzle({
-				shuffle: null
-			});
-			expect(puzzle.options.shuffle).toEqual(false);
+			expect(function() {
+				puzzle = new SliderPuzzle({
+					shuffle: "test"
+				});
+			}).toThrow(SHUFFLE_INVALID);
+
+			expect(function() {
+				puzzle = new SliderPuzzle({
+					shuffle: null
+				});
+			}).toThrow(SHUFFLE_INVALID);
 		});
 
 		it("should shuffle the board if the shuffle option is set to true or is not specified", function() {
