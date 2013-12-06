@@ -16,6 +16,17 @@ describe("Methods: ", function() {
 
 			it("should shuffle the pieces on the board when called after initializing the puzzle with the shuffle option set to false", function() {
 				puzzle = new SliderPuzzle({
+					shuffle: true
+				});
+
+				board = puzzle._board;
+
+				puzzle.shuffle();
+				expect(puzzle._board).not.toEqual(board);
+			});
+
+			it("should shuffle the pieces on the board when called after initializing the puzzle with the shuffle option set to false", function() {
+				puzzle = new SliderPuzzle({
 					shuffle: false
 				});
 

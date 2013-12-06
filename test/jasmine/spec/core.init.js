@@ -899,6 +899,9 @@ describe("Initialization:", function() {
 		});
 
 		it("should handle a specified shuffle value as a boolean if it is less then 0 or cannot be parsed as an integer", function() {
+			puzzle = new SliderPuzzle();
+			expect(puzzle.options.shuffle).toEqual(true);
+
 			puzzle = new SliderPuzzle({
 				shuffle: true
 			});
