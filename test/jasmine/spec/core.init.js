@@ -951,10 +951,6 @@ describe("Initialization:", function() {
 			puzzle = new SliderPuzzle();
 			expect(puzzle.isSolved()).toEqual(false);
 			expect(puzzle._playing).toEqual(true);
-
-			puzzle = new SliderPuzzle({});
-			expect(puzzle.isSolved()).toEqual(false);
-			expect(puzzle._playing).toEqual(true);
 		});
 
 		it("should initialize (but not start) with the solved board if the shuffle option is set to false", function() {
@@ -964,7 +960,6 @@ describe("Initialization:", function() {
 				shuffle: false
 			});
 			expect(puzzle.isSolved()).toEqual(true);
-			expect(puzzle._board).toEqual(puzzle.getSolvedBoard());
 			expect(puzzle._board).toEqual([1,2,3,0]);
 			expect(puzzle._playing).toEqual(false);
 		});
