@@ -4,6 +4,47 @@ describe("Shuffle and Reset: ", function() {
 		var board;
 		var solvedBoard = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0];
 
+		it("should shuffle a board that contains all numbers from 1 to row*cols with any one number replaced with 0", function() {
+			puzzle = new SliderPuzzle();
+
+			puzzle.shuffle();
+
+			for (var i = 0; i < solvedBoard.length; i++) {
+				expect(puzzle._board).toContain(solvedBoard[i]);
+			}
+
+			puzzle = new SliderPuzzle({
+				hole: 3
+			});
+
+			puzzle.shuffle();
+
+			for (i = 0; i < solvedBoard.length; i++) {
+				expect(puzzle._board).toContain([1,2,0,4,5,6,7,8,9,10,11,12,13,14,15,16][i]);
+			}
+
+			puzzle = new SliderPuzzle({
+				initialHole: 3
+			});
+
+			puzzle.shuffle();
+
+			for (i = 0; i < solvedBoard.length; i++) {
+				expect(puzzle._board).toContain(solvedBoard[i]);
+			}
+
+			puzzle = new SliderPuzzle({
+				hole: 3,
+				initialHole: 3
+			});
+
+			puzzle.shuffle();
+
+			for (i = 0; i < solvedBoard.length; i++) {
+				expect(puzzle._board).toContain([1,2,0,4,5,6,7,8,9,10,11,12,13,14,15,16][i]);
+			}
+		});
+
 		it("should shuffle the board when called after initializing the puzzle with the shuffle option not specified", function() {
 			puzzle = new SliderPuzzle();
 
