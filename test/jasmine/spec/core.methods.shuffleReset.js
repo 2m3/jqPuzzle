@@ -96,16 +96,6 @@ describe("Shuffle and Reset: ", function() {
 
 			puzzle = new SliderPuzzle();
 			expect(function() { puzzle.shuffle(null); }).toThrow(SHUFFLE_INVALID);
-
-			puzzle = new SliderPuzzle({
-				shuffle: false
-			});
-			expect(function() { puzzle.shuffle(null); }).toThrow(SHUFFLE_INVALID);
-
-			puzzle = new SliderPuzzle({
-				shuffle: 4
-			});
-			expect(function() { puzzle.shuffle(null); }).toThrow(SHUFFLE_INVALID);
 		});
 	});
 
