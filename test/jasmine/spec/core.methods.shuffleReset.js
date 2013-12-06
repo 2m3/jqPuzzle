@@ -60,6 +60,37 @@ describe("Shuffle and Reset: ", function() {
 			expect(puzzle._board).not.toEqual(solvedBoard);
 		});
 
+		it("should generate the solved board if the shuffle value is 0", function() {
+			puzzle = new SliderPuzzle();
+
+			puzzle.shuffle(0);
+			expect(puzzle._board).toEqual(solvedBoard);
+		});
+
+		it("should generate one out of two boards if the shuffle value is 1", function() {
+			for (var i = 0; i < 100; i++) {
+				puzzle = new SliderPuzzle({
+					rows: 2,
+					cols: 2
+				});
+
+				puzzle.shuffle(1);
+				expect(puzzle._board).toEqualAny([[1,2,0,3], [1,0,3,2]]);
+			}
+		});
+
+		it("should generate one out of two boards if the shuffle value is 2", function() {
+			for (var i = 0; i < 100; i++) {
+				puzzle = new SliderPuzzle({
+					rows: 2,
+					cols: 2
+				});
+
+				puzzle.shuffle(2);
+				expect(puzzle._board).toEqualAny([[0,2,1,3], [0,1,3,2]]);
+			}
+		});
+
 		it("should throw an exception if the shuffle value is invalid", function() {
 			var SHUFFLE_INVALID = "invalid shuffle value";
 
