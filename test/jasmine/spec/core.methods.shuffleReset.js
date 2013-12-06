@@ -2,17 +2,19 @@ describe("Shuffle and Reset: ", function() {
 
 	describe("shuffle()", function() {
 		var board;
+		var solvedBoard = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0];
 
-		it("should shuffle the pieces on the board when called after initializing the puzzle with the shuffle option not specified", function() {
+		it("should shuffle the board when called after initializing the puzzle with the shuffle option not specified", function() {
 			puzzle = new SliderPuzzle();
 
 			board = puzzle._board;
 
 			puzzle.shuffle();
 			expect(puzzle._board).not.toEqual(board);
+			expect(puzzle._board).not.toEqual(solvedBoard);
 		});
 
-		it("should shuffle the pieces on the board when called after initializing the puzzle with the shuffle option set to false", function() {
+		it("should shuffle the board when called after initializing the puzzle with the shuffle option set to true", function() {
 			puzzle = new SliderPuzzle({
 				shuffle: true
 			});
@@ -21,9 +23,10 @@ describe("Shuffle and Reset: ", function() {
 
 			puzzle.shuffle();
 			expect(puzzle._board).not.toEqual(board);
+			expect(puzzle._board).not.toEqual(solvedBoard);
 		});
 
-		it("should shuffle the pieces on the board when called after initializing the puzzle with the shuffle option set to false", function() {
+		it("should shuffle the board when called after initializing the puzzle with the shuffle option set to false", function() {
 			puzzle = new SliderPuzzle({
 				shuffle: false
 			});
@@ -32,9 +35,10 @@ describe("Shuffle and Reset: ", function() {
 
 			puzzle.shuffle();
 			expect(puzzle._board).not.toEqual(board);
+			expect(puzzle._board).not.toEqual(solvedBoard);
 		});
 
-		it("should shuffle the pieces on the board when called after initializing the puzzle with the shuffle option set to 0", function() {
+		it("should shuffle the board when called after initializing the puzzle with the shuffle option set to an integer", function() {
 			puzzle = new SliderPuzzle({
 				shuffle: 0
 			});
@@ -43,6 +47,17 @@ describe("Shuffle and Reset: ", function() {
 
 			puzzle.shuffle();
 			expect(puzzle._board).not.toEqual(board);
+			expect(puzzle._board).not.toEqual(solvedBoard);
+
+			puzzle = new SliderPuzzle({
+				shuffle: 1
+			});
+
+			board = puzzle._board;
+
+			puzzle.shuffle();
+			expect(puzzle._board).not.toEqual(board);
+			expect(puzzle._board).not.toEqual(solvedBoard);
 		});
 
 		it("should throw an exception if the shuffle value is invalid", function() {
