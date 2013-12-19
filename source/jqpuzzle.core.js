@@ -722,11 +722,12 @@ SliderPuzzle.prototype = {
 			// update hole
 			this._hole = index;
 
-			// add timestamp
+			// add index and timestamp
+			move.index = this._moves.length + 1;
 			move.timestamp = new Date();
 
-			// TODO increase move and other counters
-			// TODO add move to stack
+			// add move to stack
+			this._moves.push(move);
 		}
 
 		return move;

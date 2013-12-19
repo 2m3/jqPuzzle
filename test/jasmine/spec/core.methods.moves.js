@@ -1007,10 +1007,10 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle.move(1)).toEqual(false);
-			expect(puzzle.move(2)).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2)).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.move(3)).toEqual(false);
-			expect(puzzle.move(4)).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(4)).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.move(5)).toEqual(false);
 			expect(puzzle.move(6)).toEqual(false);
@@ -1019,10 +1019,10 @@ describe("Moves: ", function() {
 			expect(puzzle.move(9)).toEqual(false);
 
 			expect(puzzle.move(1, 1)).toEqual(false);
-			expect(puzzle.move(1, 2)).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(1, 2)).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.move(1, 3)).toEqual(false);
-			expect(puzzle.move(2, 1)).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2, 1)).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.move(2, 2)).toEqual(false);
 			expect(puzzle.move(2, 3)).toEqual(false);
@@ -1031,10 +1031,10 @@ describe("Moves: ", function() {
 			expect(puzzle.move(3, 3)).toEqual(false);
 
 			expect(puzzle.move([1, 1])).toEqual(false);
-			expect(puzzle.move([1, 2])).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([1, 2])).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.move([1, 3])).toEqual(false);
-			expect(puzzle.move([2, 1])).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([2, 1])).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.move([2, 2])).toEqual(false);
 			expect(puzzle.move([2, 3])).toEqual(false);
@@ -1043,10 +1043,10 @@ describe("Moves: ", function() {
 			expect(puzzle.move([3, 3])).toEqual(false);
 
 			expect(puzzle.move({ row: 1, col: 1 })).toEqual(false);
-			expect(puzzle.move({ row: 1, col: 2 })).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 1, col: 2 })).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.move({ row: 1, col: 3 })).toEqual(false);
-			expect(puzzle.move({ row: 2, col: 1 })).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 2, col: 1 })).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.move({ row: 2, col: 2 })).toEqual(false);
 			expect(puzzle.move({ row: 2, col: 3 })).toEqual(false);
@@ -1060,52 +1060,52 @@ describe("Moves: ", function() {
 				board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle.move(1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move(2)).toEqual(false);
-			expect(puzzle.move(3)).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(3)).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move(4)).toEqual(false);
-			expect(puzzle.move(5)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(5)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move(6)).toEqual(false);
 			expect(puzzle.move(7)).toEqual(false);
 			expect(puzzle.move(8)).toEqual(false);
 			expect(puzzle.move(9)).toEqual(false);
 
-			expect(puzzle.move(1, 1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(1, 1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move(1, 2)).toEqual(false);
-			expect(puzzle.move(1, 3)).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(1, 3)).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move(2, 1)).toEqual(false);
-			expect(puzzle.move(2, 2)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2, 2)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move(2, 3)).toEqual(false);
 			expect(puzzle.move(3, 1)).toEqual(false);
 			expect(puzzle.move(3, 2)).toEqual(false);
 			expect(puzzle.move(3, 3)).toEqual(false);
 
-			expect(puzzle.move([1, 1])).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move([1, 1])).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move([1, 2])).toEqual(false);
-			expect(puzzle.move([1, 3])).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([1, 3])).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move([2, 1])).toEqual(false);
-			expect(puzzle.move([2, 2])).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([2, 2])).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move([2, 3])).toEqual(false);
 			expect(puzzle.move([3, 1])).toEqual(false);
 			expect(puzzle.move([3, 2])).toEqual(false);
 			expect(puzzle.move([3, 3])).toEqual(false);
 
-			expect(puzzle.move({ row: 1, col: 1 })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 1, col: 1 })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move({ row: 1, col: 2 })).toEqual(false);
-			expect(puzzle.move({ row: 1, col: 3 })).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 1, col: 3 })).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move({ row: 2, col: 1 })).toEqual(false);
-			expect(puzzle.move({ row: 2, col: 2 })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 2, col: 2 })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.move({ row: 2, col: 3 })).toEqual(false);
 			expect(puzzle.move({ row: 3, col: 1 })).toEqual(false);
@@ -1119,48 +1119,48 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle.move(1)).toEqual(false);
-			expect(puzzle.move(2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle.move(3)).toEqual(false);
 			expect(puzzle.move(4)).toEqual(false);
 			expect(puzzle.move(5)).toEqual(false);
-			expect(puzzle.move(6)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(6)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle.move(7)).toEqual(false);
 			expect(puzzle.move(8)).toEqual(false);
 			expect(puzzle.move(9)).toEqual(false);
 
 			expect(puzzle.move(1, 1)).toEqual(false);
-			expect(puzzle.move(1, 2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(1, 2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle.move(1, 3)).toEqual(false);
 			expect(puzzle.move(2, 1)).toEqual(false);
 			expect(puzzle.move(2, 2)).toEqual(false);
-			expect(puzzle.move(2, 3)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2, 3)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle.move(3, 1)).toEqual(false);
 			expect(puzzle.move(3, 2)).toEqual(false);
 			expect(puzzle.move(3, 3)).toEqual(false);
 
 			expect(puzzle.move([1, 1])).toEqual(false);
-			expect(puzzle.move([1, 2])).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move([1, 2])).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle.move([1, 3])).toEqual(false);
 			expect(puzzle.move([2, 1])).toEqual(false);
 			expect(puzzle.move([2, 2])).toEqual(false);
-			expect(puzzle.move([2, 3])).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([2, 3])).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle.move([3, 1])).toEqual(false);
 			expect(puzzle.move([3, 2])).toEqual(false);
 			expect(puzzle.move([3, 3])).toEqual(false);
 
 			expect(puzzle.move({ row: 1, col: 1 })).toEqual(false);
-			expect(puzzle.move({ row: 1, col: 2 })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 1, col: 2 })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle.move({ row: 1, col: 3 })).toEqual(false);
 			expect(puzzle.move({ row: 2, col: 1 })).toEqual(false);
 			expect(puzzle.move({ row: 2, col: 2 })).toEqual(false);
-			expect(puzzle.move({ row: 2, col: 3 })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 2, col: 3 })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle.move({ row: 3, col: 1 })).toEqual(false);
 			expect(puzzle.move({ row: 3, col: 2 })).toEqual(false);
@@ -1172,54 +1172,54 @@ describe("Moves: ", function() {
 				board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle.move(1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move(2)).toEqual(false);
 			expect(puzzle.move(3)).toEqual(false);
 			expect(puzzle.move(4)).toEqual(false);
-			expect(puzzle.move(5)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(5)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move(6)).toEqual(false);
-			expect(puzzle.move(7)).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(7)).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move(8)).toEqual(false);
 			expect(puzzle.move(9)).toEqual(false);
 
-			expect(puzzle.move(1, 1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(1, 1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move(1, 2)).toEqual(false);
 			expect(puzzle.move(1, 3)).toEqual(false);
 			expect(puzzle.move(2, 1)).toEqual(false);
-			expect(puzzle.move(2, 2)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2, 2)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move(2, 3)).toEqual(false);
-			expect(puzzle.move(3, 1)).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(3, 1)).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move(3, 2)).toEqual(false);
 			expect(puzzle.move(3, 3)).toEqual(false);
 
-			expect(puzzle.move([1, 1])).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([1, 1])).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move([1, 2])).toEqual(false);
 			expect(puzzle.move([1, 3])).toEqual(false);
 			expect(puzzle.move([2, 1])).toEqual(false);
-			expect(puzzle.move([2, 2])).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([2, 2])).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move([2, 3])).toEqual(false);
-			expect(puzzle.move([3, 1])).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([3, 1])).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move([3, 2])).toEqual(false);
 			expect(puzzle.move([3, 3])).toEqual(false);
 
-			expect(puzzle.move({ row: 1, col: 1 })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 1, col: 1 })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move({ row: 1, col: 2 })).toEqual(false);
 			expect(puzzle.move({ row: 1, col: 3 })).toEqual(false);
 			expect(puzzle.move({ row: 2, col: 1 })).toEqual(false);
-			expect(puzzle.move({ row: 2, col: 2 })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 2, col: 2 })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move({ row: 2, col: 3 })).toEqual(false);
-			expect(puzzle.move({ row: 3, col: 1 })).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 3, col: 1 })).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.move({ row: 3, col: 2 })).toEqual(false);
 			expect(puzzle.move({ row: 3, col: 3 })).toEqual(false);
@@ -1231,58 +1231,58 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle.move(1)).toEqual(false);
-			expect(puzzle.move(2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move(3)).toEqual(false);
-			expect(puzzle.move(4)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(4)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move(5)).toEqual(false);
-			expect(puzzle.move(6)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(6)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move(7)).toEqual(false);
-			expect(puzzle.move(8)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(8)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move(9)).toEqual(false);
 
 			expect(puzzle.move(1, 1)).toEqual(false);
-			expect(puzzle.move(1, 2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(1, 2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move(1, 3)).toEqual(false);
-			expect(puzzle.move(2, 1)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2, 1)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move(2, 2)).toEqual(false);
-			expect(puzzle.move(2, 3)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2, 3)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move(3, 1)).toEqual(false);
-			expect(puzzle.move(3, 2)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(3, 2)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move(3, 3)).toEqual(false);
 
 			expect(puzzle.move([1, 1])).toEqual(false);
-			expect(puzzle.move([1, 2])).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([1, 2])).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move([1, 3])).toEqual(false);
-			expect(puzzle.move([2, 1])).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move([2, 1])).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move([2, 2])).toEqual(false);
-			expect(puzzle.move([2, 3])).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([2, 3])).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move([3, 1])).toEqual(false);
-			expect(puzzle.move([3, 2])).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([3, 2])).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move([3, 3])).toEqual(false);
 
 			expect(puzzle.move({ row: 1, col: 1 })).toEqual(false);
-			expect(puzzle.move({ row: 1, col: 2 })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 1, col: 2 })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move({ row: 1, col: 3 })).toEqual(false);
-			expect(puzzle.move({ row: 2, col: 1 })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 2, col: 1 })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move({ row: 2, col: 2 })).toEqual(false);
-			expect(puzzle.move({ row: 2, col: 3 })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 2, col: 3 })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move({ row: 3, col: 1 })).toEqual(false);
-			expect(puzzle.move({ row: 3, col: 2 })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 3, col: 2 })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.move({ row: 3, col: 3 })).toEqual(false);
 		});
@@ -1294,53 +1294,53 @@ describe("Moves: ", function() {
 
 			expect(puzzle.move(1)).toEqual(false);
 			expect(puzzle.move(2)).toEqual(false);
-			expect(puzzle.move(3)).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(3)).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle.move(4)).toEqual(false);
-			expect(puzzle.move(5)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(5)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();expect(puzzle.move(6)).toEqual(false);
 			expect(puzzle.move(7)).toEqual(false);
 			expect(puzzle.move(8)).toEqual(false);
-			expect(puzzle.move(9)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(9)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 
 			expect(puzzle.move(1, 1)).toEqual(false);
 			expect(puzzle.move(1, 2)).toEqual(false);
-			expect(puzzle.move(1, 3)).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(1, 3)).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle.move(2, 1)).toEqual(false);
-			expect(puzzle.move(2, 2)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2, 2)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle.move(2, 3)).toEqual(false);
 			expect(puzzle.move(3, 1)).toEqual(false);
 			expect(puzzle.move(3, 2)).toEqual(false);
-			expect(puzzle.move(3, 3)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(3, 3)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 
 			expect(puzzle.move([1, 1])).toEqual(false);
 			expect(puzzle.move([1, 2])).toEqual(false);
-			expect(puzzle.move([1, 3])).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([1, 3])).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle.move([2, 1])).toEqual(false);
-			expect(puzzle.move([2, 2])).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move([2, 2])).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle.move([2, 3])).toEqual(false);
 			expect(puzzle.move([3, 1])).toEqual(false);
 			expect(puzzle.move([3, 2])).toEqual(false);
-			expect(puzzle.move([3, 3])).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([3, 3])).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 
 			expect(puzzle.move({ row: 1, col: 1 })).toEqual(false);
 			expect(puzzle.move({ row: 1, col: 2 })).toEqual(false);
-			expect(puzzle.move({ row: 1, col: 3 })).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 1, col: 3 })).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle.move({ row: 2, col: 1 })).toEqual(false);
-			expect(puzzle.move({ row: 2, col: 2 })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 2, col: 2 })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle.move({ row: 2, col: 3 })).toEqual(false);
 			expect(puzzle.move({ row: 3, col: 1 })).toEqual(false);
 			expect(puzzle.move({ row: 3, col: 2 })).toEqual(false);
-			expect(puzzle.move({ row: 3, col: 3 })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 3, col: 3 })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 		});
 
@@ -1352,48 +1352,48 @@ describe("Moves: ", function() {
 			expect(puzzle.move(1)).toEqual(false);
 			expect(puzzle.move(2)).toEqual(false);
 			expect(puzzle.move(3)).toEqual(false);
-			expect(puzzle.move(4)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(4)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle.move(5)).toEqual(false);
 			expect(puzzle.move(6)).toEqual(false);
 			expect(puzzle.move(7)).toEqual(false);
-			expect(puzzle.move(8)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(8)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle.move(9)).toEqual(false);
 
 			expect(puzzle.move(1, 1)).toEqual(false);
 			expect(puzzle.move(1, 2)).toEqual(false);
 			expect(puzzle.move(1, 3)).toEqual(false);
-			expect(puzzle.move(2, 1)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2, 1)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle.move(2, 2)).toEqual(false);
 			expect(puzzle.move(2, 3)).toEqual(false);
 			expect(puzzle.move(3, 1)).toEqual(false);
-			expect(puzzle.move(3, 2)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(3, 2)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle.move(3, 3)).toEqual(false);
 
 			expect(puzzle.move([1, 1])).toEqual(false);
 			expect(puzzle.move([1, 2])).toEqual(false);
 			expect(puzzle.move([1, 3])).toEqual(false);
-			expect(puzzle.move([2, 1])).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([2, 1])).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle.move([2, 2])).toEqual(false);
 			expect(puzzle.move([2, 3])).toEqual(false);
 			expect(puzzle.move([3, 1])).toEqual(false);
-			expect(puzzle.move([3, 2])).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([3, 2])).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle.move([3, 3])).toEqual(false);
 
 			expect(puzzle.move({ row: 1, col: 1 })).toEqual(false);
 			expect(puzzle.move({ row: 1, col: 2 })).toEqual(false);
 			expect(puzzle.move({ row: 1, col: 3 })).toEqual(false);
-			expect(puzzle.move({ row: 2, col: 1 })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 2, col: 1 })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle.move({ row: 2, col: 2 })).toEqual(false);
 			expect(puzzle.move({ row: 2, col: 3 })).toEqual(false);
 			expect(puzzle.move({ row: 3, col: 1 })).toEqual(false);
-			expect(puzzle.move({ row: 3, col: 2 })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 3, col: 2 })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle.move({ row: 3, col: 3 })).toEqual(false);
 		});
@@ -1407,52 +1407,52 @@ describe("Moves: ", function() {
 			expect(puzzle.move(2)).toEqual(false);
 			expect(puzzle.move(3)).toEqual(false);
 			expect(puzzle.move(4)).toEqual(false);
-			expect(puzzle.move(5)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(5)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle.move(6)).toEqual(false);
-			expect(puzzle.move(7)).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(7)).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle.move(8)).toEqual(false);
-			expect(puzzle.move(9)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(9)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 
 			expect(puzzle.move(1, 1)).toEqual(false);
 			expect(puzzle.move(1, 2)).toEqual(false);
 			expect(puzzle.move(1, 3)).toEqual(false);
 			expect(puzzle.move(2, 1)).toEqual(false);
-			expect(puzzle.move(2, 2)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2, 2)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle.move(2, 3)).toEqual(false);
-			expect(puzzle.move(3, 1)).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(3, 1)).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle.move(3, 2)).toEqual(false);
-			expect(puzzle.move(3, 3)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(3, 3)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 
 			expect(puzzle.move([1, 1])).toEqual(false);
 			expect(puzzle.move([1, 2])).toEqual(false);
 			expect(puzzle.move([1, 3])).toEqual(false);
 			expect(puzzle.move([2, 1])).toEqual(false);
-			expect(puzzle.move([2, 2])).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([2, 2])).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle.move([2, 3])).toEqual(false);
-			expect(puzzle.move([3, 1])).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move([3, 1])).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle.move([3, 2])).toEqual(false);
-			expect(puzzle.move([3, 3])).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([3, 3])).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 
 			expect(puzzle.move({ row: 1, col: 1 })).toEqual(false);
 			expect(puzzle.move({ row: 1, col: 2 })).toEqual(false);
 			expect(puzzle.move({ row: 1, col: 3 })).toEqual(false);
 			expect(puzzle.move({ row: 2, col: 1 })).toEqual(false);
-			expect(puzzle.move({ row: 2, col: 2 })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 2, col: 2 })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle.move({ row: 2, col: 3 })).toEqual(false);
-			expect(puzzle.move({ row: 3, col: 1 })).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 3, col: 1 })).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle.move({ row: 3, col: 2 })).toEqual(false);
-			expect(puzzle.move({ row: 3, col: 3 })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 3, col: 3 })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 		});
 
@@ -1466,10 +1466,10 @@ describe("Moves: ", function() {
 			expect(puzzle.move(3)).toEqual(false);
 			expect(puzzle.move(4)).toEqual(false);
 			expect(puzzle.move(5)).toEqual(false);
-			expect(puzzle.move(6)).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(6)).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle.move(7)).toEqual(false);
-			expect(puzzle.move(8)).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(8)).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle.move(9)).toEqual(false);
 
@@ -1478,10 +1478,10 @@ describe("Moves: ", function() {
 			expect(puzzle.move(1, 3)).toEqual(false);
 			expect(puzzle.move(2, 1)).toEqual(false);
 			expect(puzzle.move(2, 2)).toEqual(false);
-			expect(puzzle.move(2, 3)).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move(2, 3)).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle.move(3, 1)).toEqual(false);
-			expect(puzzle.move(3, 2)).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move(3, 2)).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle.move(3, 3)).toEqual(false);
 
@@ -1490,10 +1490,10 @@ describe("Moves: ", function() {
 			expect(puzzle.move([1, 3])).toEqual(false);
 			expect(puzzle.move([2, 1])).toEqual(false);
 			expect(puzzle.move([2, 2])).toEqual(false);
-			expect(puzzle.move([2, 3])).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move([2, 3])).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle.move([3, 1])).toEqual(false);
-			expect(puzzle.move([3, 2])).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move([3, 2])).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle.move([3, 3])).toEqual(false);
 
@@ -1502,10 +1502,10 @@ describe("Moves: ", function() {
 			expect(puzzle.move({ row: 1, col: 3 })).toEqual(false);
 			expect(puzzle.move({ row: 2, col: 1 })).toEqual(false);
 			expect(puzzle.move({ row: 2, col: 2 })).toEqual(false);
-			expect(puzzle.move({ row: 2, col: 3 })).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 2, col: 3 })).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle.move({ row: 3, col: 1 })).toEqual(false);
-			expect(puzzle.move({ row: 3, col: 2 })).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.move({ row: 3, col: 2 })).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle.move({ row: 3, col: 3 })).toEqual(false);
 		});
@@ -1670,6 +1670,54 @@ describe("Moves: ", function() {
 			puzzle.move(9);
 			expect(puzzle._board).toEqual([1, 0, 2, 4, 5, 3, 7, 8, 6]);
 		});
+
+		it("should add a consecutive move index to a successful move", function() {
+			var move;
+
+			puzzle = new SliderPuzzle({
+				board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+			});
+
+			move = puzzle.move(2);
+			expect(move).toBeTruthy();
+			expect(move.index).toEqual(1);
+
+			move = puzzle.move(1);
+			expect(move).toBeTruthy();
+			expect(move.index).toEqual(2);
+		});
+
+		it("should add a timestamp to a successful move", function() {
+			var move;
+
+			puzzle = new SliderPuzzle({
+				board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+			});
+
+			move = puzzle.move(2);
+			expect(move).toBeTruthy();
+			expect(move.timestamp).toEqual(jasmine.any(Date));
+
+			move = puzzle.move(1);
+			expect(move).toBeTruthy();
+			expect(move.timestamp).toEqual(jasmine.any(Date));
+		});
+
+		it("should add the moves object of a successful move to the stack", function() {
+			var move;
+
+			puzzle = new SliderPuzzle({
+				board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+			});
+
+			expect(puzzle._moves).toEqual([]);
+
+			move = puzzle.move(2);
+			expect(puzzle._moves[puzzle._moves.length - 1]).toEqual(move);
+
+			move = puzzle.move(1);
+			expect(puzzle._moves[puzzle._moves.length - 1]).toEqual(move);
+		});
 	});
 
 	describe("moveByNumber()", function() {
@@ -1679,10 +1727,10 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle.moveByNumber(0)).toEqual(false);
-			expect(puzzle.moveByNumber(1)).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(1)).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.moveByNumber(2)).toEqual(false);
-			expect(puzzle.moveByNumber(3)).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(3)).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.moveByNumber(4)).toEqual(false);
 			expect(puzzle.moveByNumber(5)).toEqual(false);
@@ -1696,13 +1744,13 @@ describe("Moves: ", function() {
 				board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle.moveByNumber(1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.moveByNumber(0)).toEqual(false);
-			expect(puzzle.moveByNumber(2)).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(2)).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.moveByNumber(3)).toEqual(false);
-			expect(puzzle.moveByNumber(4)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(4)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.moveByNumber(5)).toEqual(false);
 			expect(puzzle.moveByNumber(6)).toEqual(false);
@@ -1716,12 +1764,12 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle.moveByNumber(1)).toEqual(false);
-			expect(puzzle.moveByNumber(2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle.moveByNumber(0)).toEqual(false);
 			expect(puzzle.moveByNumber(3)).toEqual(false);
 			expect(puzzle.moveByNumber(4)).toEqual(false);
-			expect(puzzle.moveByNumber(5)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(5)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle.moveByNumber(6)).toEqual(false);
 			expect(puzzle.moveByNumber(7)).toEqual(false);
@@ -1733,15 +1781,15 @@ describe("Moves: ", function() {
 				board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle.moveByNumber(1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(1)).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.moveByNumber(2)).toEqual(false);
 			expect(puzzle.moveByNumber(3)).toEqual(false);
 			expect(puzzle.moveByNumber(0)).toEqual(false);
-			expect(puzzle.moveByNumber(4)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(4)).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.moveByNumber(5)).toEqual(false);
-			expect(puzzle.moveByNumber(6)).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(6)).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.moveByNumber(7)).toEqual(false);
 			expect(puzzle.moveByNumber(8)).toEqual(false);
@@ -1753,16 +1801,16 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle.moveByNumber(1)).toEqual(false);
-			expect(puzzle.moveByNumber(2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(2)).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.moveByNumber(3)).toEqual(false);
-			expect(puzzle.moveByNumber(4)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(4)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.moveByNumber(0)).toEqual(false);
-			expect(puzzle.moveByNumber(5)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(5)).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.moveByNumber(6)).toEqual(false);
-			expect(puzzle.moveByNumber(7)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(7)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle.moveByNumber(8)).toEqual(false);
 		});
@@ -1774,15 +1822,15 @@ describe("Moves: ", function() {
 
 			expect(puzzle.moveByNumber(1)).toEqual(false);
 			expect(puzzle.moveByNumber(2)).toEqual(false);
-			expect(puzzle.moveByNumber(3)).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(3)).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle.moveByNumber(4)).toEqual(false);
-			expect(puzzle.moveByNumber(5)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(5)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle.moveByNumber(0)).toEqual(false);
 			expect(puzzle.moveByNumber(6)).toEqual(false);
 			expect(puzzle.moveByNumber(7)).toEqual(false);
-			expect(puzzle.moveByNumber(8)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(8)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 		});
 
@@ -1794,12 +1842,12 @@ describe("Moves: ", function() {
 			expect(puzzle.moveByNumber(1)).toEqual(false);
 			expect(puzzle.moveByNumber(2)).toEqual(false);
 			expect(puzzle.moveByNumber(3)).toEqual(false);
-			expect(puzzle.moveByNumber(4)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(4)).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle.moveByNumber(5)).toEqual(false);
 			expect(puzzle.moveByNumber(6)).toEqual(false);
 			expect(puzzle.moveByNumber(0)).toEqual(false);
-			expect(puzzle.moveByNumber(7)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(7)).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle.moveByNumber(8)).toEqual(false);
 		});
@@ -1813,13 +1861,13 @@ describe("Moves: ", function() {
 			expect(puzzle.moveByNumber(2)).toEqual(false);
 			expect(puzzle.moveByNumber(3)).toEqual(false);
 			expect(puzzle.moveByNumber(4)).toEqual(false);
-			expect(puzzle.moveByNumber(5)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(5)).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle.moveByNumber(6)).toEqual(false);
-			expect(puzzle.moveByNumber(7)).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(7)).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle.moveByNumber(0)).toEqual(false);
-			expect(puzzle.moveByNumber(8)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(8)).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 		});
 
@@ -1833,10 +1881,10 @@ describe("Moves: ", function() {
 			expect(puzzle.moveByNumber(3)).toEqual(false);
 			expect(puzzle.moveByNumber(4)).toEqual(false);
 			expect(puzzle.moveByNumber(5)).toEqual(false);
-			expect(puzzle.moveByNumber(6)).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(6)).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle.moveByNumber(7)).toEqual(false);
-			expect(puzzle.moveByNumber(8)).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByNumber(8)).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle.moveByNumber(0)).toEqual(false);
 		});
@@ -1856,10 +1904,10 @@ describe("Moves: ", function() {
 				board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.moveByDirection('down' )).toEqual(false);
-			expect(puzzle.moveByDirection('left' )).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('left' )).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle.moveByDirection('right')).toEqual(false);
 		});
@@ -1869,12 +1917,12 @@ describe("Moves: ", function() {
 				board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle.moveByDirection('down' )).toEqual(false);
-			expect(puzzle.moveByDirection('left' )).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('left' )).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
-			expect(puzzle.moveByDirection('right')).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('right')).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 		});
 
@@ -1883,11 +1931,11 @@ describe("Moves: ", function() {
 				board: [1, 2, 0, 3, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle.moveByDirection('down' )).toEqual(false);
 			expect(puzzle.moveByDirection('left' )).toEqual(false);
-			expect(puzzle.moveByDirection('right')).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('right')).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 		});
 
@@ -1896,11 +1944,11 @@ describe("Moves: ", function() {
 				board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
-			expect(puzzle.moveByDirection('down' )).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('down' )).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
-			expect(puzzle.moveByDirection('left' )).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('left' )).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle.moveByDirection('right')).toEqual(false);
 		});
@@ -1910,13 +1958,13 @@ describe("Moves: ", function() {
 				board: [1, 2, 3, 4, 0, 5, 6, 7, 8]
 			});
 
-			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
-			expect(puzzle.moveByDirection('down' )).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('down' )).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
-			expect(puzzle.moveByDirection('left' )).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('left' )).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
-			expect(puzzle.moveByDirection('right')).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('right')).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 		});
 
@@ -1925,12 +1973,12 @@ describe("Moves: ", function() {
 				board: [1, 2, 3, 4, 5, 0, 6, 7, 8]
 			});
 
-			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('up'   )).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
-			expect(puzzle.moveByDirection('down' )).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('down' )).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle.moveByDirection('left' )).toEqual(false);
-			expect(puzzle.moveByDirection('right')).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('right')).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 		});
 
@@ -1940,9 +1988,9 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle.moveByDirection('up'   )).toEqual(false);
-			expect(puzzle.moveByDirection('down' )).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('down' )).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
-			expect(puzzle.moveByDirection('left' )).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('left' )).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle.moveByDirection('right')).toEqual(false);
 		});
@@ -1953,11 +2001,11 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle.moveByDirection('up'   )).toEqual(false);
-			expect(puzzle.moveByDirection('down' )).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('down' )).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
-			expect(puzzle.moveByDirection('left' )).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('left' )).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
-			expect(puzzle.moveByDirection('right')).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('right')).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 		});
 
@@ -1967,10 +2015,10 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle.moveByDirection('up'   )).toEqual(false);
-			expect(puzzle.moveByDirection('down' )).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('down' )).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle.moveByDirection('left' )).toEqual(false);
-			expect(puzzle.moveByDirection('right')).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle.moveByDirection('right')).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 		});
 
@@ -2023,10 +2071,10 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle._moveByPiece({ number: 0, position: positions3x3.topLeft      })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topMiddle    })).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topMiddle    })).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topRight     })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 3, position: positions3x3.middleLeft   })).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 3, position: positions3x3.middleLeft   })).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight  })).toEqual(false);
@@ -2040,13 +2088,13 @@ describe("Moves: ", function() {
 				board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft      })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft      })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 0, position: positions3x3.topMiddle    })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topRight     })).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topRight     })).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 3, position: positions3x3.middleLeft   })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight  })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft   })).toEqual(false);
@@ -2060,12 +2108,12 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft      })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle    })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle    })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 0, position: positions3x3.topRight     })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 3, position: positions3x3.middleLeft   })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight  })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight  })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft   })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
@@ -2077,15 +2125,15 @@ describe("Moves: ", function() {
 				board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft      })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft      })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle    })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight     })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 0, position: positions3x3.middleLeft   })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleMiddle })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight  })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft   })).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft   })).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight  })).toEqual(false);
@@ -2097,16 +2145,16 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft      })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle    })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle    })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight     })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft   })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft   })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 0, position: positions3x3.middleMiddle })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight  })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleRight  })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft   })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight  })).toEqual(false);
 		});
@@ -2118,15 +2166,15 @@ describe("Moves: ", function() {
 
 			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft      })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle    })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight     })).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight     })).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft   })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 0, position: positions3x3.middleRight  })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 6, position: positions3x3.bottomLeft   })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight  })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight  })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 		});
 
@@ -2138,12 +2186,12 @@ describe("Moves: ", function() {
 			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft      })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle    })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight     })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft   })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft   })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 6, position: positions3x3.middleRight  })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 0, position: positions3x3.bottomLeft   })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomMiddle })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight  })).toEqual(false);
 		});
@@ -2157,13 +2205,13 @@ describe("Moves: ", function() {
 			expect(puzzle._moveByPiece({ number: 2, position: positions3x3.topMiddle    })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight     })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft   })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 6, position: positions3x3.middleRight  })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomLeft   })).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomLeft   })).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 0, position: positions3x3.bottomMiddle })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight  })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomRight  })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 		});
 
@@ -2177,10 +2225,10 @@ describe("Moves: ", function() {
 			expect(puzzle._moveByPiece({ number: 3, position: positions3x3.topRight     })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 4, position: positions3x3.middleLeft   })).toEqual(false);
 			expect(puzzle._moveByPiece({ number: 5, position: positions3x3.middleMiddle })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 6, position: positions3x3.middleRight  })).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 6, position: positions3x3.middleRight  })).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 7, position: positions3x3.bottomLeft   })).toEqual(false);
-			expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomMiddle })).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByPiece({ number: 8, position: positions3x3.bottomMiddle })).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle._moveByPiece({ number: 0, position: positions3x3.bottomRight  })).toEqual(false);
 		});
@@ -2193,10 +2241,10 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle._moveByMove({ number: 0, from: positions3x3.topLeft,      to: positions3x3.topLeft })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left'  })).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left'  })).toEqual({ number: 1, from: positions3x3.topMiddle,    to: positions3x3.topLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 2, from: positions3x3.topRight,     to: positions3x3.topLeft })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'    })).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'    })).toEqual({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(1)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topLeft })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topLeft })).toEqual(false);
@@ -2210,13 +2258,13 @@ describe("Moves: ", function() {
 				board: [1, 0, 2, 3, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right' })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right' })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 0, from: positions3x3.topMiddle,    to: positions3x3.topMiddle })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left'  })).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left'  })).toEqual({ number: 2, from: positions3x3.topRight,     to: positions3x3.topMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topMiddle })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'    })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'    })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(2)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topMiddle })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.topMiddle })).toEqual(false);
@@ -2230,12 +2278,12 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topLeft,      to: positions3x3.topRight })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right' })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right' })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.topRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 0, from: positions3x3.topRight,     to: positions3x3.topRight })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 3, from: positions3x3.middleLeft,   to: positions3x3.topRight })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.topRight })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'    })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'    })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.topRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(3)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.topRight })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.topRight })).toEqual(false);
@@ -2247,15 +2295,15 @@ describe("Moves: ", function() {
 				board: [1, 2, 3, 0, 4, 5, 6, 7, 8]
 			});
 
-			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down'  })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down'  })).toEqual({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleLeft })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleLeft })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 0, from: positions3x3.middleLeft,   to: positions3x3.middleLeft })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left'  })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left'  })).toEqual({ number: 4, from: positions3x3.middleMiddle, to: positions3x3.middleLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleLeft })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'    })).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'    })).toEqual({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleLeft, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(4)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleLeft })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleLeft })).toEqual(false);
@@ -2267,16 +2315,16 @@ describe("Moves: ", function() {
 			});
 
 			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleMiddle })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down'  })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down'  })).toEqual({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleMiddle })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right' })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right' })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 0, from: positions3x3.middleMiddle, to: positions3x3.middleMiddle })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left'  })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left'  })).toEqual({ number: 5, from: positions3x3.middleRight,  to: positions3x3.middleMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleMiddle })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'    })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'    })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleMiddle, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(5)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleMiddle })).toEqual(false);
 		});
@@ -2288,15 +2336,15 @@ describe("Moves: ", function() {
 
 			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topLeft,      to: positions3x3.middleRight })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.middleRight })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down'  })).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down'  })).toEqual({ number: 3, from: positions3x3.topRight,     to: positions3x3.middleRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.middleRight })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right' })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right' })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.middleRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 0, from: positions3x3.middleRight,  to: positions3x3.middleRight })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 6, from: positions3x3.bottomLeft,   to: positions3x3.middleRight })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.middleRight })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'    })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'    })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.middleRight, direction: 'up'   , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(6)).toBeTruthy();
 		});
 
@@ -2308,12 +2356,12 @@ describe("Moves: ", function() {
 			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topLeft,      to: positions3x3.bottomLeft })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.bottomLeft })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 3, from: positions3x3.topRight,     to: positions3x3.bottomLeft })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down'  })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down'  })).toEqual({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomLeft, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomLeft })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomLeft })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 0, from: positions3x3.bottomLeft,   to: positions3x3.bottomLeft })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left'  })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left'  })).toEqual({ number: 7, from: positions3x3.bottomMiddle, to: positions3x3.bottomLeft, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(7)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomLeft })).toEqual(false);
 		});
@@ -2327,13 +2375,13 @@ describe("Moves: ", function() {
 			expect(puzzle._moveByMove({ number: 2, from: positions3x3.topMiddle,    to: positions3x3.bottomMiddle })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 3, from: positions3x3.topRight,     to: positions3x3.bottomMiddle })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomMiddle })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down'  })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down'  })).toEqual({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomMiddle, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomMiddle })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right' })).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right' })).toEqual({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomMiddle, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 0, from: positions3x3.bottomMiddle, to: positions3x3.bottomMiddle })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left'  })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left'  })).toEqual({ number: 8, from: positions3x3.bottomRight,  to: positions3x3.bottomMiddle, direction: 'left' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(8)).toBeTruthy();
 		});
 
@@ -2347,10 +2395,10 @@ describe("Moves: ", function() {
 			expect(puzzle._moveByMove({ number: 3, from: positions3x3.topRight,     to: positions3x3.bottomRight })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 4, from: positions3x3.middleLeft,   to: positions3x3.bottomRight })).toEqual(false);
 			expect(puzzle._moveByMove({ number: 5, from: positions3x3.middleMiddle, to: positions3x3.bottomRight })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down'  })).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down'  })).toEqual({ number: 6, from: positions3x3.middleRight,  to: positions3x3.bottomRight, direction: 'down' , index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 7, from: positions3x3.bottomLeft,   to: positions3x3.bottomRight })).toEqual(false);
-			expect(puzzle._moveByMove({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right' })).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', timestamp: jasmine.any(Date) });
+			expect(puzzle._moveByMove({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right' })).toEqual({ number: 8, from: positions3x3.bottomMiddle, to: positions3x3.bottomRight, direction: 'right', index: jasmine.any(Number), timestamp: jasmine.any(Date) });
 			expect(puzzle.move(9)).toBeTruthy();
 			expect(puzzle._moveByMove({ number: 0, from: positions3x3.bottomRight,  to: positions3x3.bottomRight })).toEqual(false);
 		});
