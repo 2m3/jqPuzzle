@@ -1704,7 +1704,8 @@ describe("Moves: ", function() {
 		});
 
 		it("should add the moves object of a successful move to the stack", function() {
-			var move;
+			var move1;
+			var move2;
 
 			puzzle = new SliderPuzzle({
 				board: [0, 1, 2, 3, 4, 5, 6, 7, 8]
@@ -1712,11 +1713,13 @@ describe("Moves: ", function() {
 
 			expect(puzzle._moves).toEqual([]);
 
-			move = puzzle.move(2);
-			expect(puzzle._moves[puzzle._moves.length - 1]).toEqual(move);
+			move1 = puzzle.move(2);
+			expect(puzzle._moves.length).toEqual(1);
+			expect(puzzle._moves[0]).toEqual(move1);
 
-			move = puzzle.move(1);
-			expect(puzzle._moves[puzzle._moves.length - 1]).toEqual(move);
+			move2 = puzzle.move(1);
+			expect(puzzle._moves.length).toEqual(2);
+			expect(puzzle._moves[1]).toEqual(move2);
 		});
 	});
 
