@@ -3,10 +3,6 @@
 <head>
 	<meta charset="UTF-8">
 	<title>jqPuzzle ASCII Renderer Demo</title>
-	<script src="../lib/jquery-2.0.3.js"></script>
-	<script src="../source/jqpuzzle.core.js"></script>
-	<script src="../source/jqpuzzle.renderer.ascii.js"></script>
-	<script src="../source/jqpuzzle.controller.keyboard.js"></script>
 	<style>
 		* {
 			box-sizing: border-box;
@@ -17,7 +13,7 @@
 			height: 100%;
 		}
 
-		form {
+		#config {
 			float: left;
 			width: 250px;
 			height: 100%;
@@ -53,6 +49,18 @@
 
 		pre {
 			margin: 0;
+		}
+
+		#logger {
+			position: absolute;
+			bottom: 0;
+			left: 250px;
+			right: 0;
+			height: 100px;
+			overflow: scroll;
+			background: #eee;
+			padding: 8px;
+			border-left: 1px solid #fff;
 		}
 	</style>
 </head>
@@ -112,7 +120,13 @@
 		<button name="random">RANDOM</button>
 	</div>
 	<pre id="board"></pre>
+	<pre id="logger"></pre>
+	<script src="../lib/jquery-2.0.3.js"></script>
+	<script src="../source/jqpuzzle.core.js"></script>
+	<script src="../source/jqpuzzle.renderer.ascii.js"></script>
+	<script src="../source/jqpuzzle.controller.keyboard.js"></script>
 	<script>
+		var $puzzle;
 		var puzzle;
 		var options;
 
@@ -144,12 +158,19 @@
 
 				// init puzzle
 				puzzle = new SliderPuzzle(options);
+				$puzzle = $(puzzle);
 
 				// display board
 				$('#board').text(puzzle.toString());
 
 				// show controls
 				$('#controls').show();
+
+				$puzzle.on('moved', function(event, move) {
+					$('#board').text(puzzle.toString());
+
+					$('#logger').prepend(move.timestamp + " - " + move.index + ": Piece " + move.number + " was moved " + move.direction + " from position [" + move.from.row + "," + move.from.col + "] to [" + move.to.row + "," + move.to.col + "]\n");
+				});
 
 			} catch (e) {
 				alert(e);
@@ -171,8 +192,7 @@
 				}
 
 				if (move) {
-					console.log(move);
-					$('#board').text(puzzle.toString());
+					$puzzle.trigger('moved', move);
 				}
 			}
 		});
