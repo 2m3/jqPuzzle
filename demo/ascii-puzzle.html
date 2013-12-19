@@ -43,7 +43,7 @@
 			width: 100%;
 		}
 
-		#controls {
+		#direction-controls {
 			display: none;
 		}
 
@@ -61,6 +61,12 @@
 			background: #eee;
 			padding: 8px;
 			border-left: 1px solid #fff;
+		}
+
+		#undoredo-controls {
+			position: absolute;
+			right: 20px;
+			bottom: 38px;
 		}
 	</style>
 </head>
@@ -112,7 +118,7 @@
 		</fieldset>
 		<button>Create Puzzle</button>
 	</form>
-	<div id="controls">
+	<div id="direction-controls">
 		<button name="up"   >UP</button>
 		<button name="down" >DOWN</button>
 		<button name="left" >LEFT</button>
@@ -121,6 +127,10 @@
 	</div>
 	<pre id="board"></pre>
 	<pre id="logger"></pre>
+	<div id="undoredo-controls">
+		<button name="undo">↩ UNDO</button>
+		<button name="redo">REDO ↪</button>
+	</div>
 	<script src="../lib/jquery-2.0.3.js"></script>
 	<script src="../source/jqpuzzle.core.js"></script>
 	<script src="../source/jqpuzzle.renderer.ascii.js"></script>
@@ -160,11 +170,14 @@
 				puzzle = new SliderPuzzle(options);
 				$puzzle = $(puzzle);
 
+				// clear log
+				$('#logger').empty();
+
 				// display board
 				$('#board').text(puzzle.toString());
 
 				// show controls
-				$('#controls').show();
+				$('#direction-controls').show();
 
 				$puzzle.on('moved', function(event, move) {
 					$('#board').text(puzzle.toString());
@@ -172,15 +185,24 @@
 					$('#logger').prepend(move.timestamp + " - " + move.index + ": Piece " + move.number + " was moved " + move.direction + " from position [" + move.from.row + "," + move.from.col + "] to [" + move.to.row + "," + move.to.col + "]\n");
 				});
 
+				$puzzle.on('undone', function(event, move) {
+					$('#board').text(puzzle.toString());
+				});
+
+				$puzzle.on('redone', function(event, move) {
+					$('#board').text(puzzle.toString());
+				});
+
+
 			} catch (e) {
 				alert(e);
 
 				// hide controls
-				$('#controls').hide();
+				$('#direction-controls').hide();
 			}
 		});
 
-		$('#controls').on('click', 'button', function() {
+		$('#direction-controls').on('click', 'button', function() {
 			var direction = this.name.toLowerCase();
 			var move;
 
@@ -196,6 +218,31 @@
 				}
 			}
 		});
+
+		$('button[name=undo]').on('click', function() {
+			var move;
+
+			if (puzzle) {
+				move = puzzle.undo();
+
+				if (move) {
+					$puzzle.trigger('undone', move);
+				}
+			}
+		});
+
+		$('button[name=redo]').on('click', function() {
+			var move;
+
+			if (puzzle) {
+				move = puzzle.redo();
+
+				if (move) {
+					$puzzle.trigger('redone', move);
+				}
+			}
+		});
+
 	</script>
 </body>
 </html>

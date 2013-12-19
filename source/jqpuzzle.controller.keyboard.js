@@ -12,9 +12,9 @@ KeyboardController = (function() {
 
 		if ($puzzle && puzzle && direction) {
 			move = puzzle.moveByDirection(direction);
-			$('#board').text(puzzle.toString());
-			console.log(move);
-			$puzzle.trigger('moved', move);
+			if (move) {
+				$puzzle.trigger('moved', move);
+			}
 		}
 	});
 })();

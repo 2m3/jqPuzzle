@@ -175,7 +175,7 @@ SliderPuzzle.prototype = {
 		// "random"         either or
 		solvable: true
 	},
-
+	directions: ['up', 'left', 'right', 'down'],
 	solved: false,
 	solvable: true,
 
@@ -248,6 +248,7 @@ SliderPuzzle.prototype = {
 		this.resetBoard();
 		this._hole = this._initialHole;
 		this._moves = [];
+		this._redos = [];
 
 		// TODO reset solved
 		// TODO reset timer
@@ -666,14 +667,13 @@ SliderPuzzle.prototype = {
 	// moves a random piece
 	// returns a move object
 	moveRandomly: function() {
-		var directions = ['up', 'left', 'right', 'down'];
 		var pickDirections;
 		var direction;
 		var move;
 		var i;
 
 		// get a clone of the directions
-		pickDirections = directions.slice(0);
+		pickDirections = this.directions.slice(0);
 
 		while (pickDirections.length) {
 			// randomly pick a direction and re-index
@@ -681,9 +681,8 @@ SliderPuzzle.prototype = {
 			direction = pickDirections.splice(i, 1)[0];
 
 			// two random moves must not move a single piece back and forth
-			// the inverse of a direction is found by reversing the directions array
 			// TODO replace _lastDirection with last move from stack
-			if (this._lastDirection === directions[directions.length - $.inArray(direction, directions) - 1]) {
+			if (this._lastDirection === this._getReverseDirection(direction)) {
 				continue;
 			}
 
@@ -701,14 +700,14 @@ SliderPuzzle.prototype = {
 	// moves a piece given an internal piece object
 	// returns a move object if the piece was moved
 	// returns false if the piece could not be moved
-	_moveByPiece: function(piece) {
-		return this._moveByMove(this._getMoveByPiece(piece));
+	_moveByPiece: function(piece, isUndoRedo) {
+		return this._moveByMove(this._getMoveByPiece(piece), isUndoRedo);
 	},
 
 	// moves a piece given an internal move object
 	// returns a move object if the piece was moved
 	// returns false if the piece could not be moved
-	_moveByMove: function(move) {
+	_moveByMove: function(move, isUndoRedo) {
 		var index = move.from.index;
 
 		// check valid move
@@ -728,6 +727,11 @@ SliderPuzzle.prototype = {
 
 			// add move to stack
 			this._moves.push(move);
+
+			// clear redo stack
+			if (!isUndoRedo) {
+				this._redos = [];
+			}
 		}
 
 		return move;
@@ -764,6 +768,57 @@ SliderPuzzle.prototype = {
 				}
 			}
 		}
+	},
+
+	// gets the reverse of a direction, i.e. left vs. right, top vs. bottom
+	_getReverseDirection: function(direction) {
+		// find index of direction
+		var index = $.inArray(direction, this.directions);
+
+		// the inverse of a direction is found by looking up the reversing index
+		return this.directions[this.directions.length - index - 1];
+	},
+
+	// undo the previous move
+	undo: function() {
+		var move;
+
+		// check if there is a move to undo
+		if (!this._moves.length) {
+			return false;
+		}
+
+		// remove the last move from the stack and get its direction
+		move = this._moves.pop();
+
+		// perform the inversed move
+		this._moveByPiece(this.getPiece(move.to), true);
+
+		// also remove the inversed move from the stack
+		this._moves.pop();
+
+		// add the undone move to the redo stack
+		this._redos.push(move);
+
+		return move;
+	},
+
+	// redo a previously undone move
+	redo: function() {
+		var move;
+
+		// check if there is a move to redo
+		if (!this._redos.length) {
+			return false;
+		}
+
+		// remove the last move from the redo stack
+		move = this._redos.pop();
+
+		// and re-apply it
+		move = this._moveByMove(move, true);
+
+		return move;
 	},
 
 	toString: function() {
