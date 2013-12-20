@@ -52,6 +52,8 @@
 		}
 
 		#logger {
+			margin: 0;
+			font-family: monospace;
 			position: absolute;
 			bottom: 0;
 			left: 250px;
@@ -61,6 +63,11 @@
 			background: #eee;
 			padding: 8px;
 			border-left: 1px solid #fff;
+			white-space: pre;
+		}
+
+		#logger .undone {
+			text-decoration: line-through;
 		}
 
 		#undoredo-controls {
@@ -126,7 +133,7 @@
 		<button name="random">RANDOM</button>
 	</div>
 	<pre id="board"></pre>
-	<pre id="logger"></pre>
+	<ul id="logger"></ul>
 	<div id="undoredo-controls">
 		<button name="undo">↩ UNDO</button>
 		<button name="redo">REDO ↪</button>
@@ -182,15 +189,32 @@
 				$puzzle.on('moved', function(event, move) {
 					$('#board').text(puzzle.toString());
 
-					$('#logger').prepend(move.timestamp + " - " + move.index + ": Piece " + move.number + " was moved " + move.direction + " from position [" + move.from.row + "," + move.from.col + "] to [" + move.to.row + "," + move.to.col + "]\n");
+					var rowPad = ("" + puzzle.options.rows).length;
+					var colPad = ("" + puzzle.options.cols).length;
+					var numPad = ("" + puzzle.options.rows * puzzle.options.cols).length;
+
+					$('#logger .undone').remove();
+
+					$('#logger').prepend($("<li>"
+						+ pad(move.index, 4) + ": Piece "
+						+ pad(move.number, numPad) + " was moved "
+						+ pad(move.direction, 5, true) + " from position ["
+						+ pad(move.from.row, rowPad) + ","
+						+ pad(move.from.col, colPad) + "] to ["
+						+ pad(move.to.row, rowPad) + ","
+						+ pad(move.to.col, colPad) + "]</li>").hide().fadeIn());
 				});
 
 				$puzzle.on('undone', function(event, move) {
 					$('#board').text(puzzle.toString());
+
+					$('#logger li:not(.undone):first').addClass('undone');
 				});
 
 				$puzzle.on('redone', function(event, move) {
 					$('#board').text(puzzle.toString());
+
+					$('#logger li.undone:last').removeClass('undone');
 				});
 
 
@@ -243,6 +267,15 @@
 			}
 		});
 
+		function pad(string, length, right) {
+			string = '' + string;
+
+			while (string.length < length) {
+				string = right ? string + ' ' : ' ' + string;
+			}
+
+			return string;
+		}
 	</script>
 </body>
 </html>
