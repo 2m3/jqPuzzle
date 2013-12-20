@@ -154,6 +154,8 @@
 			// don't submit the form
 			e.preventDefault();
 
+			$('#config button').focus();
+
 			try {
 				// get solvable value
 				solvable = $('input[name=solvable]:checked').val();
