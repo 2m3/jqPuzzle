@@ -66,7 +66,7 @@
 			white-space: pre;
 		}
 
-		#logger .undone {
+		#logger .undo {
 			text-decoration: line-through;
 		}
 
@@ -139,6 +139,7 @@
 		<button name="redo">REDO ↪</button>
 	</div>
 	<script src="../lib/jquery-2.0.3.js"></script>
+	<script src="../lib/jquery.eventEmitter.js"></script>
 	<script src="../source/jqpuzzle.core.js"></script>
 	<script src="../source/jqpuzzle.renderer.ascii.js"></script>
 	<script src="../source/jqpuzzle.controller.keyboard.js"></script>
@@ -154,7 +155,8 @@
 			// don't submit the form
 			e.preventDefault();
 
-			$('#config button').focus();
+			// blur the focus so that keyboard navigation can kick in
+			$('#config button').focus().blur();
 
 			try {
 				// get solvable value
@@ -177,7 +179,6 @@
 
 				// init puzzle
 				puzzle = new SliderPuzzle(options);
-				$puzzle = $(puzzle);
 
 				// clear log
 				$('#logger').empty();
@@ -188,14 +189,14 @@
 				// show controls
 				$('#direction-controls').show();
 
-				$puzzle.on('moved', function(event, move) {
+				puzzle.on('move', function(event, move) {
 					$('#board').text(puzzle.toString());
 
 					var rowPad = ("" + puzzle.options.rows).length;
 					var colPad = ("" + puzzle.options.cols).length;
 					var numPad = ("" + puzzle.options.rows * puzzle.options.cols).length;
 
-					$('#logger .undone').remove();
+					$('#logger .undo').remove();
 
 					$('#logger').prepend($("<li>"
 						+ pad(move.index, 4) + ": Piece "
@@ -207,16 +208,16 @@
 						+ pad(move.to.col, colPad) + "]</li>").hide().fadeIn());
 				});
 
-				$puzzle.on('undone', function(event, move) {
+				puzzle.on('undo', function(event, move) {
 					$('#board').text(puzzle.toString());
 
-					$('#logger li:not(.undone):first').addClass('undone');
+					$('#logger li:not(.undo):first').addClass('undo');
 				});
 
-				$puzzle.on('redone', function(event, move) {
+				puzzle.on('redo', function(event, move) {
 					$('#board').text(puzzle.toString());
 
-					$('#logger li.undone:last').removeClass('undone');
+					$('#logger li.undo:last').removeClass('undo');
 				});
 
 
@@ -230,43 +231,22 @@
 
 		$('#direction-controls').on('click', 'button', function() {
 			var direction = this.name.toLowerCase();
-			var move;
 
 			if (puzzle) {
 				if (direction === 'random') {
-					move = puzzle.moveRandomly();
+					puzzle.moveRandomly();
 				} else {
-					move = puzzle.moveByDirection(this.name.toLowerCase());
-				}
-
-				if (move) {
-					$puzzle.trigger('moved', move);
+					puzzle.moveByDirection(direction);
 				}
 			}
 		});
 
 		$('button[name=undo]').on('click', function() {
-			var move;
-
-			if (puzzle) {
-				move = puzzle.undo();
-
-				if (move) {
-					$puzzle.trigger('undone', move);
-				}
-			}
+			puzzle && puzzle.undo();
 		});
 
 		$('button[name=redo]').on('click', function() {
-			var move;
-
-			if (puzzle) {
-				move = puzzle.redo();
-
-				if (move) {
-					$puzzle.trigger('redone', move);
-				}
-			}
+			puzzle && puzzle.redo();
 		});
 
 		function pad(string, length, right) {

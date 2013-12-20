@@ -8,13 +8,9 @@ KeyboardController = (function() {
 
 	$(document).on('keydown', function(e) {
 		var direction = arrowKeys[e.keyCode];
-		var move;
 
-		if ($puzzle && puzzle && direction) {
-			move = puzzle.moveByDirection(direction);
-			if (move) {
-				$puzzle.trigger('moved', move);
-			}
+		if (puzzle && direction) {
+			puzzle.moveByDirection(direction);
 		}
 	});
 })();

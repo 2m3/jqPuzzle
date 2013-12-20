@@ -728,9 +728,12 @@ SliderPuzzle.prototype = {
 			// add move to stack
 			this._moves.push(move);
 
-			// clear redo stack
 			if (!isUndoRedo) {
+				// clear redo stack
 				this._redos = [];
+
+				// trigger moved event
+				this.trigger('move', move);
 			}
 		}
 
@@ -800,6 +803,9 @@ SliderPuzzle.prototype = {
 		// add the undone move to the redo stack
 		this._redos.push(move);
 
+		// trigger undo event
+		this.trigger('undo', move);
+
 		return move;
 	},
 
@@ -818,6 +824,9 @@ SliderPuzzle.prototype = {
 		// and re-apply it
 		move = this._moveByMove(move, true);
 
+		// trigger redo event
+		this.trigger('redo', move);
+
 		return move;
 	},
 
@@ -825,3 +834,6 @@ SliderPuzzle.prototype = {
 		return this.renderer.render(this._board, this.options.rows, this.options.cols);
 	}
 };
+
+// mixin events
+jQuery.extend(SliderPuzzle.prototype, $.eventEmitter);
