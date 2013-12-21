@@ -6,7 +6,7 @@
 	<link rel="stylesheet" href="style.css">
 </head>
 <body>
-	<form id="config">
+	<form class="config overlay">
 		<fieldset>
 			 <legend>Layout</legend>
 			<label>
@@ -53,7 +53,7 @@
 		</fieldset>
 		<button>Create Puzzle</button>
 	</form>
-	<div id="controls">
+	<div class="controls overlay">
 		<div class="direction">
 			<button name="up"   >↑</button>
 			<button name="left" >←</button>
@@ -69,9 +69,8 @@
 		</div>
 	</div>
 	<pre id="board"></pre>
-	<ul id="logger"></ul>
+	<ul class="logger overlay"></ul>
 	<script src="../lib/jquery-2.0.3.js"></script>
-	<script src="../lib/jquery.eventEmitter.js"></script>
 	<script src="../source/jqpuzzle.core.js"></script>
 	<script src="../source/jqpuzzle.renderer.ascii.js"></script>
 	<script src="../source/jqpuzzle.controller.keyboard.js"></script>

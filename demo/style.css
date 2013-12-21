@@ -1,5 +1,5 @@
 * {
-	box-sizing: padding-box;
+	box-sizing: border-box;
 	font-family: helvetica, sans-serif;
 	font-size: 13px;
 }
@@ -13,14 +13,18 @@ button {
 	border: 1px solid #999;
 }
 
-#config {
+.overlay {
 	position: fixed;
+	background: rgb(230, 230, 230);
+	background: rgba(230, 230, 230, 0.9);
+	padding: 0.5em;
+	border: 0.5em solid #fff;
+}
+
+.config {
 	top: 0;
 	right: 0;
-	width: 16em;
-	background: #ddd;
-	padding: 0.5em;
-	border: 0.6em solid #fff;
+	width: 17em;
 	z-index: 1;
 }
 
@@ -42,28 +46,24 @@ input[type=number] {
 	width: 3em;
 }
 
-#config button {
+.config button {
 	width: 100%;
 }
 
-#controls {
-	position: fixed;
+.controls {
 	bottom: 0;
 	left: 0;
-	width: 12em;
-	height: 11em;
-	background: #ddd;
-	padding: 0.5em;
-	border: 0.6em solid #fff;
+	width: 13em;
+	height: 12em;
 }
 
-#controls .direction {
-	margin-left: 1.3em;
-	margin-top: 0.4em;
+.controls .direction {
+	margin-left: 1.1em;
+	margin-top: 0;
 	position: relative;
 }
 
-#controls .direction button {
+.controls .direction button {
 	width: 2.8em;
 	height: 1.8em;
 	position: absolute;
@@ -94,12 +94,12 @@ button[name=down] {
 	left: 3em;
 }
 
-#controls .game {
-	margin-left: 0.5em;
-	margin-top: 6.9em;
+.controls .game {
+	margin-left: 0.4em;
+	margin-top: 6.2em;
 }
 
-#controls .game button {
+.controls .game button {
 	width: 5em;
 }
 
@@ -109,24 +109,20 @@ pre {
 	font-family: monospace;
 }
 
-#logger {
-	position: fixed;
+.logger {
 	bottom: 0;
-	left: 12.8em;
+	left: 12.5em;
 	right: 0;
-	height: 11em;
-	background: #ddd;
+	height: 12em;
 	margin: 0;
-	padding: 0.5em;
-	border: 0.6em solid #fff;
 	overflow: scroll;
 }
 
-#logger li {
+.logger li {
 	font-family: monospace;
 	white-space: pre;
 }
 
-#logger .undo {
+.logger .undo {
 	text-decoration: line-through;
 }

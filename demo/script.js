@@ -1,7 +1,7 @@
 // config module
 var config = (function() {
 	var _puzzle;
-	var $config = $('#config');
+	var $config = $('.config');
 
 	$config.on('submit', function(e) {
 		var solvable;
@@ -85,7 +85,7 @@ var board = (function() {
 // controls module
 var controls = (function() {
 	var _puzzle;
-	var $controls = $('#controls');
+	var $controls = $('.controls');
 	var isInit = false;
 
 	function init(puzzle) {
@@ -136,7 +136,7 @@ var controls = (function() {
 // logger module
 var logger = (function() {
 	var _puzzle;
-	var $logger = $('#logger');
+	var $logger = $('.logger');
 
 	function init(puzzle) {
 		_puzzle = puzzle;
