@@ -257,6 +257,9 @@ SliderPuzzle.prototype = {
 
 		// TODO check this._playing when moving
 		this._playing = true;
+
+		// trigger reset event
+		this.trigger('reset');
 	},
 
 	// generates a shuffled board

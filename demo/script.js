@@ -66,6 +66,7 @@ var board = (function() {
 		_puzzle.on('move', updateBoard);
 		_puzzle.on('undo', updateBoard);
 		_puzzle.on('redo', updateBoard);
+		_puzzle.on('reset', updateBoard);
 
 		// display initial board
 		updateBoard();
@@ -140,13 +141,19 @@ var logger = (function() {
 	function init(puzzle) {
 		_puzzle = puzzle;
 
-		// clear log
-		$logger.empty();
+		// reset log
+		reset();
 
 		// bind events
 		_puzzle.on('move', logMove);
 		_puzzle.on('undo', logUndo);
 		_puzzle.on('redo', logRedo);
+		_puzzle.on('reset', reset);
+	}
+
+	function reset() {
+		// clear log
+		$logger.empty();
 	}
 
 	function logMove(event, move) {
