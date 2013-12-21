@@ -167,7 +167,7 @@ var logger = (function() {
 
 		// log move
 		$logger.prepend($("<li>" +
-			pad(move.index, 4) + ": Piece " +
+			pad(move.index, 3) + ": Piece " +
 			pad(move.number, numPad) + " was moved " +
 			pad(move.direction, 5, true) + " from [" +
 			pad(move.from.row, rowPad) + "," +

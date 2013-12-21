@@ -112,7 +112,7 @@ pre {
 .logger {
 	bottom: 0;
 	left: 12.5em;
-	right: 0;
+	min-width: 36em;
 	height: 12em;
 	margin: 0;
 	overflow: scroll;
