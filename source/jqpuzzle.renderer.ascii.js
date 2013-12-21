@@ -1,4 +1,4 @@
-AsciiRenderer = {
+var asciiRenderer = {
 	render: function(board, rows, columns) {
 		var SYMBOL = {
 			HORIZONTAL: '-',

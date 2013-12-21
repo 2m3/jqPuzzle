@@ -157,7 +157,9 @@ function SliderPuzzle(options) {
 	this.initGame();
 
 	// default renderer (used by toString)
-	this.renderer = typeof AsciiRenderer === 'undefined' ? { render: function() { return ''; } } : AsciiRenderer;
+	this.renderer = (typeof asciiRenderer === 'undefined') ?
+		{ render: function(board) { return board.toString(); } } :
+		asciiRenderer;
 }
 
 SliderPuzzle.prototype = {

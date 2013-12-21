@@ -1,0 +1,132 @@
+* {
+	box-sizing: padding-box;
+	font-family: helvetica, sans-serif;
+	font-size: 13px;
+}
+
+html, body {
+	margin: 0;
+}
+
+button {
+	background: #fff;
+	border: 1px solid #999;
+}
+
+#config {
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 16em;
+	background: #ddd;
+	padding: 0.5em;
+	border: 0.6em solid #fff;
+	z-index: 1;
+}
+
+fieldset {
+	border: 1px solid #999;
+	margin-bottom: 0.5em;
+}
+
+label {
+	display: block;
+}
+
+label span {
+	display: inline-block;
+	width: 9.5em;
+}
+
+input[type=number] {
+	width: 3em;
+}
+
+#config button {
+	width: 100%;
+}
+
+#controls {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 12em;
+	height: 11em;
+	background: #ddd;
+	padding: 0.5em;
+	border: 0.6em solid #fff;
+}
+
+#controls .direction {
+	margin-left: 1.3em;
+	margin-top: 0.4em;
+	position: relative;
+}
+
+#controls .direction button {
+	width: 2.8em;
+	height: 1.8em;
+	position: absolute;
+}
+
+button[name=up] {
+	top: 0;
+	left: 3em;
+}
+
+button[name=left] {
+	top: 2em;
+	left: 0;
+}
+
+button[name=random] {
+	top: 2em;
+	left: 3em;
+}
+
+button[name=right] {
+	top: 2em;
+	left: 6em;
+}
+
+button[name=down] {
+	top: 4em;
+	left: 3em;
+}
+
+#controls .game {
+	margin-left: 0.5em;
+	margin-top: 6.9em;
+}
+
+#controls .game button {
+	width: 5em;
+}
+
+pre {
+	margin: 1.5em;
+	margin-top: 0;
+	font-family: monospace;
+}
+
+#logger {
+	position: fixed;
+	bottom: 0;
+	left: 12.8em;
+	right: 0;
+	height: 11em;
+	background: #ddd;
+	margin: 0;
+	padding: 0.5em;
+	border: 0.6em solid #fff;
+	overflow: scroll;
+}
+
+#logger li {
+	font-family: monospace;
+	white-space: pre;
+}
+
+#logger .undo {
+	text-decoration: line-through;
+}

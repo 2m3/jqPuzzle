@@ -3,79 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>jqPuzzle ASCII Renderer Demo</title>
-	<style>
-		* {
-			box-sizing: border-box;
-		}
-
-		html, body {
-			margin: 0;
-			height: 100%;
-		}
-
-		#config {
-			float: left;
-			width: 250px;
-			height: 100%;
-			background: #eee;
-			padding: 8px;
-			margin-right: 30px;
-		}
-
-		fieldset {
-			margin-bottom: 10px;
-		}
-
-		label {
-			display: block;
-		}
-
-		label span {
-			display: inline-block;
-			width: 80px;
-		}
-
-		input[type=number] {
-			width: 40px;
-		}
-
-		#config button {
-			width: 100%;
-		}
-
-		#direction-controls {
-			display: none;
-		}
-
-		pre {
-			margin: 0;
-		}
-
-		#logger {
-			margin: 0;
-			font-family: monospace;
-			position: absolute;
-			bottom: 0;
-			left: 250px;
-			right: 0;
-			height: 100px;
-			overflow: scroll;
-			background: #eee;
-			padding: 8px;
-			border-left: 1px solid #fff;
-			white-space: pre;
-		}
-
-		#logger .undo {
-			text-decoration: line-through;
-		}
-
-		#undoredo-controls {
-			position: absolute;
-			right: 20px;
-			bottom: 38px;
-		}
-	</style>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<form id="config">
@@ -94,7 +22,7 @@
 				<input type="number" name="hole" value="">
 			</label>
 			<label>
-				<span>Initial Hole:</span>
+				<span>Initial Hole Position:</span>
 				<input type="number" name="initialHole" value="">
 			</label>
 		</fieldset>
@@ -125,139 +53,28 @@
 		</fieldset>
 		<button>Create Puzzle</button>
 	</form>
-	<div id="direction-controls">
-		<button name="up"   >UP</button>
-		<button name="down" >DOWN</button>
-		<button name="left" >LEFT</button>
-		<button name="right">RIGHT</button>
-		<button name="random">RANDOM</button>
+	<div id="controls">
+		<div class="direction">
+			<button name="up"   >↑</button>
+			<button name="left" >←</button>
+			<button name="random">?</button>
+			<button name="right">→</button>
+			<button name="down" >↓</button>
+		</div>
+		<div class="game">
+			<button name="undo">↩ Undo</button>
+			<button name="redo">Redo ↪</button>
+			<button name="shuffle">Shuffle</button>
+			<button name="restart">Restart</button>
+		</div>
 	</div>
 	<pre id="board"></pre>
 	<ul id="logger"></ul>
-	<div id="undoredo-controls">
-		<button name="undo">↩ UNDO</button>
-		<button name="redo">REDO ↪</button>
-	</div>
 	<script src="../lib/jquery-2.0.3.js"></script>
 	<script src="../lib/jquery.eventEmitter.js"></script>
 	<script src="../source/jqpuzzle.core.js"></script>
 	<script src="../source/jqpuzzle.renderer.ascii.js"></script>
 	<script src="../source/jqpuzzle.controller.keyboard.js"></script>
-	<script>
-		var $puzzle;
-		var puzzle;
-		var options;
-
-		$('#config').on('submit', function(e) {
-			var solvable;
-			var shuffle;
-
-			// don't submit the form
-			e.preventDefault();
-
-			// blur the focus so that keyboard navigation can kick in
-			$('#config button').focus().blur();
-
-			try {
-				// get solvable value
-				solvable = $('input[name=solvable]:checked').val();
-				if (solvable != 'random') solvable = !!parseInt(solvable, 10);
-
-				// get shuffle value
-				shuffle = $('input[name=shuffle]:checked').val();
-				shuffle = (shuffle == 'movesAway') ? $('input[name=movesAway]').val() : !!parseInt(shuffle, 10);
-
-				// create options hash
-				options = {
-					rows: $('input[name=rows]').val() || undefined,
-					cols: $('input[name=cols]').val() || undefined,
-					hole: $('input[name=hole]').val() || undefined,
-					initialHole: $('input[name=initialHole]').val() || undefined,
-					solvable: solvable,
-					shuffle: shuffle
-				};
-
-				// init puzzle
-				puzzle = new SliderPuzzle(options);
-
-				// clear log
-				$('#logger').empty();
-
-				// display board
-				$('#board').text(puzzle.toString());
-
-				// show controls
-				$('#direction-controls').show();
-
-				puzzle.on('move', function(event, move) {
-					$('#board').text(puzzle.toString());
-
-					var rowPad = ("" + puzzle.options.rows).length;
-					var colPad = ("" + puzzle.options.cols).length;
-					var numPad = ("" + puzzle.options.rows * puzzle.options.cols).length;
-
-					$('#logger .undo').remove();
-
-					$('#logger').prepend($("<li>"
-						+ pad(move.index, 4) + ": Piece "
-						+ pad(move.number, numPad) + " was moved "
-						+ pad(move.direction, 5, true) + " from position ["
-						+ pad(move.from.row, rowPad) + ","
-						+ pad(move.from.col, colPad) + "] to ["
-						+ pad(move.to.row, rowPad) + ","
-						+ pad(move.to.col, colPad) + "]</li>").hide().fadeIn());
-				});
-
-				puzzle.on('undo', function(event, move) {
-					$('#board').text(puzzle.toString());
-
-					$('#logger li:not(.undo):first').addClass('undo');
-				});
-
-				puzzle.on('redo', function(event, move) {
-					$('#board').text(puzzle.toString());
-
-					$('#logger li.undo:last').removeClass('undo');
-				});
-
-
-			} catch (e) {
-				alert(e);
-
-				// hide controls
-				$('#direction-controls').hide();
-			}
-		});
-
-		$('#direction-controls').on('click', 'button', function() {
-			var direction = this.name.toLowerCase();
-
-			if (puzzle) {
-				if (direction === 'random') {
-					puzzle.moveRandomly();
-				} else {
-					puzzle.moveByDirection(direction);
-				}
-			}
-		});
-
-		$('button[name=undo]').on('click', function() {
-			puzzle && puzzle.undo();
-		});
-
-		$('button[name=redo]').on('click', function() {
-			puzzle && puzzle.redo();
-		});
-
-		function pad(string, length, right) {
-			string = '' + string;
-
-			while (string.length < length) {
-				string = right ? string + ' ' : ' ' + string;
-			}
-
-			return string;
-		}
-	</script>
+	<script src="script.js"></script>
 </body>
 </html>
