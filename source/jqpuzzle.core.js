@@ -734,7 +734,7 @@ SliderPuzzle.prototype = {
 				// clear redo stack
 				this._redos = [];
 
-				// trigger moved event
+				// trigger move event
 				this.trigger('move', move);
 			}
 		}
