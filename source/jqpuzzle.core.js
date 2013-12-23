@@ -785,12 +785,17 @@ SliderPuzzle.prototype = {
 		return this.directions[this.directions.length - index - 1];
 	},
 
+	// checks if there is a move to undo
+	canUndo: function() {
+		return !!this._moves.length;
+	},
+
 	// undo the previous move
 	undo: function() {
 		var move;
 
 		// check if there is a move to undo
-		if (!this._moves.length) {
+		if (!this.canUndo()) {
 			return false;
 		}
 
@@ -812,12 +817,17 @@ SliderPuzzle.prototype = {
 		return move;
 	},
 
+	// checks if there is a move to redo
+	canRedo: function() {
+		return !!this._redos.length;
+	},
+
 	// redo a previously undone move
 	redo: function() {
 		var move;
 
 		// check if there is a move to redo
-		if (!this._redos.length) {
+		if (!this.canRedo()) {
 			return false;
 		}
 

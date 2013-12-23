@@ -14,10 +14,14 @@ button {
 	transition: background-color 0.2s ease-out 0.4s;
 }
 
-button.active {
+button.highlight {
 	background-color: #eea;
 	border-color: #222;
 	transition: background-color 0.01s ease-out 0s;
+}
+
+button[disabled] {
+	opacity: 0.4;
 }
 
 .overlay {

@@ -93,7 +93,16 @@ var controls = (function() {
 	function init(puzzle) {
 		_puzzle = puzzle;
 
+		// handle the disabled state of undo/redo and direction buttons
+		// and call it immediately after puzzle construction
+		_puzzle.on('move undo redo reset', handleDisabled);
+		handleDisabled();
+
 		if (!isInit) {
+			// remove disabled states from buttons that are always available
+			$actions.find('[name=shuffle]').add('[name=reset]')
+				.add('[name=random]').removeAttr('disabled');
+
 			// bind keyboard events
 			keyboardController.on('key', handleKey);
 
@@ -124,13 +133,35 @@ var controls = (function() {
 		highlightButton($directions.find('[name=' + data.action + ']'));
 	}
 
-	function highlightButton($button) {
-		var activeClass = 'active';
+	// handle the disabled state of undo/redo and direction buttons
+	function handleDisabled() {
+		toggleDisabled($actions.find('[name=undo]'), _puzzle.canUndo());
+		toggleDisabled($actions.find('[name=redo]'), _puzzle.canRedo());
 
-		$button.addClass(activeClass).focus();
+		for (var directions = ['up', 'left', 'right', 'down'], i = 0; i < directions.length; i++) {
+			toggleDisabled($directions.find('[name=' + directions[i] + ']'), _puzzle.canMoveByDirection(directions[i]));
+		}
+	}
+
+	// toggle the disabled state of a single button
+	function toggleDisabled($button, isDisabled) {
+		var disabled = 'disabled';
+
+		if (isDisabled) {
+			$button.removeAttr(disabled);
+		} else {
+			$button.attr(disabled, disabled);
+		}
+	}
+
+	// highlight a single button by temporary adding a class name
+	function highlightButton($button) {
+		var className = 'highlight';
+
+		$button.addClass(className).focus();
 
 		window.setTimeout(function() {
-			$button.removeClass(activeClass);
+			$button.removeClass(className);
 		}, 100);
 	}
 
