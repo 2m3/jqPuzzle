@@ -11,6 +11,13 @@ html, body {
 button {
 	background: #fff;
 	border: 1px solid #999;
+	transition: background-color 0.2s ease-out 0.4s;
+}
+
+button.active {
+	background-color: #eea;
+	border-color: #222;
+	transition: background-color 0.01s ease-out 0s;
 }
 
 .overlay {
@@ -57,13 +64,13 @@ input[type=number] {
 	height: 12em;
 }
 
-.controls .direction {
+.controls .directions {
 	margin-left: 1.1em;
 	margin-top: 0;
 	position: relative;
 }
 
-.controls .direction button {
+.controls .directions button {
 	width: 2.8em;
 	height: 1.8em;
 	position: absolute;
@@ -94,12 +101,12 @@ button[name=down] {
 	left: 3em;
 }
 
-.controls .game {
+.controls .actions {
 	margin-left: 0.4em;
 	margin-top: 6.2em;
 }
 
-.controls .game button {
+.controls .actions button {
 	width: 5em;
 }
 

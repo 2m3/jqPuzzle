@@ -9,13 +9,14 @@ var keyboardController = (function() {
 		40: 'down'
 	};
 
-	// bind keyy events on document
+	// bind key events on document
 	$(document).on('keydown', function(e) {
 		// lookup direction
 		var direction = arrowKeys[e.keyCode];
 
 		// move by direction
 		if (_puzzle && direction) {
+			keyboardController.trigger('key', { type: 'direction', action: direction });
 			_puzzle.moveByDirection(direction);
 		}
 	});
@@ -28,3 +29,6 @@ var keyboardController = (function() {
 		init: init
 	};
 })();
+
+// mixin event emitter
+jQuery.extend(keyboardController, $.eventEmitter);

@@ -86,15 +86,22 @@ var board = (function() {
 var controls = (function() {
 	var _puzzle;
 	var $controls = $('.controls');
+	var $directions = $controls.find('.directions');
+	var $actions = $controls.find('.actions');
 	var isInit = false;
 
 	function init(puzzle) {
 		_puzzle = puzzle;
 
+		// bind keyboard events
+		keyboardController.on('key', handleKey);
+
 		if (!isInit) {
-			// bind direction controls
-			$controls.find('.direction').on('click', 'button', function() {
+			// bind direction buttons
+			$directions.on('click', 'button', function() {
 				var direction = this.name.toLowerCase();
+
+				highlightButton($(this));
 
 				if (direction === 'random') {
 					_puzzle.moveRandomly();
@@ -103,28 +110,28 @@ var controls = (function() {
 				}
 			});
 
-			// trigger undo
-			$controls.find('button[name=undo]').on('click', function() {
-				_puzzle.undo();
-			});
-
-			// trigger redo
-			$controls.find('button[name=redo]').on('click', function() {
-				_puzzle.redo();
-			});
-
-			// trigger shuffle
-			$controls.find('button[name=shuffle]').on('click', function() {
-				_puzzle.shuffle();
-			});
-
-			// trigger reset
-			$controls.find('button[name=reset]').on('click', function() {
-				_puzzle.reset();
+			// bind action buttons
+			$actions.on('click', 'button', function() {
+				highlightButton($(this));
+				_puzzle[this.name]();
 			});
 
 			isInit = true;
 		}
+	}
+
+	function handleKey(event, data) {
+		highlightButton($directions.find('[name=' + data.action + ']'));
+	}
+
+	function highlightButton($button) {
+		var activeClass = 'active';
+
+		$button.addClass(activeClass).focus();
+
+		window.setTimeout(function() {
+			$button.removeClass(activeClass);
+		}, 100);
 	}
 
 	return {
