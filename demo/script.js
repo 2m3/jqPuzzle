@@ -93,10 +93,10 @@ var controls = (function() {
 	function init(puzzle) {
 		_puzzle = puzzle;
 
-		// bind keyboard events
-		keyboardController.on('key', handleKey);
-
 		if (!isInit) {
+			// bind keyboard events
+			keyboardController.on('key', handleKey);
+
 			// bind direction buttons
 			$directions.on('click', 'button', function() {
 				var direction = this.name.toLowerCase();
