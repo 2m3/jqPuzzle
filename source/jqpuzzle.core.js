@@ -188,6 +188,12 @@ SliderPuzzle.prototype = {
 		// start with a specified board
 		if (this.options.board) {
 			this._initialBoard = this.options.board.slice(0);
+
+			// set initial hole position
+			this.setInitialHole();
+
+			// reset game
+			this.reset();
 		}
 		// or handle shuffle option
 		else {
@@ -205,14 +211,6 @@ SliderPuzzle.prototype = {
 				this.shuffle(this.options.shuffle, true);
 			}
 		}
-
-		// TODO check if this needs to be called in all cases
-
-		// set initial hole position
-		this.setInitialHole();
-
-		// start game
-		this.reset();
 	},
 
 	// restarts the game with a shuffled board
