@@ -237,6 +237,9 @@ SliderPuzzle.prototype = {
 
 		// reset game
 		this.reset();
+
+		// trigger shuffle event
+		this.trigger('shuffle');
 	},
 
 	// resets all game variables to their initial state
@@ -660,7 +663,7 @@ SliderPuzzle.prototype = {
 
 	// moves a piece based on a direction
 	// returns a move object if a piece was moved in this direction
-	// returns false if no piece could not be moved in this direction
+	// returns false if no piece could be moved in this direction
 	moveByDirection: function(direction) {
 		var move = this.canMoveByDirection(direction);
 
@@ -786,11 +789,15 @@ SliderPuzzle.prototype = {
 	},
 
 	// checks if there is a move to undo
+	// returns true if a move can be undone
+	// returns false if no move can be undone
 	canUndo: function() {
 		return !!this._moves.length;
 	},
 
-	// undo the previous move
+	// undoes the previous move
+	// returns the move object of the undone move
+	// returns false if no move could be undone
 	undo: function() {
 		var move;
 
@@ -818,11 +825,15 @@ SliderPuzzle.prototype = {
 	},
 
 	// checks if there is a move to redo
+	// returns true if a move can be redone
+	// returns false if no move can be redone
 	canRedo: function() {
 		return !!this._redos.length;
 	},
 
-	// redo a previously undone move
+	// redoes a previously undone move
+	// returns the move object of the redone move
+	// returns false if no move could be redone
 	redo: function() {
 		var move;
 

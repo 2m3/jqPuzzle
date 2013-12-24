@@ -169,6 +169,8 @@ When called without an argument, a random board layout is shuffled. When called 
 		puzzle.shuffle()
 		puzzle.shuffle(4)
 
+Fires a `shuffle` and also a `reset` event.
+
 
 `reset()`
 ---------
@@ -178,6 +180,8 @@ Resets all game variables to their initial state. While `shuffle()` always start
 `reset()` can be called at any time during a game once the board was shuffled. When called, the current game state is lost.
 
 		puzzle.reset()
+
+Fires a `reset` event.
 
 
 `isSolvable()`
@@ -409,6 +413,8 @@ A `move` object defines a single move on the board. A move changes the position 
 
 See `canMove()` for a description of the `move` object. In addition, the `move` object returned by this method contains the following property:
 
+* `index`
+The consecutive number of the move in the current game as an integer value.
 * `timestamp`: 
 The point in time when the move was performed as a JavaScript `Date` object.
 
@@ -426,8 +432,11 @@ All examples would e.g. return the following `move` object on a 3x3 board:
 			from: { index: 4, row: 2, col: 1 },
 			to: { index: 1, row: 1, col: 1 },
 			direction: 'up',
+			index: 1,
 			timestamp: <date>
 		}
+
+Fires a `move` event if the move was successful.
 
 
 `moveByNumber(<number>)`
@@ -451,8 +460,11 @@ This would e.g. return the following `move` object on a 3x3 board:
 			from: { index: 4, row: 2, col: 1 },
 			to: { index: 1, row: 1, col: 1 },
 			direction: 'up',
+			index: 1,
 			timestamp: <date>
 		}
+
+Fires a `move` event if the move was successful.
 
 
 `moveByDirection(<direction>)`
@@ -476,8 +488,11 @@ This would e.g. return the following `move` object on a 3x3 board:
 			from: { index: 4, row: 2, col: 1 },
 			to: { index: 1, row: 1, col: 1 },
 			direction: 'up',
+			index: 1,
 			timestamp: <date>
 		}
+
+Fires a `move` event if the move was successful.
 
 
 `moveRandomly()`
@@ -498,8 +513,147 @@ This would e.g. return the following `move` object on a 3x3 board:
 			from: { index: 4, row: 2, col: 1 },
 			to: { index: 1, row: 1, col: 1 },
 			direction: 'up',
+			index: 1,
 			timestamp: <date>
 		}
+
+Fires a `move` event if the move was successful.
+
+
+`canUndo()`
+-----------
+
+Checks if there is a move that can be undone.
+
+Returns `true` if a move can be undone.
+Returns `false` if no move can be undone.
+
+		puzzle.canUndo()
+
+
+`undo()`
+--------
+
+Undoes the previous move.
+
+Returns the `move` object of the move that was undone.
+Returns `false` if no move could be undone.
+
+See `move()` for a description of the `move` object.
+
+		puzzle.undo()
+
+This would e.g. return the following `move` object on a 3x3 board:
+
+		{
+			number: 8,
+			from: { index: 4, row: 2, col: 1 },
+			to: { index: 1, row: 1, col: 1 },
+			direction: 'up',
+			index: 1,
+			timestamp: <date>
+		}
+
+Fires an `undo` event.
+
+
+`canRedo()`
+-----------
+
+Checks if there is a move that can be redone.
+
+Returns `true` if a move can be redone.
+Returns `false` if no move can be redone.
+
+		puzzle.canRedo()
+
+
+`redo()`
+--------
+
+Redoes a previously undone move.
+
+Returns the `move` object of the move that was redone.
+Returns `false` if no move could be redone.
+
+See `move()` for a description of the `move` object.
+
+		puzzle.redo()
+
+This would e.g. return the following `move` object on a 3x3 board:
+
+		{
+			number: 8,
+			from: { index: 4, row: 2, col: 1 },
+			to: { index: 1, row: 1, col: 1 },
+			direction: 'up',
+			index: 1,
+			timestamp: <date>
+		}
+
+Fires a `redo` event.
+
+
+
+Events
+======
+
+Events can be used to get notified about changes of the puzzle. All events are fired on the `SliderPuzzle` object and are passed the internal jQuery event object and optional data as parameters. Events can be bound using the `on()` method.
+
+		var puzzle = new SliderPuzzle();
+		puzzle.on(<eventName>, function(event, data) {
+			console.log(event.type + ' fired with data: ' + data);
+		});
+
+To unbind events, use the `off` method:
+
+		puzzle.off(<eventName>);
+
+
+`move`
+------
+
+Fires when a move was successfully performed. The event is passed the `move` object as the second parameter.
+
+See `move()` for a description of the `move` object.
+
+	puzzle.on('move', function(event, move) {
+		console.log('piece ' + move.number + ' was moved ' + move.direction);
+	});
+
+
+`undo`
+------
+
+Fires when a previous move was undone. The event is passed the `move` object as the second parameter.
+
+See `move()` for a description of the `move` object.
+
+	puzzle.on('undo', function(event, move) {
+		console.log('move ' + move.index + ' undone');
+	});
+
+
+`redo`
+------
+
+Fires when a previously undone move was redone. The event is passed the `move` object as the second parameter.
+
+See `move()` for a description of the `move` object.
+
+	puzzle.on('redo', function(event, move) {
+		console.log('move ' + move.index + ' redone');
+	});
+
+
+`reset`
+-------
+
+Fires when the game was reset. `reset` is also fired when the puzzle is `shuffle()`d.
+
+		puzzle.on('reset', function() {
+			console.log('puzzle was reset');
+		});
 
 
 
