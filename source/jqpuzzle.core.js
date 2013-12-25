@@ -178,8 +178,6 @@ SliderPuzzle.prototype = {
 		solvable: true
 	},
 	directions: ['up', 'left', 'right', 'down'],
-	solved: false,
-	solvable: true,
 
 	// handles the first start of the game
 	initGame: function() {
@@ -252,9 +250,6 @@ SliderPuzzle.prototype = {
 		this._hole = this._initialHole;
 		this._moves = [];
 		this._redos = [];
-
-		// TODO reset solved
-		// TODO reset timer
 
 		// TODO check this._playing when moving
 		this._playing = true;
@@ -740,6 +735,11 @@ SliderPuzzle.prototype = {
 
 				// trigger move event
 				this.trigger('move', move);
+			}
+
+			// check if solved and trigger event
+			if (this.isSolved()) {
+				this.trigger('solved');
 			}
 		}
 

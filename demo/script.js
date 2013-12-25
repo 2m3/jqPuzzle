@@ -186,6 +186,7 @@ var logger = (function() {
 		_puzzle.on('move', logMove);
 		_puzzle.on('undo', logUndo);
 		_puzzle.on('redo', logRedo);
+		_puzzle.on('solved', logSolved);
 		_puzzle.on('reset', reset);
 	}
 
@@ -220,6 +221,10 @@ var logger = (function() {
 
 	function logRedo(event, move) {
 		$logger.find('li.undo:last').removeClass('undo');
+	}
+
+	function logSolved() {
+		$logger.prepend($("<li>---- Puzzle solved ----</li>").hide().fadeIn());
 	}
 
 	function pad(string, length, right) {
