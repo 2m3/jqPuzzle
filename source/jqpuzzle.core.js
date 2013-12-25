@@ -670,29 +670,38 @@ SliderPuzzle.prototype = {
 	moveRandomly: function() {
 		var pickDirections;
 		var direction;
+		var reverseDirection;
+		var lastMove;
 		var move;
 		var i;
 
 		// get a clone of the directions
 		pickDirections = this.directions.slice(0);
 
+		// get the last move
+		lastMove = this._moves[this._moves.length - 1];
+
+		// two consecutive moves must not move a single piece back and forth
+		// i.e. don't allow the reverse direction of the previous move
+		if (lastMove) {
+			// get reverse direction of previous move
+			reverseDirection = this._getReverseDirection(lastMove.direction);
+
+			// remove and re-index
+			pickDirections.splice($.inArray(reverseDirection, pickDirections), 1);
+		}
+
+		// walk through directions until a valid move is found
 		while (pickDirections.length) {
 			// randomly pick a direction and re-index
 			i = Math.floor(Math.random() * pickDirections.length);
 			direction = pickDirections.splice(i, 1)[0];
-
-			// two random moves must not move a single piece back and forth
-			// TODO replace _lastDirection with last move from stack
-			if (this._lastDirection === this._getReverseDirection(direction)) {
-				continue;
-			}
 
 			// try to move a piece in this direction
 			move = this.moveByDirection(direction);
 
 			// break if the move was possible
 			if (move) {
-				this._lastDirection = direction;
 				return move;
 			}
 		}
