@@ -153,7 +153,7 @@ function SliderPuzzle(options) {
 		right: { index: -1, row: 0, col: -1 }
 	};
 
-	// start the game
+	// intitialize the game
 	this.initGame();
 
 	// default renderer (used by toString)
@@ -170,6 +170,8 @@ SliderPuzzle.prototype = {
 		cols: 4,
 		// shuffle on init (ignored when board is set)
 		shuffle: true,
+		// immediately start the game
+		start: true,
 		// only every other randomly generated board is solvable
 		// if set to ...    shuffled boards will be ...
 		// true (default)   solvable
@@ -179,11 +181,9 @@ SliderPuzzle.prototype = {
 	},
 	directions: ['up', 'left', 'right', 'down'],
 
-	// handles the first start of the game
+	// initializes the game
 	initGame: function() {
-		this._playing = false;
-
-		// start with a specified board
+		// initialize with a specified board
 		if (this.options.board) {
 			this._initialBoard = this.options.board.slice(0);
 
@@ -191,68 +191,76 @@ SliderPuzzle.prototype = {
 			this.setInitialHole();
 
 			// reset game
-			this.reset();
+			this.reset(this.options.start);
 		}
 		// or handle shuffle option
 		else {
-			// initialize with the solved board
-			// requires a call to shuffle() to start the game
-			if (this.options.shuffle === false) {
-				// TODO need to set initial board?
-				this._initialBoard = this._board = this.getSolvedBoard().slice(0);
-
-				// do not start game
-				return;
-			}
-			// or start with a shuffled board
-			else {
-				this.shuffle(this.options.shuffle, true);
-			}
+			this.restart(this.options.shuffle, this.options.start, true);
 		}
 	},
 
 	// restarts the game with a shuffled board
-	shuffle: function(movesAway, setOption) {
-		if (movesAway !== undefined && movesAway !== true) {
-			// for numeric values, generate a board with the
-			// specified number of moves away from the solved board
+	shuffle: function() {
+		this.restart(true);
+	},
 
+	// restarts the game with a fresh board
+	restart: function(shuffle, start, _setOptions) {
+		// set the solved board
+		if (shuffle === false) {
+			this._initialBoard = this.getSolvedBoard().slice(0);
+
+			// set initial hole position
+			this.setInitialHole();
+		}
+
+		// generate a random board
+		else if (shuffle === true || shuffle === undefined) {
+			this.generateBoard();
+		}
+
+		// set generate a board with the specified number of
+		// moves away from the solved board
+		else {
 			// expect value to be greater than or equal to 0
-			movesAway = parseInt(movesAway, 10);
-			if (isNaN(movesAway) || movesAway < 0) {
+			shuffle = parseInt(shuffle, 10);
+			if (isNaN(shuffle) || shuffle < 0) {
 				throw 'invalid shuffle value';
 			}
 
 			// make sure shuffle option is set
-			if (setOption) {
-				this.options.shuffle = movesAway;
+			if (_setOptions) {
+				this.options.shuffle = shuffle;
 			}
 
-			this.generateBoardByMovesAwayFromSolvedBoard(movesAway);
-		} else {
-			this.generateBoard();
+			this.generateBoardByMovesAwayFromSolvedBoard(shuffle);
 		}
 
 		// reset game
-		this.reset();
+		this.reset(start, _setOptions);
 
 		// trigger shuffle event
 		this.trigger('shuffle');
 	},
 
 	// resets all game variables to their initial state
-	reset: function() {
-		if (this._initialHole === undefined || this._initialBoard === undefined) {
-			throw "board must be shuffled first";
-		}
-
+	reset: function(start, _setOption) {
 		this.resetBoard();
 		this._hole = this._initialHole;
 		this._moves = [];
 		this._redos = [];
 
+		// handle start parameter
+		// if set to false, requires a call to
+		// shuffle()/restart()/reset() to start the game
+		this._playing = (start === undefined) ? true : !!start;
+
+		// make sure start option is set
+		if (_setOption) {
+			this.options.start = this._playing;
+		}
+
 		// TODO check this._playing when moving
-		this._playing = true;
 
 		// trigger reset event
 		this.trigger('reset');
@@ -332,7 +340,7 @@ SliderPuzzle.prototype = {
 
 		// set initial hole and reset the game to be able to perform moves
 		this.setInitialHole();
-		this.reset();
+		this.reset(false);
 
 		// randomly move pieces
 		while (movesAway-- > 0) {

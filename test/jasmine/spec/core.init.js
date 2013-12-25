@@ -946,14 +946,13 @@ describe("Initialization:", function() {
 				shuffle: true
 			});
 			expect(puzzle.isSolved()).toEqual(false);
-			expect(puzzle._playing).toEqual(true);
 
 			puzzle = new SliderPuzzle();
 			expect(puzzle.isSolved()).toEqual(false);
-			expect(puzzle._playing).toEqual(true);
+
 		});
 
-		it("should initialize (but not start) with the solved board if the shuffle option is set to false", function() {
+		it("should initialize with the solved board if the shuffle option is set to false", function() {
 			puzzle = new SliderPuzzle({
 				rows: 2,
 				cols: 2,
@@ -961,7 +960,6 @@ describe("Initialization:", function() {
 			});
 			expect(puzzle.isSolved()).toEqual(true);
 			expect(puzzle._board).toEqual([1,2,3,0]);
-			expect(puzzle._playing).toEqual(false);
 		});
 
 		it("should start with the solved board if the shuffle option is set to 0", function() {
@@ -973,7 +971,6 @@ describe("Initialization:", function() {
 			expect(puzzle.isSolved()).toEqual(true);
 			expect(puzzle._board).toEqual(puzzle.getSolvedBoard());
 			expect(puzzle._board).toEqual([1,2,3,0]);
-			expect(puzzle._playing).toEqual(true);
 		});
 
 		it("should start with the board one move away from the solved board if the shuffle option is set to 1", function() {
@@ -985,7 +982,6 @@ describe("Initialization:", function() {
 				});
 				expect(puzzle.isSolved()).toEqual(false);
 				expect(puzzle._board).toEqualAny([[1,2,0,3], [1,0,3,2]]);
-				expect(puzzle._playing).toEqual(true);
 			}
 		});
 
@@ -998,8 +994,55 @@ describe("Initialization:", function() {
 				});
 				expect(puzzle.isSolved()).toEqual(false);
 				expect(puzzle._board).toEqualAny([[0,2,1,3], [0,1,3,2]]);
-				expect(puzzle._playing).toEqual(true);
 			}
+		});
+	});
+
+	describe("When initialized with the start option, a slider puzzle", function() {
+		it("should default to true if the option is not specified", function() {
+			puzzle = new SliderPuzzle();
+			expect(puzzle.options.start).toEqual(true);
+		});
+
+		it("should be set to true if the option is specified as truthy", function() {
+			puzzle = new SliderPuzzle({
+				start: true
+			});
+			expect(puzzle.options.start).toEqual(true);
+
+			puzzle = new SliderPuzzle({
+				start: 1
+			});
+			expect(puzzle.options.start).toEqual(true);
+		});
+
+		it("should be set to false if the option is specified as falsy but not undefined", function() {
+			puzzle = new SliderPuzzle({
+				start: false
+			});
+			expect(puzzle.options.start).toEqual(false);
+
+			puzzle = new SliderPuzzle({
+				start: 0
+			});
+			expect(puzzle.options.start).toEqual(false);
+
+			puzzle = new SliderPuzzle({
+				start: undefined
+			});
+			expect(puzzle.options.start).not.toEqual(false);
+		});
+
+		it("should start the game if the option is set to true", function() {
+			puzzle = new SliderPuzzle();
+			expect(puzzle._playing).toEqual(true);
+		});
+
+		it("should not start the game if the option is set to false", function() {
+			puzzle = new SliderPuzzle({
+				start: false
+			});
+			expect(puzzle._playing).toEqual(false);
 		});
 	});
 });
