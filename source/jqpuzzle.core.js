@@ -602,7 +602,7 @@ SliderPuzzle.prototype = {
 		var hole = this._getPositionByIndex(this._hole);
 
 		// calculate piece position based on hole position and direction
-		position = this._getPositionByTargetAndDirection(hole, direction);
+		var position = this._getPositionByTargetAndDirection(hole, direction);
 
 		return position && this.getPiece(position);
 	},
