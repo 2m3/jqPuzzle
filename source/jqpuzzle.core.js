@@ -423,11 +423,13 @@ SliderPuzzle.prototype = {
 
 	// returns the sorted board
 	getSortedBoard: function() {
+		var i;
+
 		if (!this._sortedBoard) {
 			this._sortedBoard = [];
 
 			// add items to board
-			for (var i = 0; i < this._boardSize; i++) {
+			for (i = 0; i < this._boardSize; i++) {
 				// adjust any number after the hole by one
 				this._sortedBoard.push((i < this.options.hole) ? i : i + 1);
 			}
