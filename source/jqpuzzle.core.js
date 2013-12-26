@@ -239,8 +239,8 @@ SliderPuzzle.prototype = {
 		// reset game
 		this.reset(start, _setOptions);
 
-		// trigger shuffle event
-		this.trigger('shuffle');
+		// trigger restart event
+		this.trigger('restart');
 	},
 
 	// resets all game variables to their initial state
