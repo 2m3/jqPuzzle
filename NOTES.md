@@ -138,11 +138,13 @@ The `solvable` option is ignored when a `board` is specified.
 `shuffle`
 ---------
 
-Specifies whether the board is immediately shuffled or not. If set to `false`, the game must be explicitly started by calling `shuffle()`.
+Specifies whether and how the board is immediately shuffled.
 
-Expects either `true`, `false` or any positive integer value. Integer values are interpreted as the number of random moves away from the solved board (meaning that the puzzle can be solved with at most the specified number of moves). 
+Expects either `true`, `false` or any positive integer value.
 
-Note that there is a difference between the values `0` and `false`. While `shuffle: 0` starts a game that is immediately solved, `shuffle: false` does not start the game before explicitly calling `shuffle()`.
+If set to `false`, the board is initialized in its solved state.
+
+Integer values are interpreted as the number of random moves away from the solved board (meaning that the puzzle can be solved with at most the specified number of moves). Thus, there's no difference between the values `0` and `false`.
 
 Defaults to `true`.
 
@@ -151,31 +153,64 @@ When the `shuffle` option is specified with a different value than `true` the `i
 The `shuffle` option is ignored when a `board` is specified.
 
 
+`start`
+-------
+
+Specifies whether the game is immediately started. Only when a game is started, moves are tracked and the puzzle can be solved. 
+
+Defaults to `true`.
+
+If set to `false`, moves can still be performed but do not count as a game. In this case, the game must be explicitly started by calling `shuffle()`, `restart()` or `reset()`.
+
+
 
 Methods
 =======
 
-`shuffle(<movesAway>)`
-----------------------
+`restart(<shuffle>, <start>)`
+-----------------------------
 
-Starts or restarts the game with a freshly shuffled board.
+Starts or restarts the game with a fresh board.
 
-If the puzzle was initialized with the `shuffle` option set to `false`, the game must be explicitly started by calling this method.
+The `shuffle` parameter accepts the same values as the `shuffle` option and defaults to `true`.
 
-When called without an argument, a random board layout is shuffled. When called with a positive integer value, this value is interpreted as the number of random moves away from the solved board (meaning that the puzzle can be solved with at most the specified number of moves). Calling `shuffle(0)` starts a game that is immediately solved.
+The `start` parameter accepts the same values as the `start` option and defaults to `true`.
+
+If a puzzle was initialized with the `start` option set to `false`, the game can be explicitly started by calling this method.
+
+`restart()` can be called at any time during a game. When called, the current game state is lost.
+
+		puzzle.restart() // shuffles a fresh board
+		puzzle.restart(3) // generates a board 3 moves away from the solution
+		puzzle.restart(false, false) // sets the solved board and does not start the game
+
+Implicitly calls `reset()`.
+
+Fires a `restart` and also a `reset` event.
+
+
+`shuffle()`
+-----------
+
+Starts or restarts the game with a freshly shuffled board. Alternative to `restart()` or `restart(true, true)`.
+
+If a puzzle was initialized with the `start` option set to `false`, the game can be explicitly started by calling this method.
 
 `shuffle()` can be called at any time during a game. When called, the current game state is lost.
 
 		puzzle.shuffle()
-		puzzle.shuffle(4)
 
-Fires a `shuffle` and also a `reset` event.
+Implicitly calls `reset()`.
+
+Fires a `restart` and also a `reset` event.
 
 
 `reset()`
 ---------
 
-Resets all game variables to their initial state. While `shuffle()` always starts with freshly shuffled board, `reset()` restores the initial board layout before the first move was performed.
+Resets all game variables to their initial state. While `shuffle()` and `restart()` always start with a fresh board, `reset()` restores the board layout before the first move was performed.
+
+If a puzzle was initialized with the `start` option set to `false`, the game can be explicitly started by calling this method.
 
 `reset()` can be called at any time during a game once the board was shuffled. When called, the current game state is lost.
 
