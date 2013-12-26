@@ -144,10 +144,10 @@ var controls = (function() {
 	}
 
 	// toggle the disabled state of a single button
-	function toggleDisabled($button, isDisabled) {
+	function toggleDisabled($button, enabled) {
 		var disabled = 'disabled';
 
-		if (isDisabled) {
+		if (enabled) {
 			$button.removeAttr(disabled);
 		} else {
 			$button.attr(disabled, disabled);
