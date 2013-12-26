@@ -738,6 +738,14 @@ SliderPuzzle.prototype = {
 			// update hole
 			this._hole = index;
 
+			// don't handle the stack when not playing
+			if (!this._playing) {
+				// trigger move event
+				this.trigger('move', move);
+
+				return move;
+			}
+
 			// add index and timestamp
 			move.index = this._moves.length + 1;
 			move.timestamp = new Date();

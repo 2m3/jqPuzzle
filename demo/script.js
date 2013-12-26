@@ -202,6 +202,11 @@ var logger = (function() {
 	}
 
 	function logMove(event, move) {
+		// only log real moves
+		if (!move.index) {
+			return;
+		}
+
 		// calculate padding lengths
 		var rowPad = ("" + _puzzle.options.rows).length;
 		var colPad = ("" + _puzzle.options.cols).length;
