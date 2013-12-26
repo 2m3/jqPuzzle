@@ -784,8 +784,9 @@ SliderPuzzle.prototype = {
 	// gets the direction of a move from the position of the piece to be moved
 	_getDirection: function(move) {
 		var position;
+		var direction;
 
-		for (var direction in this.directionOffsets) {
+		for (direction in this.directionOffsets) {
 			if (this.directionOffsets.hasOwnProperty(direction)) {
 				// calculate start position based on target position and direction
 				position = this._getPositionByTargetAndDirection(move.to, direction);
