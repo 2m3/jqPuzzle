@@ -6,6 +6,7 @@ var config = (function() {
 	$config.on('submit', function(e) {
 		var solvable;
 		var shuffle;
+		var start;
 		var options;
 
 		// don't submit the form
@@ -22,6 +23,10 @@ var config = (function() {
 		shuffle = $('input[name=shuffle]:checked').val();
 		shuffle = (shuffle == 'movesAway') ? $('input[name=movesAway]').val() : !!parseInt(shuffle, 10);
 
+		// handle start value
+		start = $('input[name=start]:checked').val();
+		start = !!parseInt(start, 10);
+
 		// create options hash
 		options = {
 			rows: $('input[name=rows]').val() || undefined,
@@ -29,7 +34,8 @@ var config = (function() {
 			hole: $('input[name=hole]').val() || undefined,
 			initialHole: $('input[name=initialHole]').val() || undefined,
 			solvable: solvable,
-			shuffle: shuffle
+			shuffle: shuffle,
+			start: start
 		};
 
 		try {
