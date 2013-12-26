@@ -201,7 +201,7 @@ SliderPuzzle.prototype = {
 
 	// restarts the game with a shuffled board
 	shuffle: function() {
-		this.restart(true);
+		this.restart();
 	},
 
 	// restarts the game with a fresh board
