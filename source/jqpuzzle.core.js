@@ -219,7 +219,7 @@ SliderPuzzle.prototype = {
 			this.generateBoard();
 		}
 
-		// set generate a board with the specified number of
+		// generate a board with the specified number of
 		// moves away from the solved board
 		else {
 			// expect value to be greater than or equal to 0
@@ -340,15 +340,16 @@ SliderPuzzle.prototype = {
 
 		// set initial hole and reset the game to be able to perform moves
 		this.setInitialHole();
-		this.reset(false);
+		this.reset();
 
 		// randomly move pieces
 		while (movesAway-- > 0) {
 			this.moveRandomly();
 		}
 
-		// set the resulting board as initial board
+		// set the resulting board as initial board and update initial hole
 		this._initialBoard = this._board;
+		this.setInitialHole();
 	},
 
 	// checks if the board is solvable
