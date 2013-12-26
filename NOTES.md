@@ -657,6 +657,16 @@ See `move()` for a description of the `move` object.
 	});
 
 
+`solved`
+--------
+
+Fires when the puzzle was solved.
+
+	puzzle.on('solved', function() {
+		console.log('puzzle successfully solved);
+	});
+
+
 `undo`
 ------
 
@@ -681,10 +691,20 @@ See `move()` for a description of the `move` object.
 	});
 
 
+`restart`
+---------
+
+Fires when the game was restarted via the `restart()` or `shuffle()` methods.
+
+		puzzle.on('restart', function() {
+			console.log('puzzle was restarted');
+		});
+
+
 `reset`
 -------
 
-Fires when the game was reset. `reset` is also fired when the puzzle is `shuffle()`d.
+Fires when the game was reset via the `reset()` method. This event is also fired when the puzzle is `restart()`ed or `shuffle()`d.
 
 		puzzle.on('reset', function() {
 			console.log('puzzle was reset');
