@@ -336,11 +336,7 @@ SliderPuzzle.prototype = {
 		this.options.initialHole = undefined;
 
 		// start with the solved board
-		this._initialBoard = this.getSolvedBoard().slice(0);
-
-		// set initial hole and reset the game to be able to perform moves
-		this.setInitialHole();
-		this.reset();
+		this.restart(false);
 
 		// randomly move pieces
 		while (movesAway-- > 0) {
