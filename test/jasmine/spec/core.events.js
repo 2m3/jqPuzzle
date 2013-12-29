@@ -3,7 +3,8 @@ describe("Events: ", function() {
 
 	beforeEach(function() {
 		callbacks = {
-			move: function(event, move) {}
+			move: function(event, move) {},
+			solved: function(event) {}
 		};
 	});
 
@@ -72,6 +73,57 @@ describe("Events: ", function() {
 			move = callbacks.move.mostRecentCall.args[1];
 
 			expect(move).toEqual({ number: jasmine.any(Number), from: positions3x3.topMiddle, to: positions3x3.topLeft, direction: 'left', index: 1, timestamp: jasmine.any(Date) });
+		});
+	});
+
+	describe("solved", function() {
+		it("should fire when the puzzle was solved", function() {
+			spyOn(callbacks, "solved");
+
+			puzzle = new SliderPuzzle({
+				shuffle: false
+			});
+			puzzle.on("solved", callbacks.solved);
+
+			// move piece back
+			puzzle.move(15);
+			expect(callbacks.solved).not.toHaveBeenCalled();
+
+			// and forth
+			puzzle.move(16);
+			expect(callbacks.solved).toHaveBeenCalled();
+			expect(callbacks.solved.calls.length).toEqual(1);
+			expect(callbacks.solved.mostRecentCall.args[0]).toBeDefined();
+			expect(callbacks.solved.mostRecentCall.args[1]).not.toBeDefined();
+			expect(puzzle.isSolved()).toEqual(true);
+		});
+
+		it("should not fire when the puzzle was not solved", function() {
+			spyOn(callbacks, "solved");
+
+			puzzle = new SliderPuzzle({
+				shuffle: false
+			});
+			puzzle.on("solved", callbacks.solved);
+
+			// move pieces
+			puzzle.move(15);
+			puzzle.move(14);
+			puzzle.move(13);
+			puzzle.move( 9);
+			puzzle.move(10);
+			puzzle.move(11);
+			puzzle.move(12);
+			puzzle.move( 8);
+			puzzle.move( 7);
+			puzzle.move( 6);
+			puzzle.move( 5);
+			puzzle.move( 1);
+			puzzle.move( 2);
+			puzzle.move( 3);
+			puzzle.move( 4);
+			expect(callbacks.solved).not.toHaveBeenCalled();
+			expect(puzzle.isSolved()).toEqual(false);
 		});
 	});
 });
