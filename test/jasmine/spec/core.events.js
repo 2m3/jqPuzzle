@@ -3,7 +3,8 @@ describe("Events: ", function() {
 		move: function(event, move) {},
 		solved: function(event) {},
 		undo: function(event, move) {},
-		redo: function(event, move) {}
+		redo: function(event, move) {},
+		restart: function(event) {}
 	};
 
 	describe("move", function() {
@@ -281,6 +282,41 @@ describe("Events: ", function() {
 			move = callbacks.redo.mostRecentCall.args[1];
 
 			expect(move).toEqual({ number: jasmine.any(Number), from: positions3x3.topMiddle, to: positions3x3.topLeft, direction: 'left', index: 1, timestamp: jasmine.any(Date) });
+		});
+	});
+
+	describe("restart", function() {
+		beforeEach(function() {
+			spyOn(callbacks, "restart");
+		});
+
+		it("should fire when the puzzle was restarted with the restart() method", function() {
+			puzzle = new SliderPuzzle();
+			puzzle.on("restart", callbacks.restart);
+
+			puzzle.restart();
+			expect(callbacks.restart).toHaveBeenCalled();
+			expect(callbacks.restart.calls.length).toEqual(1);
+			expect(callbacks.restart.mostRecentCall.args[0]).toBeDefined();
+			expect(callbacks.restart.mostRecentCall.args[1]).not.toBeDefined();
+		});
+
+		it("should fire when the puzzle was restarted with the shuffle() method", function() {
+			puzzle = new SliderPuzzle();
+			puzzle.on("restart", callbacks.restart);
+
+			puzzle.shuffle();
+			expect(callbacks.restart).toHaveBeenCalled();
+			expect(callbacks.restart.calls.length).toEqual(1);
+			expect(callbacks.restart.mostRecentCall.args[0]).toBeDefined();
+			expect(callbacks.restart.mostRecentCall.args[1]).not.toBeDefined();
+		});
+
+		it("should not fire when the puzzle was initialized", function() {
+			puzzle = new SliderPuzzle();
+			puzzle.on("restart", callbacks.restart);
+
+			expect(callbacks.restart).not.toHaveBeenCalled();
 		});
 	});
 });
