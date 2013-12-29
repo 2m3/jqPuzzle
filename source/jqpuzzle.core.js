@@ -255,7 +255,7 @@ SliderPuzzle.prototype = {
 		// handle start parameter
 		// if set to false, requires a call to
 		// shuffle()/restart()/reset() to start the game
-		this._playing = (start === undefined) ? true : !!start;
+		this._playing = (start === undefined) || !!start;
 
 		// make sure start option is set
 		if (_setOption) {
