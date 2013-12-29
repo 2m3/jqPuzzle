@@ -302,6 +302,15 @@ describe("Events: ", function() {
 			expect(callbacks.restart.mostRecentCall.args[1]).not.toBeDefined();
 		});
 
+		it("should fire when the puzzle was restarted with the restart() method and the shuffle parameter set to an integer", function() {
+			puzzle = new SliderPuzzle();
+			puzzle.on("restart", callbacks.restart);
+
+			puzzle.restart(2);
+			expect(callbacks.restart).toHaveBeenCalled();
+			expect(callbacks.restart.calls.length).toEqual(1);
+		});
+
 		it("should fire when the puzzle was restarted with the shuffle() method", function() {
 			puzzle = new SliderPuzzle();
 			puzzle.on("restart", callbacks.restart);
@@ -346,6 +355,15 @@ describe("Events: ", function() {
 			expect(callbacks.reset.calls.length).toEqual(1);
 			expect(callbacks.reset.mostRecentCall.args[0]).toBeDefined();
 			expect(callbacks.reset.mostRecentCall.args[1]).not.toBeDefined();
+		});
+
+		it("should fire when the puzzle was reset with the restart() method and the shuffle parameter set to an integer", function() {
+			puzzle = new SliderPuzzle();
+			puzzle.on("reset", callbacks.reset);
+
+			puzzle.restart(2);
+			expect(callbacks.reset).toHaveBeenCalled();
+			expect(callbacks.reset.calls.length).toEqual(1);
 		});
 
 		it("should fire when the puzzle was reset with the shuffle() method", function() {

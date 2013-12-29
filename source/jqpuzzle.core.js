@@ -195,7 +195,7 @@ SliderPuzzle.prototype = {
 		}
 		// or handle shuffle option
 		else {
-			this.restart(this.options.shuffle, this.options.start, true);
+			this.restart(this.options.shuffle, this.options.start, undefined, true);
 		}
 	},
 
@@ -205,7 +205,7 @@ SliderPuzzle.prototype = {
 	},
 
 	// restarts the game with a fresh board
-	restart: function(shuffle, start, _setOptions) {
+	restart: function(shuffle, start, silent, _setOptions) {
 		// set the solved board
 		if (shuffle === false) {
 			this._initialBoard = this.getSolvedBoard().slice(0);
@@ -237,14 +237,16 @@ SliderPuzzle.prototype = {
 		}
 
 		// reset game
-		this.reset(start, _setOptions);
+		this.reset(start, silent, _setOptions);
 
 		// trigger restart event
-		this.trigger('restart');
+		if (silent === undefined || !silent) {
+			this.trigger('restart');
+		}
 	},
 
 	// resets all game variables to their initial state
-	reset: function(start, _setOption) {
+	reset: function(start, silent, _setOption) {
 		this.resetBoard();
 		this._hole = this._initialHole;
 		this._moves = [];
@@ -263,7 +265,9 @@ SliderPuzzle.prototype = {
 		// TODO check this._playing when moving
 
 		// trigger reset event
-		this.trigger('reset');
+		if (silent === undefined || !silent) {
+			this.trigger('reset');
+		}
 	},
 
 	// generates a shuffled board
@@ -336,7 +340,8 @@ SliderPuzzle.prototype = {
 		this.options.initialHole = undefined;
 
 		// start with the solved board
-		this.restart(false);
+		// set start to true to be able to track moves
+		this.restart(false, true, true);
 
 		// randomly move pieces
 		while (movesAway-- > 0) {
