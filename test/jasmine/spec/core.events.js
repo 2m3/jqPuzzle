@@ -4,7 +4,8 @@ describe("Events: ", function() {
 		solved: function(event) {},
 		undo: function(event, move) {},
 		redo: function(event, move) {},
-		restart: function(event) {}
+		restart: function(event) {},
+		reset: function(event) {}
 	};
 
 	describe("move", function() {
@@ -317,6 +318,52 @@ describe("Events: ", function() {
 			puzzle.on("restart", callbacks.restart);
 
 			expect(callbacks.restart).not.toHaveBeenCalled();
+		});
+	});
+
+	describe("reset", function() {
+		beforeEach(function() {
+			spyOn(callbacks, "reset");
+		});
+
+		it("should fire when the puzzle was reset with the reset() method", function() {
+			puzzle = new SliderPuzzle();
+			puzzle.on("reset", callbacks.reset);
+
+			puzzle.reset();
+			expect(callbacks.reset).toHaveBeenCalled();
+			expect(callbacks.reset.calls.length).toEqual(1);
+			expect(callbacks.reset.mostRecentCall.args[0]).toBeDefined();
+			expect(callbacks.reset.mostRecentCall.args[1]).not.toBeDefined();
+		});
+
+		it("should fire when the puzzle was reset with the restart() method", function() {
+			puzzle = new SliderPuzzle();
+			puzzle.on("reset", callbacks.reset);
+
+			puzzle.restart();
+			expect(callbacks.reset).toHaveBeenCalled();
+			expect(callbacks.reset.calls.length).toEqual(1);
+			expect(callbacks.reset.mostRecentCall.args[0]).toBeDefined();
+			expect(callbacks.reset.mostRecentCall.args[1]).not.toBeDefined();
+		});
+
+		it("should fire when the puzzle was reset with the shuffle() method", function() {
+			puzzle = new SliderPuzzle();
+			puzzle.on("reset", callbacks.reset);
+
+			puzzle.shuffle();
+			expect(callbacks.reset).toHaveBeenCalled();
+			expect(callbacks.reset.calls.length).toEqual(1);
+			expect(callbacks.reset.mostRecentCall.args[0]).toBeDefined();
+			expect(callbacks.reset.mostRecentCall.args[1]).not.toBeDefined();
+		});
+
+		it("should not fire when the puzzle was initialized", function() {
+			puzzle = new SliderPuzzle();
+			puzzle.on("reset", callbacks.reset);
+
+			expect(callbacks.reset).not.toHaveBeenCalled();
 		});
 	});
 });
