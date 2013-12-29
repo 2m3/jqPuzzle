@@ -191,7 +191,7 @@ describe("Events: ", function() {
 			});
 			puzzle.on("undo", callbacks.undo);
 
-			// move piece
+			// move piece and undo
 			puzzle.move(2);
 			puzzle.undo();
 			move = callbacks.undo.mostRecentCall.args[1];
@@ -227,7 +227,7 @@ describe("Events: ", function() {
 			});
 			puzzle.on("redo", callbacks.redo);
 
-			// move piece and undo
+			// move piece, undo and redo
 			puzzle.move(2);
 			puzzle.move(3);
 			puzzle.move(4);
@@ -274,7 +274,7 @@ describe("Events: ", function() {
 			});
 			puzzle.on("redo", callbacks.redo);
 
-			// move piece
+			// move piece, undo and redo
 			puzzle.move(2);
 			puzzle.undo();
 			puzzle.redo();
