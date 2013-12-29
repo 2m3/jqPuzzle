@@ -792,14 +792,12 @@ SliderPuzzle.prototype = {
 		var direction;
 
 		for (direction in this.directionOffsets) {
-			if (this.directionOffsets.hasOwnProperty(direction)) {
-				// calculate start position based on target position and direction
-				position = this._getPositionByTargetAndDirection(move.to, direction);
+			// calculate start position based on target position and direction
+			position = this._getPositionByTargetAndDirection(move.to, direction);
 
-				// and compare to actual position
-				if (position.index === move.from.index) {
-					return direction;
-				}
+			// and compare to actual position
+			if (position.index === move.from.index) {
+				return direction;
 			}
 		}
 	},
