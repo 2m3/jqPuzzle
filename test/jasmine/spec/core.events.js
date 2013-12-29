@@ -2,7 +2,8 @@ describe("Events: ", function() {
 	var callbacks = {
 		move: function(event, move) {},
 		solved: function(event) {},
-		undo: function(event, move) {}
+		undo: function(event, move) {},
+		redo: function(event, move) {}
 	};
 
 	describe("move", function() {
@@ -194,6 +195,90 @@ describe("Events: ", function() {
 			puzzle.move(2);
 			puzzle.undo();
 			move = callbacks.undo.mostRecentCall.args[1];
+
+			expect(move).toEqual({ number: jasmine.any(Number), from: positions3x3.topMiddle, to: positions3x3.topLeft, direction: 'left', index: 1, timestamp: jasmine.any(Date) });
+		});
+	});
+
+	describe("redo", function() {
+		beforeEach(function() {
+			spyOn(callbacks, "redo");
+		});
+
+		it("should fire when a previously undone move was redone", function() {
+			puzzle = new SliderPuzzle({
+				initialHole: 1
+			});
+			puzzle.on("redo", callbacks.redo);
+
+			// move piece, undo and redo
+			puzzle.move(2);
+			puzzle.undo();
+			puzzle.redo();
+			expect(callbacks.redo).toHaveBeenCalled();
+			expect(callbacks.redo.calls.length).toEqual(1);
+			expect(callbacks.redo.mostRecentCall.args[0]).toBeDefined();
+			expect(callbacks.redo.mostRecentCall.args[1]).toBeDefined();
+		});
+
+		it("should fire for each previously undone move that was redone", function() {
+			puzzle = new SliderPuzzle({
+				initialHole: 1
+			});
+			puzzle.on("redo", callbacks.redo);
+
+			// move piece and undo
+			puzzle.move(2);
+			puzzle.move(3);
+			puzzle.move(4);
+			puzzle.undo();
+			puzzle.undo();
+			puzzle.undo();
+			puzzle.redo();
+			puzzle.redo();
+			puzzle.redo();
+			expect(callbacks.redo).toHaveBeenCalled();
+			expect(callbacks.redo.calls.length).toEqual(3);
+		});
+
+		it("should not fire when there is no move to redo", function() {
+			puzzle = new SliderPuzzle({
+				initialHole: 1
+			});
+			puzzle.on("redo", callbacks.redo);
+
+			// no move
+			puzzle.redo();
+			expect(callbacks.redo).not.toHaveBeenCalled();
+
+			// no undo
+			puzzle.move(2);
+			puzzle.redo();
+			expect(callbacks.redo).not.toHaveBeenCalled();
+
+			// only one move to redo
+			puzzle.undo();
+			puzzle.redo();
+			puzzle.redo();
+			expect(callbacks.redo).toHaveBeenCalled();
+			expect(callbacks.redo.calls.length).toEqual(1);
+		});
+
+		it("should pass the move object as the event's data", function() {
+			var move;
+
+			puzzle = new SliderPuzzle({
+				rows: 3,
+				cols: 3,
+				initialHole: 1
+			});
+			puzzle.on("redo", callbacks.redo);
+
+			// move piece
+			puzzle.move(2);
+			puzzle.undo();
+			puzzle.redo();
+			move = callbacks.redo.mostRecentCall.args[1];
 
 			expect(move).toEqual({ number: jasmine.any(Number), from: positions3x3.topMiddle, to: positions3x3.topLeft, direction: 'left', index: 1, timestamp: jasmine.any(Date) });
 		});
