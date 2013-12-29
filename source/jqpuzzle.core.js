@@ -884,7 +884,7 @@ SliderPuzzle.prototype = {
 	}
 };
 
-// simply jQuery based event emitter
+// simple jQuery based event emitter
 (function($) {
 	function makeProxy(name) {
 		return function() {
