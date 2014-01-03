@@ -168,7 +168,7 @@ The `shuffle` parameter accepts the same values as the `shuffle` option and defa
 
 		puzzle.restart() // shuffles a fresh board
 		puzzle.restart(3) // generates a board 3 moves away from the solution
-		puzzle.restart(false, false) // sets the solved board and does not start the game
+		puzzle.restart(false, true) // sets the solved board and does fire events
 
 Implicitly calls `reset()`.
 
