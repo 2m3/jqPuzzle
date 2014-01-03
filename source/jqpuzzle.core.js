@@ -179,6 +179,14 @@ SliderPuzzle.prototype = {
 		// "random"         either or
 		solvable: true
 	},
+
+	state: {
+		INITIALIZED: 'INITIALIZED',
+		STARTED: 'STARTED',
+		PAUSED: 'PAUSED',
+		STOPPED: 'STOPPED'
+	},
+
 	directions: ['up', 'left', 'right', 'down'],
 
 	// initializes the game
@@ -191,11 +199,11 @@ SliderPuzzle.prototype = {
 			this.setInitialHole();
 
 			// reset game
-			this.reset(this.options.start);
+			this.reset();
 		}
 		// or handle shuffle option
 		else {
-			this.restart(this.options.shuffle, this.options.start, undefined, true);
+			this.restart(this.options.shuffle, false, true);
 		}
 	},
 
@@ -205,7 +213,7 @@ SliderPuzzle.prototype = {
 	},
 
 	// restarts the game with a fresh board
-	restart: function(shuffle, start, silent, _setOptions) {
+	restart: function(shuffle, silent, _setOption) {
 		// set the solved board
 		if (shuffle === false) {
 			this._initialBoard = this.getSolvedBoard().slice(0);
@@ -229,7 +237,7 @@ SliderPuzzle.prototype = {
 			}
 
 			// make sure shuffle option is set
-			if (_setOptions) {
+			if (_setOption) {
 				this.options.shuffle = shuffle;
 			}
 
@@ -237,7 +245,7 @@ SliderPuzzle.prototype = {
 		}
 
 		// reset game
-		this.reset(start, silent, _setOptions);
+		this.reset(silent);
 
 		// trigger restart event
 		if (silent === undefined || !silent) {
@@ -246,28 +254,39 @@ SliderPuzzle.prototype = {
 	},
 
 	// resets all game variables to their initial state
-	reset: function(start, silent, _setOption) {
+	reset: function(silent) {
 		this.resetBoard();
 		this._hole = this._initialHole;
 		this._moves = [];
 		this._redos = [];
 
-		// handle start parameter
-		// if set to false, requires a call to
-		// shuffle()/restart()/reset() to start the game
-		this._playing = (start === undefined) || !!start;
-
-		// make sure start option is set
-		if (_setOption) {
-			this.options.start = this._playing;
-		}
-
-		// TODO check this._playing when moving
+		// update state
+		this._currentState = this.state.INITIALIZED;
 
 		// trigger reset event
 		if (silent === undefined || !silent) {
 			this.trigger('reset');
 		}
+	},
+
+	start: function() {
+		// update state
+		this._currentState = this.state.STARTED;
+	},
+
+	pause: function() {
+		// update state
+		this._currentState = this.state.PAUSED;
+	},
+
+	resume: function() {
+		// update state
+		this._currentState = this.state.STARTED;
+	},
+
+	stop: function() {
+		// update state
+		this._currentState = this.state.STOPPED;
 	},
 
 	// generates a shuffled board
@@ -340,8 +359,7 @@ SliderPuzzle.prototype = {
 		this.options.initialHole = undefined;
 
 		// start with the solved board
-		// set start to true to be able to track moves
-		this.restart(false, true, true);
+		this.restart(false, true);
 
 		// randomly move pieces
 		while (movesAway-- > 0) {
@@ -643,6 +661,11 @@ SliderPuzzle.prototype = {
 	// returns a move object if the piece can be moved
 	// returns false if the piece cannot be moved
 	_canMoveByMove: function(move) {
+		if (this._currentState === this.state.PAUSED ||
+			this._currentState === this.state.STOPPED) {
+			throw 'invalid state: ' + this._currentState;
+		}
+
 		// a move can be performed if the piece is to be moved to the hole position
 		// (double-check - this is guaranteed by all move methods)
 		var canMove = (move.to.index === this._hole);
@@ -743,20 +766,18 @@ SliderPuzzle.prototype = {
 			// update hole
 			this._hole = index;
 
-			// don't handle the stack when not playing
-			if (!this._playing) {
-				// trigger move event
-				this.trigger('move', move);
-
-				return move;
-			}
-
 			// add index and timestamp
 			move.index = this._moves.length + 1;
 			move.timestamp = new Date();
 
 			// add move to stack
 			this._moves.push(move);
+
+			// auto start
+			if (this._currentState === this.state.INITIALIZED) {
+				// update state
+				this._currentState = this.state.STARTED;
+			}
 
 			if (!isUndoRedo) {
 				// clear redo stack
@@ -766,8 +787,12 @@ SliderPuzzle.prototype = {
 				this.trigger('move', move);
 			}
 
-			// check if solved and trigger event
+			// check if solved
 			if (this.isSolved()) {
+				// update state
+				this._currentState = this.state.STOPPED;
+
+				// trigger event
 				this.trigger('solved');
 			}
 		}

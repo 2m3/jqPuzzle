@@ -1400,7 +1400,7 @@ describe("Moves: ", function() {
 
 		it("should only allow left, right and down moves if the hole is bottom middle", function() {
 			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				board: [2, 1, 3, 4, 5, 6, 7, 0, 8]
 			});
 
 			expect(puzzle.move(1)).toEqual(false);
@@ -1458,7 +1458,7 @@ describe("Moves: ", function() {
 
 		it("should only allow right and down moves if the hole is bottom right", function() {
 			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				board: [2, 1, 3, 4, 5, 6, 7, 8, 0]
 			});
 
 			expect(puzzle.move(1)).toEqual(false);
@@ -1857,7 +1857,7 @@ describe("Moves: ", function() {
 
 		it("should only allow left, right and down moves if the hole is bottom middle", function() {
 			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				board: [2, 1, 3, 4, 5, 6, 7, 0, 8]
 			});
 
 			expect(puzzle.moveByNumber(1)).toEqual(false);
@@ -1876,7 +1876,7 @@ describe("Moves: ", function() {
 
 		it("should only allow right and down moves if the hole is bottom right", function() {
 			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				board: [2, 1, 3, 4, 5, 6, 7, 8, 0]
 			});
 
 			expect(puzzle.moveByNumber(1)).toEqual(false);
@@ -2000,7 +2000,7 @@ describe("Moves: ", function() {
 
 		it("should only allow left, right and down moves if the hole is bottom middle", function() {
 			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				board: [2, 1, 3, 4, 5, 6, 7, 0, 8]
 			});
 
 			expect(puzzle.moveByDirection('up'   )).toEqual(false);
@@ -2014,7 +2014,7 @@ describe("Moves: ", function() {
 
 		it("should only allow left and down moves if the hole is bottom right", function() {
 			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				board: [2, 1, 3, 4, 5, 6, 7, 8, 0]
 			});
 
 			expect(puzzle.moveByDirection('up'   )).toEqual(false);
@@ -2201,7 +2201,7 @@ describe("Moves: ", function() {
 
 		it("should only allow left, right and down moves if the hole is bottom middle", function() {
 			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				board: [2, 1, 3, 4, 5, 6, 7, 0, 8]
 			});
 
 			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft      })).toEqual(false);
@@ -2220,7 +2220,7 @@ describe("Moves: ", function() {
 
 		it("should only allow right and down moves if the hole is bottom right", function() {
 			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				board: [2, 1, 3, 4, 5, 6, 7, 8, 0]
 			});
 
 			expect(puzzle._moveByPiece({ number: 1, position: positions3x3.topLeft      })).toEqual(false);
@@ -2371,7 +2371,7 @@ describe("Moves: ", function() {
 
 		it("should only allow left, right and down moves if the hole is bottom middle", function() {
 			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 0, 8]
+				board: [2, 1, 3, 4, 5, 6, 7, 0, 8]
 			});
 
 			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topLeft,      to: positions3x3.bottomMiddle })).toEqual(false);
@@ -2390,7 +2390,7 @@ describe("Moves: ", function() {
 
 		it("should only allow right and down moves if the hole is bottom right", function() {
 			puzzle = new SliderPuzzle({
-				board: [1, 2, 3, 4, 5, 6, 7, 8, 0]
+				board: [2, 1, 3, 4, 5, 6, 7, 8, 0]
 			});
 
 			expect(puzzle._moveByMove({ number: 1, from: positions3x3.topLeft,      to: positions3x3.bottomRight })).toEqual(false);

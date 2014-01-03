@@ -153,30 +153,16 @@ When the `shuffle` option is specified with a different value than `true` the `i
 The `shuffle` option is ignored when a `board` is specified.
 
 
-`start`
--------
-
-Specifies whether the game is immediately started. Only when a game is started, moves are tracked and the puzzle can be solved. 
-
-Defaults to `true`.
-
-If set to `false`, moves can still be performed but do not count as a game. In this case, the game must be explicitly started by calling `shuffle()`, `restart()` or `reset()`.
-
-
 
 Methods
 =======
 
-`restart(<shuffle>, <start>)`
+`restart(<shuffle>, <silent>)`
 -----------------------------
 
 Starts or restarts the game with a fresh board.
 
 The `shuffle` parameter accepts the same values as the `shuffle` option and defaults to `true`.
-
-The `start` parameter accepts the same values as the `start` option and defaults to `true`.
-
-If a puzzle was initialized with the `start` option set to `false`, the game can be explicitly started by calling this method.
 
 `restart()` can be called at any time during a game. When called, the current game state is lost.
 
@@ -186,15 +172,14 @@ If a puzzle was initialized with the `start` option set to `false`, the game can
 
 Implicitly calls `reset()`.
 
-Fires a `restart` and also a `reset` event.
+Fires a `restart` and also a `reset` event. The events are omitted when the `silent` parameter is set to true.
+
 
 
 `shuffle()`
 -----------
 
-Starts or restarts the game with a freshly shuffled board. Alternative to `restart()` or `restart(true, true)`.
-
-If a puzzle was initialized with the `start` option set to `false`, the game can be explicitly started by calling this method.
+Starts or restarts the game with a freshly shuffled board. Alternative to `restart()` or `restart(true)`.
 
 `shuffle()` can be called at any time during a game. When called, the current game state is lost.
 
@@ -205,18 +190,16 @@ Implicitly calls `reset()`.
 Fires a `restart` and also a `reset` event.
 
 
-`reset()`
+`reset(<silent>)`
 ---------
 
 Resets all game variables to their initial state. While `shuffle()` and `restart()` always start with a fresh board, `reset()` restores the board layout before the first move was performed.
-
-If a puzzle was initialized with the `start` option set to `false`, the game can be explicitly started by calling this method.
 
 `reset()` can be called at any time during a game once the board was shuffled. When called, the current game state is lost.
 
 		puzzle.reset()
 
-Fires a `reset` event.
+Fires a `reset` event. The event is omitted when the `silent` parameter is set to true.
 
 
 `isSolvable()`
