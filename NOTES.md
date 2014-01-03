@@ -338,6 +338,7 @@ Checks if the piece can be moved that is currently located at the position speci
 
 Returns a `move` object if the piece can be moved.
 Returns `false` if the piece cannot be moved.
+Throws an exception if the puzzle is `paused` or `stopped`.
 
 A `move` object defines a single (potential) move on the board. A move changes the position of a piece by swapping it with the hole.
 
@@ -377,6 +378,7 @@ Checks if the piece with the specified number can be moved.
 
 Returns a `move` object if the piece can be moved.
 Returns `false` if the piece cannot be moved.
+Throws an exception if the puzzle is `paused` or `stopped`.
 
 See `canMove()` for a description of the `move` object.
 
@@ -402,6 +404,7 @@ Checks if a piece can be moved in the specified direction.
 
 Returns a `move` object if a piece can be moved in this direction.
 Returns `false` if no piece can be moved in this direction.
+Throws an exception if the puzzle is `paused` or `stopped`.
 
 See `canMove()` for a description of the `move` object.
 
@@ -426,6 +429,7 @@ Moves the piece that is currently located at the position specified by any kind 
 
 Returns a `move` object if the piece can be moved.
 Returns `false` if the piece cannot be moved.
+Throws an exception if the puzzle is `paused` or `stopped`.
 
 A `move` object defines a single move on the board. A move changes the position of a piece by swapping it with the hole.
 
@@ -456,6 +460,8 @@ All examples would e.g. return the following `move` object on a 3x3 board:
 
 Fires a `move` event if the move was successful.
 
+Also fires a `solved` event and puts the game into the `stopped` state if the move actually solved the puzzle.
+
 
 `moveByNumber(<number>)`
 ------------------------
@@ -464,6 +470,7 @@ Moves the piece with the specified number.
 
 Returns a `move` object if the piece can be moved.
 Returns `false` if the piece cannot be moved.
+Throws an exception if the puzzle is `paused` or `stopped`.
 
 See `move()` for a description of the `move` object.
 
@@ -492,6 +499,7 @@ Moves a piece in the specified direction.
 
 Returns a `move` object if a piece can be moved in this direction.
 Returns `false` if no piece can be moved in this direction.
+Throws an exception if the puzzle is `paused` or `stopped`.
 
 See `move()` for a description of the `move` object.
 
@@ -519,6 +527,7 @@ Fires a `move` event if the move was successful.
 Moves a random piece.
 
 Returns a `move` object.
+Throws an exception if the puzzle is `paused` or `stopped`.
 
 See `move()` for a description of the `move` object.
 
